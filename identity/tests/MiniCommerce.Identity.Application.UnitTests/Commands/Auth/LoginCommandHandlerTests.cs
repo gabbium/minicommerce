@@ -1,9 +1,9 @@
 ﻿using MiniCommerce.Identity.Application.Abstractions;
-using MiniCommerce.Identity.Application.Commands.Login;
+using MiniCommerce.Identity.Application.Commands.Auth.Login;
 using MiniCommerce.Identity.Domain.Abstractions;
 using MiniCommerce.Identity.Domain.Entities;
 
-namespace MiniCommerce.Identity.Application.UnitTests.Commands;
+namespace MiniCommerce.Identity.Application.UnitTests.Commands.Auth;
 
 public class LoginCommandHandlerTests
 {

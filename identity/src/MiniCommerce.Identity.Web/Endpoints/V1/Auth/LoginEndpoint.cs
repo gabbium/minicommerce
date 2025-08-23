@@ -1,7 +1,7 @@
-﻿using MiniCommerce.Identity.Application.Commands.Login;
+﻿using MiniCommerce.Identity.Application.Commands.Auth.Login;
 using MiniCommerce.Identity.Application.Models;
 
-namespace MiniCommerce.Identity.Web.Endpoints.V1;
+namespace MiniCommerce.Identity.Web.Endpoints.V1.Auth;
 
 public class LoginEndpoint : IEndpointV1
 {
@@ -9,7 +9,7 @@ public class LoginEndpoint : IEndpointV1
 
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapPost("login", async (
+        app.MapPost("auth/login", async (
             Request request,
             ICommandHandler<LoginCommand, AuthResponse> handler,
             CancellationToken cancellationToken) =>
@@ -18,6 +18,6 @@ public class LoginEndpoint : IEndpointV1
             var result = await handler.HandleAsync(command, cancellationToken);
             return result.Match(Results.Ok, CustomResults.Problem);
         })
-        .WithTags(Tags.Identity);
+        .WithTags(Tags.Auth);
     }
 }

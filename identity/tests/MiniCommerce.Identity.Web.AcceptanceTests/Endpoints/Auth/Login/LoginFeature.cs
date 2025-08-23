@@ -1,6 +1,6 @@
 ﻿using MiniCommerce.Identity.Web.AcceptanceTests.TestHelpers;
 
-namespace MiniCommerce.Identity.Web.AcceptanceTests.Endpoints.Login;
+namespace MiniCommerce.Identity.Web.AcceptanceTests.Endpoints.Auth.Login;
 
 [Collection(nameof(TestCollection))]
 public class LoginFeature(TestFixture fixture) : TestBase(fixture)

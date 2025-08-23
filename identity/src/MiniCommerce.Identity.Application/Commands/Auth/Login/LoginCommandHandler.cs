@@ -3,7 +3,7 @@ using MiniCommerce.Identity.Application.Models;
 using MiniCommerce.Identity.Domain.Abstractions;
 using MiniCommerce.Identity.Domain.Entities;
 
-namespace MiniCommerce.Identity.Application.Commands.Login;
+namespace MiniCommerce.Identity.Application.Commands.Auth.Login;
 
 public class LoginCommandHandler(IUserRepository userRepository, IJwtTokenService tokenProvider) : ICommandHandler<LoginCommand, AuthResponse>
 {

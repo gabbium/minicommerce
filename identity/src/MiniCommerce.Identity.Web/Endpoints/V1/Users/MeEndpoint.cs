@@ -1,6 +1,6 @@
 ﻿using MiniCommerce.Identity.Application.Abstractions;
 
-namespace MiniCommerce.Identity.Web.Endpoints.V1;
+namespace MiniCommerce.Identity.Web.Endpoints.V1.Users;
 
 public class MeEndpoint : IEndpointV1
 {
@@ -8,11 +8,11 @@ public class MeEndpoint : IEndpointV1
 
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapGet("me", (IUserContext userContext) =>
+        app.MapGet("users/me", (IUserContext userContext) =>
         {
             return Results.Ok(new Response(userContext.UserId, userContext.Email));
         })
         .RequireAuthorization()
-        .WithTags(Tags.Identity);
+        .WithTags(Tags.Users);
     }
 }

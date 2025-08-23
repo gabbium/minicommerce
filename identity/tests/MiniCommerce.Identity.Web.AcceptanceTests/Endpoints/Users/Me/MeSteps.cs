@@ -1,14 +1,14 @@
 ﻿using MiniCommerce.Identity.Web.AcceptanceTests.Steps;
 using MiniCommerce.Identity.Web.AcceptanceTests.TestHelpers;
-using MiniCommerce.Identity.Web.Endpoints.V1;
+using MiniCommerce.Identity.Web.Endpoints.V1.Users;
 
-namespace MiniCommerce.Identity.Web.AcceptanceTests.Endpoints.Me;
+namespace MiniCommerce.Identity.Web.AcceptanceTests.Endpoints.Users.Me;
 
 public class MeSteps(TestFixture fixture) : CommonStepsBase(fixture)
 {
     public async Task WhenTheyAttemptToFetchMe()
     {
-        HttpResponse = await Fixture.Client.GetAsync("/api/v1/me");
+        HttpResponse = await Fixture.Client.GetAsync("/api/v1/users/me");
     }
 
     public async Task ThenTheResponseShouldContainUser(string email)

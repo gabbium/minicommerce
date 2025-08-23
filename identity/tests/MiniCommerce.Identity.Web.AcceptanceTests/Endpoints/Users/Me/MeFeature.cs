@@ -1,6 +1,6 @@
 ﻿using MiniCommerce.Identity.Web.AcceptanceTests.TestHelpers;
 
-namespace MiniCommerce.Identity.Web.AcceptanceTests.Endpoints.Me;
+namespace MiniCommerce.Identity.Web.AcceptanceTests.Endpoints.Users.Me;
 
 [Collection(nameof(TestCollection))]
 public class MeFeature(TestFixture fixture) : TestBase(fixture)
