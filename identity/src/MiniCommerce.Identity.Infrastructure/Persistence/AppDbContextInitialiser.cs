@@ -2,32 +2,16 @@
 
 namespace MiniCommerce.Identity.Infrastructure.Persistence;
 
-public class AppDbContextInitialiser(ILogger<AppDbContextInitialiser> logger, AppDbContext context)
+public class AppDbContextInitialiser(AppDbContext context)
 {
     public async Task InitialiseAsync()
     {
-        try
-        {
-            await context.Database.MigrateAsync();
-        }
-        catch (Exception ex)
-        {
-            logger.LogError(ex, "An error occurred while initialising the database");
-            throw;
-        }
+        await context.Database.MigrateAsync();
     }
 
     public async Task SeedAsync()
     {
-        try
-        {
-            await TrySeedAsync();
-        }
-        catch (Exception ex)
-        {
-            logger.LogError(ex, "An error occurred while seeding the database");
-            throw;
-        }
+        await TrySeedAsync();
     }
 
     public async Task TrySeedAsync()

@@ -49,7 +49,8 @@ jobs:
             /o:"gabbium" \
             /d:sonar.host.url="https://sonarcloud.io" \
             /d:sonar.token="$SONAR_TOKEN" \
-            /d:sonar.cs.opencover.reportsPaths=**/coverage.opencover.xml
+            /d:sonar.cs.opencover.reportsPaths=**/coverage.opencover.xml \
+            /d:sonar.exclusions=**/Migrations/**
           dotnet build --configuration Release
           dotnet test --configuration Release --no-build --no-restore /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
           dotnet sonarscanner end /d:sonar.token="$SONAR_TOKEN"
