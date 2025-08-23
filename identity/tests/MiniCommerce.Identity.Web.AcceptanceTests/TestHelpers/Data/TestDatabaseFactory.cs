@@ -1,4 +1,4 @@
-﻿namespace MiniCommerce.Identity.Web.AcceptanceTests.TestHelpers.Persistence;
+﻿namespace MiniCommerce.Identity.Web.AcceptanceTests.TestHelpers.Data;
 
 public static class TestDatabaseFactory
 {

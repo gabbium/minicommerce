@@ -1,6 +1,6 @@
 ﻿using MiniCommerce.Identity.Infrastructure.Persistence;
 
-namespace MiniCommerce.Identity.Web.AcceptanceTests.TestHelpers.Persistence;
+namespace MiniCommerce.Identity.Web.AcceptanceTests.TestHelpers.Data;
 
 public class PostgreTestDatabase : ITestDatabase
 {
