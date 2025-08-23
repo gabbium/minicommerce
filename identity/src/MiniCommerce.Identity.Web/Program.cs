@@ -1,5 +1,6 @@
 using MiniCommerce.Identity.Application;
 using MiniCommerce.Identity.Infrastructure;
+using MiniCommerce.Identity.Infrastructure.Persistence;
 using MiniCommerce.Identity.Web;
 using MiniCommerce.Identity.Web.Endpoints.V1;
 using MiniCommerce.Identity.Web.Extensions;
@@ -13,13 +14,11 @@ builder.Services.AddSwaggerGenWithAuth();
 builder.Services
     .AddApplication()
     .AddPresentation()
-    .AddInfrastructure();
+    .AddInfrastructure(builder.Configuration);
 
 builder.Services.AddEndpoints(Assembly.GetExecutingAssembly());
 
 var app = builder.Build();
-
-app.MapEndpoints<IEndpointV1>(new(1, 0));
 
 if (app.Environment.IsDevelopment())
 {
@@ -36,5 +35,9 @@ app.UseRequestContextLogging();
 app.UseSerilogRequestLoggingWithDefaults();
 
 app.UseExceptionHandler();
+
+app.MapEndpoints<IEndpointV1>(new(1, 0));
+
+await app.InitialiseDatabaseAsync();
 
 await app.RunAsync();

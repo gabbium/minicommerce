@@ -1,25 +1,37 @@
-﻿namespace MiniCommerce.Identity.Web.AcceptanceTests.TestHelpers;
+﻿using MiniCommerce.Identity.Infrastructure.Persistence;
+using MiniCommerce.Identity.Web.AcceptanceTests.TestHelpers.Persistence;
+
+namespace MiniCommerce.Identity.Web.AcceptanceTests.TestHelpers;
 
 public class TestFixture : IAsyncLifetime
 {
+    private ITestDatabase _database = null!;
     private CustomWebApplicationFactory _factory = null!;
+    private IServiceScopeFactory _scopeFactory = null!;
 
     public HttpClient Client { get; private set; } = null!;
 
-    public Task InitializeAsync()
+    public async Task InitializeAsync()
     {
-        _factory = new CustomWebApplicationFactory();
+        _database = await TestDatabaseFactory.CreateAsync();
+        _factory = new CustomWebApplicationFactory(_database.GetConnection());
+        _scopeFactory = _factory.Services.GetRequiredService<IServiceScopeFactory>();
+
         Client = _factory.CreateClient();
-        return Task.CompletedTask;
     }
 
-    public static Task ResetState()
+    public async Task ResetStateAsync()
     {
-        return Task.CompletedTask;
+        await _database.ResetAsync();
+
+        using var scope = _scopeFactory.CreateScope();
+        var initialiser = scope.ServiceProvider.GetRequiredService<AppDbContextInitialiser>();
+        await initialiser.SeedAsync();
     }
 
     public async Task DisposeAsync()
     {
+        await _database.DisposeAsync();
         await _factory.DisposeAsync();
     }
 }
