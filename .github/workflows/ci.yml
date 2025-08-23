@@ -40,14 +40,16 @@ jobs:
           export PATH="$PATH:/home/runner/.dotnet/tools"
 
       - name: Run SonarCloud Scan
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           dotnet sonarscanner begin \
             /k:"gabbium_minicommerce" \
             /n:"minicommerce" \
             /o:"gabbium" \
             /d:sonar.host.url="https://sonarcloud.io" \
-            /d:sonar.token="${{ secrets.SONAR_TOKEN }}" \
+            /d:sonar.token="$SECRET" \
             /d:sonar.cs.opencover.reportsPaths=**/coverage.opencover.xml
           dotnet build --configuration Release
           dotnet test --configuration Release --no-build --no-restore /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
-          dotnet sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+          dotnet sonarscanner end /d:sonar.token="$SECRET"
