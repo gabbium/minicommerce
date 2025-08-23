@@ -13,7 +13,7 @@ public class TestFixture : IAsyncLifetime
         return Task.CompletedTask;
     }
 
-    public Task ResetState()
+    public static Task ResetState()
     {
         return Task.CompletedTask;
     }

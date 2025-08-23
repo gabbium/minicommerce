@@ -6,7 +6,7 @@ public abstract class TestBase(TestFixture fixture) : IAsyncLifetime
 
     public async Task InitializeAsync()
     {
-        await Fixture.ResetState();
+        await TestFixture.ResetState();
     }
 
     public Task DisposeAsync() => Task.CompletedTask;
