@@ -1,7 +1,8 @@
-﻿using MiniCommerce.Identity.Domain.Entities;
-using MiniCommerce.Identity.Domain.Interfaces;
+﻿using MiniCommerce.Identity.Domain.Abstractions;
+using MiniCommerce.Identity.Domain.Entities;
+using MiniCommerce.Identity.Infrastructure.Persistence;
 
-namespace MiniCommerce.Identity.Infrastructure.Persistence.Repositories;
+namespace MiniCommerce.Identity.Infrastructure.Repositories;
 
 public class UserRepository(AppDbContext context) : IUserRepository
 {

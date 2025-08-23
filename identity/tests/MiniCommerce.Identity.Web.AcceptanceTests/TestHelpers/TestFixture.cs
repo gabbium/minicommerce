@@ -1,4 +1,7 @@
-﻿using MiniCommerce.Identity.Infrastructure.Persistence;
+﻿using CleanArch;
+using MiniCommerce.Identity.Application.Commands.Login;
+using MiniCommerce.Identity.Application.Models;
+using MiniCommerce.Identity.Infrastructure.Persistence;
 using MiniCommerce.Identity.Web.AcceptanceTests.TestHelpers.Persistence;
 
 namespace MiniCommerce.Identity.Web.AcceptanceTests.TestHelpers;
@@ -18,6 +21,27 @@ public class TestFixture : IAsyncLifetime
         _scopeFactory = _factory.Services.GetRequiredService<IServiceScopeFactory>();
 
         Client = _factory.CreateClient();
+    }
+
+    public async Task AuthenticateAsync(string email)
+    {
+        using var scope = _scopeFactory.CreateScope();
+
+        var handler = scope.ServiceProvider.GetRequiredService<ICommandHandler<LoginCommand, AuthResponse>>();
+
+        var command = new LoginCommand(email);
+
+        var result = await handler.HandleAsync(command);
+
+        if (result.IsSuccess)
+        {
+            Client.DefaultRequestHeaders.Authorization = new("Bearer", result.Value.Token.AccessToken);
+            return;
+        }
+
+        var errors = string.Join(Environment.NewLine, result.Error);
+
+        throw new Exception($"Unable to authenticate {email}.{Environment.NewLine}{errors}");
     }
 
     public async Task ResetStateAsync()

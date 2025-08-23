@@ -1,4 +1,6 @@
-﻿using MiniCommerce.Identity.Web.Middlewares;
+﻿using MiniCommerce.Identity.Application.Abstractions;
+using MiniCommerce.Identity.Web.Middlewares;
+using MiniCommerce.Identity.Web.Services;
 
 namespace MiniCommerce.Identity.Web;
 
@@ -30,6 +32,10 @@ public static class DependencyInjection
         services.AddExceptionHandler<GlobalExceptionHandler>();
 
         services.AddProblemDetails();
+
+        services.AddHttpContextAccessor();
+
+        services.AddScoped<IUserContext, UserContext>();
 
         return services;
     }

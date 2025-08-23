@@ -1,11 +1,16 @@
 ﻿global using System.Reflection;
+global using System.Security.Claims;
 global using System.Text.Json.Serialization;
 global using CleanArch;
 global using CleanArch.AspNetCore;
 global using HealthChecks.UI.Client;
+global using Microsoft.AspNetCore.Builder;
 global using Microsoft.AspNetCore.Diagnostics;
 global using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+global using Microsoft.AspNetCore.Http;
 global using Microsoft.AspNetCore.Mvc;
+global using Microsoft.Extensions.DependencyInjection;
+global using Microsoft.Extensions.Logging;
 global using Microsoft.Extensions.Primitives;
 global using NSwag;
 global using NSwag.Generation.Processors.Security;

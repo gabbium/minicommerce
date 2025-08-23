@@ -1,6 +1,6 @@
 ﻿using MiniCommerce.Identity.Domain.Entities;
 
-namespace MiniCommerce.Identity.Domain.Interfaces;
+namespace MiniCommerce.Identity.Domain.Abstractions;
 
 public interface IUserRepository
 {

@@ -1,11 +1,11 @@
-﻿using MiniCommerce.Identity.Application.Interfaces;
+﻿using MiniCommerce.Identity.Application.Abstractions;
 using MiniCommerce.Identity.Application.Models;
+using MiniCommerce.Identity.Domain.Abstractions;
 using MiniCommerce.Identity.Domain.Entities;
-using MiniCommerce.Identity.Domain.Interfaces;
 
 namespace MiniCommerce.Identity.Application.Commands.Login;
 
-public class LoginCommandHandler(IUserRepository userRepository, ITokenService tokenProvider) : ICommandHandler<LoginCommand, AuthResponse>
+public class LoginCommandHandler(IUserRepository userRepository, IJwtTokenService tokenProvider) : ICommandHandler<LoginCommand, AuthResponse>
 {
     public async Task<Result<AuthResponse>> HandleAsync(LoginCommand command, CancellationToken cancellationToken = default)
     {

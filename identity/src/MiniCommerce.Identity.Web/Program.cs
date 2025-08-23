@@ -20,6 +20,8 @@ builder.Services.AddEndpoints(Assembly.GetExecutingAssembly());
 
 var app = builder.Build();
 
+app.MapEndpoints<IEndpointV1>(new(1, 0));
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwaggerWithUi();
@@ -36,7 +38,9 @@ app.UseSerilogRequestLoggingWithDefaults();
 
 app.UseExceptionHandler();
 
-app.MapEndpoints<IEndpointV1>(new(1, 0));
+app.UseAuthentication();
+
+app.UseAuthorization();
 
 await app.InitialiseDatabaseAsync();
 

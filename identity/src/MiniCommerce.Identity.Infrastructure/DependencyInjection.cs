@@ -1,8 +1,8 @@
-﻿using MiniCommerce.Identity.Application.Interfaces;
-using MiniCommerce.Identity.Domain.Interfaces;
+﻿using MiniCommerce.Identity.Application.Abstractions;
+using MiniCommerce.Identity.Domain.Abstractions;
+using MiniCommerce.Identity.Infrastructure.Auth;
 using MiniCommerce.Identity.Infrastructure.Persistence;
-using MiniCommerce.Identity.Infrastructure.Persistence.Repositories;
-using MiniCommerce.Identity.Infrastructure.Services;
+using MiniCommerce.Identity.Infrastructure.Repositories;
 
 namespace MiniCommerce.Identity.Infrastructure;
 
@@ -21,7 +21,32 @@ public static class DependencyInjection
             .AddHealthChecks()
             .AddDbContextCheck<AppDbContext>("Database");
 
-        services.AddSingleton<ITokenService, TokenService>();
+        services
+            .AddOptions<JwtOptions>()
+            .Bind(configuration.GetSection("Jwt"))
+            .ValidateOnStart();
+
+        services.AddSingleton<IValidateOptions<JwtOptions>, JwtOptionsValidator>();
+
+        services
+            .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options =>
+            {
+                var jwt = configuration.GetSection("Jwt").Get<JwtOptions>()!;
+
+                options.RequireHttpsMetadata = false;
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt.Secret)),
+                    ValidIssuer = jwt.Issuer,
+                    ValidAudience = jwt.Audience,
+                    ClockSkew = TimeSpan.Zero
+                };
+            });
+
+        services.AddAuthorization();
+
+        services.AddSingleton<IJwtTokenService, JwtTokenService>();
 
         services.AddTransient<IUserRepository, UserRepository>();
 
