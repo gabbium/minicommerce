@@ -1,4 +1,4 @@
-﻿namespace MiniCommerce.Identity.Application.Commands.Auth.Login;
+﻿namespace MiniCommerce.Identity.Application.Features.Auth.Login;
 
 public class LoginCommandValidator : AbstractValidator<LoginCommand>
 {

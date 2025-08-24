@@ -16,7 +16,7 @@ public class AppDbContextInitialiser(AppDbContext context)
 
     public async Task TrySeedAsync()
     {
-        var administrator = new User("admin@minicommerce.com");
+        var administrator = new User("admin@minicommerce");
 
         if (await context.Users.AllAsync(x => x.Email != administrator.Email))
         {

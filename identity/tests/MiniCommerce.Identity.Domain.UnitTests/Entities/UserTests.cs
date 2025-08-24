@@ -8,7 +8,7 @@ public class UserTests
     public void Constructor_ThenInstantiate()
     {
         // Arrange
-        var email = "user@minicommerce.com";
+        var email = "user@minicommerce";
 
         // Act
         var user = new User(email);

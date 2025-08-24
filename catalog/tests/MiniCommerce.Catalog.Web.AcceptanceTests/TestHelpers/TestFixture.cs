@@ -21,7 +21,12 @@ public class TestFixture : IAsyncLifetime
         Client = _factory.CreateClient();
     }
 
-    public void Authenticate(Guid userId, string email)
+    public void AuthenticateAsDefault()
+    {
+        Authenticate("user@minicommerce");
+    }
+
+    public void Authenticate(string email)
     {
         using var scope = _scopeFactory.CreateScope();
 
@@ -32,7 +37,7 @@ public class TestFixture : IAsyncLifetime
 
         var claims = new List<Claim>
         {
-            new(ClaimTypes.NameIdentifier, userId.ToString()),
+            new(ClaimTypes.NameIdentifier, Guid.NewGuid().ToString()),
             new(ClaimTypes.Email, email)
         };
 

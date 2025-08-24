@@ -10,18 +10,18 @@ public class LoginFeature(TestFixture fixture) : TestBase(fixture)
     [Fact]
     public async Task UserLogsInWithExistentEmail()
     {
-        await _steps.GivenAnExistingUser("user@minicommerce.com");
-        await _steps.WhenTheyAttemptToLogin("user@minicommerce.com");
+        await _steps.GivenAnExistingUser("user@minicommerce");
+        await _steps.WhenTheyAttemptToLogin("user@minicommerce");
         await _steps.ThenTheResponseShouldBe200OK();
-        await _steps.ThenTheResponseShouldContainUserAndToken("user@minicommerce.com");
+        await _steps.ThenTheResponseShouldContainUserAndToken();
     }
 
     [Fact]
     public async Task UserLogsInWithNonExistentEmail()
     {
-        await _steps.WhenTheyAttemptToLogin("user@minicommerce.com");
+        await _steps.WhenTheyAttemptToLogin("user@minicommerce");
         await _steps.ThenTheResponseShouldBe200OK();
-        await _steps.ThenTheResponseShouldContainUserAndToken("user@minicommerce.com");
+        await _steps.ThenTheResponseShouldContainUserAndToken();
     }
 
     [Fact]

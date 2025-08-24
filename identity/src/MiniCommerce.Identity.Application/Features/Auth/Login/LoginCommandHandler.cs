@@ -3,9 +3,9 @@ using MiniCommerce.Identity.Application.Models;
 using MiniCommerce.Identity.Domain.Abstractions;
 using MiniCommerce.Identity.Domain.Entities;
 
-namespace MiniCommerce.Identity.Application.Commands.Auth.Login;
+namespace MiniCommerce.Identity.Application.Features.Auth.Login;
 
-public class LoginCommandHandler(IUserRepository userRepository, IJwtTokenService tokenProvider) : ICommandHandler<LoginCommand, AuthResponse>
+public class LoginCommandHandler(IUserRepository userRepository, IJwtTokenService jwtTokenService) : ICommandHandler<LoginCommand, AuthResponse>
 {
     public async Task<Result<AuthResponse>> HandleAsync(LoginCommand command, CancellationToken cancellationToken = default)
     {
@@ -18,7 +18,7 @@ public class LoginCommandHandler(IUserRepository userRepository, IJwtTokenServic
             await userRepository.SaveChangesAsync(cancellationToken);
         }
 
-        var token = tokenProvider.CreateAccessToken(user);
+        var token = jwtTokenService.CreateAccessToken(user);
 
         return new AuthResponse(new(user.Email), new(token));
     }

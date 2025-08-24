@@ -4,6 +4,8 @@ namespace MiniCommerce.Identity.Web.Endpoints.V1.Users;
 
 public class MeEndpoint : IEndpointV1
 {
+    public const string Route = "api/v1/users/me";
+
     public record Response(Guid Id, string Email);
 
     public void MapEndpoint(IEndpointRouteBuilder app)

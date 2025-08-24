@@ -14,7 +14,7 @@ public class UserRepositoryTests(TestFixture fixture) : TestBase(fixture)
     public async Task UserIsCreatedAndLoadedCorrectly()
     {
         // Arrange
-        var user = new User("user@minicommerce.com");
+        var user = new User("user@minicommerce");
 
         // Act
         await _repository.AddAsync(user);
@@ -24,6 +24,7 @@ public class UserRepositoryTests(TestFixture fixture) : TestBase(fixture)
         var retrieved = await _repository.GetByEmailAsync(user.Email);
 
         Assert.NotNull(retrieved);
+        Assert.Equal(user.Id, retrieved.Id);
         Assert.Equal(user.Email, retrieved.Email);
     }
 }

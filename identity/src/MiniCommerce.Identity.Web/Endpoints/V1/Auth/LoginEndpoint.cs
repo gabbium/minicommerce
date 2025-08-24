@@ -1,10 +1,12 @@
-﻿using MiniCommerce.Identity.Application.Commands.Auth.Login;
+﻿using MiniCommerce.Identity.Application.Features.Auth.Login;
 using MiniCommerce.Identity.Application.Models;
 
 namespace MiniCommerce.Identity.Web.Endpoints.V1.Auth;
 
 public class LoginEndpoint : IEndpointV1
 {
+    public const string Route = "api/v1/auth/login";
+
     public record Request(string Email);
 
     public void MapEndpoint(IEndpointRouteBuilder app)

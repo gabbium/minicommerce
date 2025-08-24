@@ -13,9 +13,9 @@ public abstract class CommonStepsBase(TestFixture fixture)
         return Task.CompletedTask;
     }
 
-    public Task GivenAnAuthenticatedUser(Guid userId, string email)
+    public Task GivenAnAuthenticatedRegularUser()
     {
-        Fixture.Authenticate(userId, email);
+        Fixture.AuthenticateAsDefault();
         return Task.CompletedTask;
     }
 

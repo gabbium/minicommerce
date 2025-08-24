@@ -7,6 +7,8 @@ namespace MiniCommerce.Identity.Web.AcceptanceTests.Endpoints.Auth.Login;
 
 public class LoginSteps(TestFixture fixture) : CommonStepsBase(fixture)
 {
+    private LoginEndpoint.Request _request = null!;
+
     public async Task GivenAnExistingUser(string email)
     {
         await WhenTheyAttemptToLogin(email);
@@ -14,15 +16,15 @@ public class LoginSteps(TestFixture fixture) : CommonStepsBase(fixture)
 
     public async Task WhenTheyAttemptToLogin(string email)
     {
-        var request = new LoginEndpoint.Request(email);
-        HttpResponse = await Fixture.Client.PostAsJsonAsync("/api/v1/auth/login", request);
+        _request = new LoginEndpoint.Request(email);
+        HttpResponse = await Fixture.Client.PostAsJsonAsync(LoginEndpoint.Route, _request);
     }
 
-    public async Task ThenTheResponseShouldContainUserAndToken(string email)
+    public async Task ThenTheResponseShouldContainUserAndToken()
     {
         var response = await HttpResponse!.Content.ReadFromJsonAsync<AuthResponse>();
         Assert.NotNull(response);
-        Assert.Equal(email, response.User.Email);
+        Assert.Equal(_request.Email, response.User.Email);
         Assert.False(string.IsNullOrEmpty(response.Token.AccessToken));
     }
 }

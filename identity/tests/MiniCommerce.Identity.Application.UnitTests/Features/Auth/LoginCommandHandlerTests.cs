@@ -1,28 +1,28 @@
 ﻿using MiniCommerce.Identity.Application.Abstractions;
-using MiniCommerce.Identity.Application.Commands.Auth.Login;
+using MiniCommerce.Identity.Application.Features.Auth.Login;
 using MiniCommerce.Identity.Domain.Abstractions;
 using MiniCommerce.Identity.Domain.Entities;
 
-namespace MiniCommerce.Identity.Application.UnitTests.Commands.Auth;
+namespace MiniCommerce.Identity.Application.UnitTests.Features.Auth;
 
 public class LoginCommandHandlerTests
 {
     private readonly Mock<IUserRepository> _userRepositoryMock;
-    private readonly Mock<IJwtTokenService> _tokenServiceMock;
+    private readonly Mock<IJwtTokenService> _jwtTokenServiceMock;
     private readonly LoginCommandHandler _handler;
 
     public LoginCommandHandlerTests()
     {
         _userRepositoryMock = new Mock<IUserRepository>();
-        _tokenServiceMock = new Mock<IJwtTokenService>();
-        _handler = new LoginCommandHandler(_userRepositoryMock.Object, _tokenServiceMock.Object);
+        _jwtTokenServiceMock = new Mock<IJwtTokenService>();
+        _handler = new LoginCommandHandler(_userRepositoryMock.Object, _jwtTokenServiceMock.Object);
     }
 
     [Fact]
     public async Task HandleAsync_WhenUserExists_ThenReturnsAuthResponse()
     {
         // Arrange
-        var command = new LoginCommand("user@minicommerce.com");
+        var command = new LoginCommand("user@minicommerce");
         var user = new User(command.Email);
         var accessToken = "valid.access.token";
 
@@ -30,7 +30,7 @@ public class LoginCommandHandlerTests
             .Setup(x => x.GetByEmailAsync(command.Email, It.IsAny<CancellationToken>()))
             .ReturnsAsync(user);
 
-        _tokenServiceMock
+        _jwtTokenServiceMock
             .Setup(x => x.CreateAccessToken(user))
             .Returns(accessToken);
 
@@ -42,7 +42,7 @@ public class LoginCommandHandlerTests
         Assert.Equal(accessToken, result.Value.Token.AccessToken);
 
         _userRepositoryMock.Verify(x => x.GetByEmailAsync(command.Email, It.IsAny<CancellationToken>()), Times.Once);
-        _tokenServiceMock.Verify(x => x.CreateAccessToken(user), Times.Once);
+        _jwtTokenServiceMock.Verify(x => x.CreateAccessToken(user), Times.Once);
 
         _userRepositoryMock.Verify(x => x.AddAsync(It.IsAny<User>(), It.IsAny<CancellationToken>()), Times.Never);
         _userRepositoryMock.Verify(x => x.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
@@ -52,10 +52,10 @@ public class LoginCommandHandlerTests
     public async Task HandleAsync_WhenUserNotExists_ThenCreatesAndReturnsAuthResponse()
     {
         // Arrange
-        var command = new LoginCommand("user@minicommerce.com");
+        var command = new LoginCommand("user@minicommerce");
         var accessToken = "valid.access.token";
 
-        _tokenServiceMock
+        _jwtTokenServiceMock
             .Setup(x => x.CreateAccessToken(It.IsAny<User>()))
             .Returns(accessToken);
 
@@ -69,6 +69,6 @@ public class LoginCommandHandlerTests
         _userRepositoryMock.Verify(x => x.GetByEmailAsync(command.Email, It.IsAny<CancellationToken>()), Times.Once);
         _userRepositoryMock.Verify(x => x.AddAsync(It.IsAny<User>(), It.IsAny<CancellationToken>()), Times.Once);
         _userRepositoryMock.Verify(x => x.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
-        _tokenServiceMock.Verify(x => x.CreateAccessToken(It.IsAny<User>()), Times.Once);
+        _jwtTokenServiceMock.Verify(x => x.CreateAccessToken(It.IsAny<User>()), Times.Once);
     }
 }
