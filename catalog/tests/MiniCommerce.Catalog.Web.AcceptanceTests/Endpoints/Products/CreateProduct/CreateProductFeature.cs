@@ -1,6 +1,6 @@
 ﻿using MiniCommerce.Catalog.Web.AcceptanceTests.TestHelpers;
 
-namespace MiniCommerce.Catalog.Web.AcceptanceTests.Endpoints.Products;
+namespace MiniCommerce.Catalog.Web.AcceptanceTests.Endpoints.Products.CreateProduct;
 
 [Collection(nameof(TestCollection))]
 public class CreateProductFeature(TestFixture fixture) : TestBase(fixture)

@@ -1,7 +1,9 @@
-﻿using MiniCommerce.Catalog.Domain.Abstractions;
+﻿using MiniCommerce.Catalog.Application.Features.Products.ListProducts;
+using MiniCommerce.Catalog.Domain.Abstractions;
 using MiniCommerce.Catalog.Infrastructure.Jwt;
 using MiniCommerce.Catalog.Infrastructure.Persistence;
 using MiniCommerce.Catalog.Infrastructure.Repositories;
+using MiniCommerce.Catalog.Infrastructure.Services;
 
 namespace MiniCommerce.Catalog.Infrastructure;
 
@@ -46,6 +48,8 @@ public static class DependencyInjection
         services.AddAuthorization();
 
         services.AddTransient<IProductRepository, ProductRepository>();
+
+        services.AddTransient<IListProductsService, ListProductsService>();
 
         return services;
     }

@@ -3,7 +3,7 @@ using MiniCommerce.Catalog.Web.AcceptanceTests.Steps;
 using MiniCommerce.Catalog.Web.AcceptanceTests.TestHelpers;
 using MiniCommerce.Catalog.Web.Endpoints.V1.Products;
 
-namespace MiniCommerce.Catalog.Web.AcceptanceTests.Endpoints.Products;
+namespace MiniCommerce.Catalog.Web.AcceptanceTests.Endpoints.Products.CreateProduct;
 
 public class CreateProductSteps(TestFixture fixture) : CommonStepsBase(fixture)
 {
