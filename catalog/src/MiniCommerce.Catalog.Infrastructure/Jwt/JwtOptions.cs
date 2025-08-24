@@ -1,11 +1,10 @@
-﻿namespace MiniCommerce.Identity.Infrastructure.Auth;
+﻿namespace MiniCommerce.Catalog.Infrastructure.Jwt;
 
 public class JwtOptions
 {
     public string Secret { get; set; } = default!;
     public string Issuer { get; set; } = default!;
     public string Audience { get; set; } = default!;
-    public int ExpirationMinutes { get; set; } = default!;
 }
 
 public class JwtOptionsValidator : IValidateOptions<JwtOptions>
@@ -20,9 +19,6 @@ public class JwtOptionsValidator : IValidateOptions<JwtOptions>
 
         if (string.IsNullOrWhiteSpace(options.Audience))
             return ValidateOptionsResult.Fail("JWT audience not configured");
-
-        if (options.ExpirationMinutes <= 0)
-            return ValidateOptionsResult.Fail("JWT expiration in minutes not configured");
 
         return ValidateOptionsResult.Success;
     }

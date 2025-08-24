@@ -24,9 +24,34 @@ services:
     environment:
       ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
       CONNECTIONSTRINGS__DEFAULTCONNECTION: ${IDENTITY_CONNECTIONSTRINGS_DEFAULTCONNECTION}
-      JWT__SECRET: ${IDENTITY_JWT_SECRET}
+      JWT__SECRET: ${JWT_SECRET}
     ports:
-      - "8080:8080"
+      - "6001:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "curl -fsS http://localhost:8080/api/health >/dev/null || exit 1",
+        ]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 30s
+
+  catalog.web:
+    build:
+      context: .
+      dockerfile: catalog/src/MiniCommerce.Catalog.Web/Dockerfile
+    restart: unless-stopped
+    environment:
+      ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
+      CONNECTIONSTRINGS__DEFAULTCONNECTION: ${CATALOG_CONNECTIONSTRINGS_DEFAULTCONNECTION}
+      JWT__SECRET: ${JWT_SECRET}
+    ports:
+      - "6002:8080"
     depends_on:
       postgres:
         condition: service_healthy

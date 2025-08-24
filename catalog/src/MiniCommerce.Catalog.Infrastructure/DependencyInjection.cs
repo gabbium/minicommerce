@@ -1,10 +1,7 @@
-﻿using MiniCommerce.Identity.Application.Abstractions;
-using MiniCommerce.Identity.Domain.Abstractions;
-using MiniCommerce.Identity.Infrastructure.Jwt;
-using MiniCommerce.Identity.Infrastructure.Persistence;
-using MiniCommerce.Identity.Infrastructure.Repositories;
+﻿using MiniCommerce.Catalog.Infrastructure.Jwt;
+using MiniCommerce.Catalog.Infrastructure.Persistence;
 
-namespace MiniCommerce.Identity.Infrastructure;
+namespace MiniCommerce.Catalog.Infrastructure;
 
 public static class DependencyInjection
 {
@@ -45,10 +42,6 @@ public static class DependencyInjection
             });
 
         services.AddAuthorization();
-
-        services.AddSingleton<IJwtTokenService, JwtTokenService>();
-
-        services.AddTransient<IUserRepository, UserRepository>();
 
         return services;
     }

@@ -1,5 +1,4 @@
-﻿using CleanArch;
-using MiniCommerce.Identity.Application.Commands.Auth.Login;
+﻿using MiniCommerce.Identity.Application.Commands.Auth.Login;
 using MiniCommerce.Identity.Application.Models;
 using MiniCommerce.Identity.Infrastructure.Persistence;
 using MiniCommerce.Identity.Web.AcceptanceTests.TestHelpers.Data;

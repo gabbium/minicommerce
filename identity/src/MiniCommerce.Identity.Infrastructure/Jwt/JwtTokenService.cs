@@ -1,7 +1,7 @@
 ﻿using MiniCommerce.Identity.Application.Abstractions;
 using MiniCommerce.Identity.Domain.Entities;
 
-namespace MiniCommerce.Identity.Infrastructure.Auth;
+namespace MiniCommerce.Identity.Infrastructure.Jwt;
 
 public class JwtTokenService(IOptions<JwtOptions> jwtOptions) : IJwtTokenService
 {
