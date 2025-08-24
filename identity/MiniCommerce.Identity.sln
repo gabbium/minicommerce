@@ -1,0 +1,78 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{5ED582A4-0C08-4303-B297-12B9D8AA15D1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniCommerce.Identity.Web", "src\MiniCommerce.Identity.Web\MiniCommerce.Identity.Web.csproj", "{EC8E715B-28A5-F612-4B86-689A09525E04}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniCommerce.Identity.Infrastructure", "src\MiniCommerce.Identity.Infrastructure\MiniCommerce.Identity.Infrastructure.csproj", "{A31355ED-8D6C-9AC3-DD3C-6E92D2D5BF91}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniCommerce.Identity.Domain", "src\MiniCommerce.Identity.Domain\MiniCommerce.Identity.Domain.csproj", "{3B3B189B-0C79-1CE3-312D-9C7D6319DE65}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniCommerce.Identity.Application", "src\MiniCommerce.Identity.Application\MiniCommerce.Identity.Application.csproj", "{A8C0E041-C1A2-7F14-0466-02B2686C7C66}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniCommerce.Identity.Application.UnitTests", "tests\MiniCommerce.Identity.Application.UnitTests\MiniCommerce.Identity.Application.UnitTests.csproj", "{CCAFCAEE-A845-8251-FE33-A9929AFFC33C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniCommerce.Identity.Domain.UnitTests", "tests\MiniCommerce.Identity.Domain.UnitTests\MiniCommerce.Identity.Domain.UnitTests.csproj", "{DD72ECFE-CC6C-CA26-69AF-1426B4FC3601}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniCommerce.Identity.Infrastructure.IntegrationTests", "tests\MiniCommerce.Identity.Infrastructure.IntegrationTests\MiniCommerce.Identity.Infrastructure.IntegrationTests.csproj", "{4DCF28E4-7AC8-0223-C61F-947B7DF87BE0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniCommerce.Identity.Web.AcceptanceTests", "tests\MiniCommerce.Identity.Web.AcceptanceTests\MiniCommerce.Identity.Web.AcceptanceTests.csproj", "{B1543A58-72BD-AB47-B250-FBEF9E420050}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EC8E715B-28A5-F612-4B86-689A09525E04}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC8E715B-28A5-F612-4B86-689A09525E04}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC8E715B-28A5-F612-4B86-689A09525E04}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC8E715B-28A5-F612-4B86-689A09525E04}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A31355ED-8D6C-9AC3-DD3C-6E92D2D5BF91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A31355ED-8D6C-9AC3-DD3C-6E92D2D5BF91}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A31355ED-8D6C-9AC3-DD3C-6E92D2D5BF91}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A31355ED-8D6C-9AC3-DD3C-6E92D2D5BF91}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B3B189B-0C79-1CE3-312D-9C7D6319DE65}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B3B189B-0C79-1CE3-312D-9C7D6319DE65}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B3B189B-0C79-1CE3-312D-9C7D6319DE65}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B3B189B-0C79-1CE3-312D-9C7D6319DE65}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A8C0E041-C1A2-7F14-0466-02B2686C7C66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8C0E041-C1A2-7F14-0466-02B2686C7C66}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8C0E041-C1A2-7F14-0466-02B2686C7C66}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8C0E041-C1A2-7F14-0466-02B2686C7C66}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CCAFCAEE-A845-8251-FE33-A9929AFFC33C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CCAFCAEE-A845-8251-FE33-A9929AFFC33C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CCAFCAEE-A845-8251-FE33-A9929AFFC33C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CCAFCAEE-A845-8251-FE33-A9929AFFC33C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD72ECFE-CC6C-CA26-69AF-1426B4FC3601}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD72ECFE-CC6C-CA26-69AF-1426B4FC3601}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD72ECFE-CC6C-CA26-69AF-1426B4FC3601}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD72ECFE-CC6C-CA26-69AF-1426B4FC3601}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4DCF28E4-7AC8-0223-C61F-947B7DF87BE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4DCF28E4-7AC8-0223-C61F-947B7DF87BE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4DCF28E4-7AC8-0223-C61F-947B7DF87BE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4DCF28E4-7AC8-0223-C61F-947B7DF87BE0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1543A58-72BD-AB47-B250-FBEF9E420050}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1543A58-72BD-AB47-B250-FBEF9E420050}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1543A58-72BD-AB47-B250-FBEF9E420050}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1543A58-72BD-AB47-B250-FBEF9E420050}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{EC8E715B-28A5-F612-4B86-689A09525E04} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{A31355ED-8D6C-9AC3-DD3C-6E92D2D5BF91} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{3B3B189B-0C79-1CE3-312D-9C7D6319DE65} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{A8C0E041-C1A2-7F14-0466-02B2686C7C66} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{CCAFCAEE-A845-8251-FE33-A9929AFFC33C} = {5ED582A4-0C08-4303-B297-12B9D8AA15D1}
+		{DD72ECFE-CC6C-CA26-69AF-1426B4FC3601} = {5ED582A4-0C08-4303-B297-12B9D8AA15D1}
+		{4DCF28E4-7AC8-0223-C61F-947B7DF87BE0} = {5ED582A4-0C08-4303-B297-12B9D8AA15D1}
+		{B1543A58-72BD-AB47-B250-FBEF9E420050} = {5ED582A4-0C08-4303-B297-12B9D8AA15D1}
+	EndGlobalSection
+EndGlobal
