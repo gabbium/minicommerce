@@ -60,4 +60,22 @@ public class ProductRepositoryTests(TestFixture fixture) : TestBase(fixture)
         Assert.Equal(product.Price, found.Price);
         Assert.Equal(product.IsActive, found.IsActive);
     }
+
+    [Fact]
+    public async Task DeleteAsync_ThenDeletesProductSuccessfully()
+    {
+        // Arrange
+        var product = new Product("SKU-001", "Bluetooth Headphones", 129.50m);
+        await _repository.AddAsync(product);
+        await _repository.SaveChangesAsync();
+
+        // Act
+        await _repository.DeleteAsync(product);
+        await _repository.SaveChangesAsync();
+
+        // Assert
+        var found = await _repository.GetByIdAsync(product.Id);
+
+        Assert.Null(found);
+    }
 }

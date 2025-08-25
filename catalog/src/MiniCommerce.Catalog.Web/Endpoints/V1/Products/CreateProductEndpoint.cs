@@ -17,6 +17,7 @@ public class CreateProductEndpoint : IEndpointV1
             CancellationToken cancellationToken) =>
         {
             var command = new CreateProductCommand(request.Sku, request.Name, request.Price);
+
             var result = await handler.HandleAsync(command, cancellationToken);
 
             return result.Match(
