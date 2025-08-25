@@ -11,7 +11,7 @@ public class ProductRepositoryTests(TestFixture fixture) : TestBase(fixture)
         fixture.GetRequiredService<IProductRepository>();
 
     [Fact]
-    public async Task ProductIsCreatedAndLoadedCorrectly()
+    public async Task AddAsync_ThenCreatesProductSuccessfully()
     {
         // Arrange
         var product = new Product("SKU-001", "Bluetooth Headphones", 129.50m);
@@ -21,13 +21,43 @@ public class ProductRepositoryTests(TestFixture fixture) : TestBase(fixture)
         await _repository.SaveChangesAsync();
 
         // Assert
-        var retrieved = await _repository.GetBySkuAsync(product.Sku);
+        var found = await _repository.GetByIdAsync(product.Id);
 
-        Assert.NotNull(retrieved);
-        Assert.Equal(product.Id, retrieved.Id);
-        Assert.Equal(product.Sku, retrieved.Sku);
-        Assert.Equal(product.Name, retrieved.Name);
-        Assert.Equal(product.Price, retrieved.Price);
-        Assert.Equal(product.IsActive, retrieved.IsActive);
+        Assert.NotNull(found);
+        Assert.Equal(product.Id, found.Id);
+        Assert.Equal(product.Sku, found.Sku);
+        Assert.Equal(product.Name, found.Name);
+        Assert.Equal(product.Price, found.Price);
+        Assert.Equal(product.IsActive, found.IsActive);
+    }
+
+    [Fact]
+    public async Task GetByIdAsync_WhenNonExistentProduct_ThenReturnsNull()
+    {
+        // Act
+        var found = await _repository.GetByIdAsync(Guid.NewGuid());
+
+        // Assert
+        Assert.Null(found);
+    }
+
+    [Fact]
+    public async Task GetBySkuAsync_ThenReturnsProduct()
+    {
+        // Arrange
+        var product = new Product("SKU-001", "Bluetooth Headphones", 129.50m);
+        await _repository.AddAsync(product);
+        await _repository.SaveChangesAsync();
+
+        // Act
+        var found = await _repository.GetBySkuAsync(product.Sku);
+
+        // Assert
+        Assert.NotNull(found);
+        Assert.Equal(product.Id, found.Id);
+        Assert.Equal(product.Sku, found.Sku);
+        Assert.Equal(product.Name, found.Name);
+        Assert.Equal(product.Price, found.Price);
+        Assert.Equal(product.IsActive, found.IsActive);
     }
 }

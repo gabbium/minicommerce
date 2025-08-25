@@ -4,6 +4,7 @@ namespace MiniCommerce.Catalog.Domain.Abstractions;
 
 public interface IProductRepository
 {
+    Task<Product?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
     Task<Product?> GetBySkuAsync(string sku, CancellationToken cancellationToken = default);
     Task AddAsync(Product product, CancellationToken cancellationToken = default);
     Task SaveChangesAsync(CancellationToken cancellationToken = default);

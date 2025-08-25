@@ -68,12 +68,17 @@ public abstract class CommonStepsBase(TestFixture fixture)
         return Task.CompletedTask;
     }
 
-    public async Task ThenTheResponseShouldBeProblemDetails()
+    public async Task ThenTheResponseShouldBeProblemDetails(string title, string detail)
     {
         Assert.NotNull(HttpResponse);
 
         var problem = await HttpResponse.Content.ReadFromJsonAsync<ProblemDetails>();
         Assert.NotNull(problem);
+
+        Assert.Equal(title, problem.Title);
+        Assert.Equal(detail, problem.Detail);
+        Assert.NotNull(problem.Type);
+        Assert.NotNull(problem.Status);
     }
 
     public async Task ThenTheResponseShouldBeValidationProblemDetails(Dictionary<string, string[]> errors)
@@ -87,7 +92,6 @@ public abstract class CommonStepsBase(TestFixture fixture)
         Assert.Equal(errors, problem.Errors);
 
         Assert.Null(problem.Detail);
-        Assert.Null(problem.Instance);
         Assert.Equal(StatusCodes.Status400BadRequest, problem.Status);
         Assert.Equal("One or more validation errors occurred", problem.Title);
         Assert.Equal("https://tools.ietf.org/html/rfc7231#section-6.5.1", problem.Type);

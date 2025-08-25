@@ -19,7 +19,9 @@ public class CreateProductEndpoint : IEndpointV1
             var command = new CreateProductCommand(request.Sku, request.Name, request.Price);
             var result = await handler.HandleAsync(command, cancellationToken);
 
-            return result.Match(product => Results.Created(string.Empty, product), CustomResults.Problem);
+            return result.Match(
+                product => Results.Created(GetProductByIdEndpoint.BuildRoute(product.Id), product),
+                CustomResults.Problem);
         })
         .RequireAuthorization()
         .WithTags(Tags.Products);
