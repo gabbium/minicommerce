@@ -1,4 +1,5 @@
-﻿using MiniCommerce.Identity.Infrastructure.IntegrationTests.TestHelpers;
+﻿using MiniCommerce.Identity.Domain.ValueObjects;
+using MiniCommerce.Identity.Infrastructure.IntegrationTests.TestHelpers;
 using MiniCommerce.Identity.Infrastructure.Persistence;
 
 namespace MiniCommerce.Identity.Infrastructure.IntegrationTests.Persistence;
@@ -24,7 +25,7 @@ public class AppDbContextInitialiserTests(TestFixture fixture) : TestBase(fixtur
     }
 
     [Fact]
-    public async Task SeedAsync_ThenCreatesUser()
+    public async Task SeedAsync_ThenCreatesAdministrator()
     {
         // Act
         await _initialiser.SeedAsync();
@@ -32,6 +33,7 @@ public class AppDbContextInitialiserTests(TestFixture fixture) : TestBase(fixtur
         // Assert
         var administrator = _context.Users.FirstOrDefault(u => u.Email == "admin@minicommerce");
         Assert.NotNull(administrator);
+        Assert.Equal(Role.Administrator, administrator.Role);
     }
 }
 

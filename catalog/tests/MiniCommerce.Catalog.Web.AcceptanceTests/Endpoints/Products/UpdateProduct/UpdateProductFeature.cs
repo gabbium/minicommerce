@@ -1,4 +1,5 @@
-﻿using MiniCommerce.Catalog.Web.AcceptanceTests.TestHelpers;
+﻿using MiniCommerce.Catalog.Infrastructure.Security;
+using MiniCommerce.Catalog.Web.AcceptanceTests.TestHelpers;
 
 namespace MiniCommerce.Catalog.Web.AcceptanceTests.Endpoints.Products.UpdateProduct;
 
@@ -8,9 +9,9 @@ public class UpdateProductFeature(TestFixture fixture) : TestBase(fixture)
     private readonly UpdateProductSteps _steps = new(fixture);
 
     [Fact]
-    public async Task RegularUserUpdatesProduct()
+    public async Task UserUpdatesProduct()
     {
-        await _steps.GivenAnAuthenticatedRegularUser();
+        await _steps.GivenAnAuthenticatedUser(Permissions.CanCreateProduct, Permissions.CanUpdateProduct);
         var id = await _steps.GivenAnExistingProduct();
         await _steps.WhenTheyAttemptToUpdateProduct(id, "Wireless Mouse", 79.90m);
         await _steps.ThenTheResponseShouldBe200OK();
@@ -18,9 +19,9 @@ public class UpdateProductFeature(TestFixture fixture) : TestBase(fixture)
     }
 
     [Fact]
-    public async Task RegularUserAttemptsToUpdateProductWithEmptyId()
+    public async Task UserAttemptsToUpdateProductWithEmptyId()
     {
-        await _steps.GivenAnAuthenticatedRegularUser();
+        await _steps.GivenAnAuthenticatedUser(Permissions.CanUpdateProduct);
         await _steps.WhenTheyAttemptToUpdateProduct(Guid.Empty, "Wireless Mouse", 79.90m);
         await _steps.ThenTheResponseShouldBe400BadRequest();
         await _steps.ThenTheResponseShouldBeValidationProblemDetails(new()
@@ -30,9 +31,9 @@ public class UpdateProductFeature(TestFixture fixture) : TestBase(fixture)
     }
 
     [Fact]
-    public async Task RegularUserAttemptsToUpdateProductWithEmptyName()
+    public async Task UserAttemptsToUpdateProductWithEmptyName()
     {
-        await _steps.GivenAnAuthenticatedRegularUser();
+        await _steps.GivenAnAuthenticatedUser(Permissions.CanCreateProduct, Permissions.CanUpdateProduct);
         var id = await _steps.GivenAnExistingProduct();
         await _steps.WhenTheyAttemptToUpdateProduct(id, string.Empty, 79.90m);
         await _steps.ThenTheResponseShouldBe400BadRequest();
@@ -43,9 +44,9 @@ public class UpdateProductFeature(TestFixture fixture) : TestBase(fixture)
     }
 
     [Fact]
-    public async Task RegularUserAttemptsToUpdateProductWithEmptyPrice()
+    public async Task UserAttemptsToUpdateProductWithEmptyPrice()
     {
-        await _steps.GivenAnAuthenticatedRegularUser();
+        await _steps.GivenAnAuthenticatedUser(Permissions.CanCreateProduct, Permissions.CanUpdateProduct);
         var id = await _steps.GivenAnExistingProduct();
         await _steps.WhenTheyAttemptToUpdateProduct(id, "Wireless Mouse", 0m);
         await _steps.ThenTheResponseShouldBe400BadRequest();
@@ -64,9 +65,17 @@ public class UpdateProductFeature(TestFixture fixture) : TestBase(fixture)
     }
 
     [Fact]
-    public async Task RegularUserAttemptsToUpdateNonExistentProduct()
+    public async Task ForbiddenUserAttemptsToUpdateProduct()
     {
-        await _steps.GivenAnAuthenticatedRegularUser();
+        await _steps.GivenAnAuthenticatedUser();
+        await _steps.WhenTheyAttemptToUpdateProduct(Guid.NewGuid(), "Wireless Mouse", 79.90m);
+        await _steps.ThenTheResponseShouldBe403Forbidden();
+    }
+
+    [Fact]
+    public async Task UserAttemptsToUpdateNonExistentProduct()
+    {
+        await _steps.GivenAnAuthenticatedUser(Permissions.CanUpdateProduct);
         await _steps.WhenTheyAttemptToUpdateProduct(Guid.NewGuid(), "Wireless Mouse", 79.90m);
         await _steps.ThenTheResponseShouldBe404NotFound();
         await _steps.ThenTheResponseShouldBeProblemDetails("Products.NotFound", "The specified product was not found.");

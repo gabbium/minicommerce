@@ -21,12 +21,7 @@ public class TestFixture : IAsyncLifetime
         Client = _factory.CreateClient();
     }
 
-    public void AuthenticateAsDefault()
-    {
-        Authenticate("user@minicommerce");
-    }
-
-    public void Authenticate(string email)
+    public string CreateAccessToken(params string[] permissions)
     {
         using var scope = _scopeFactory.CreateScope();
 
@@ -38,8 +33,10 @@ public class TestFixture : IAsyncLifetime
         var claims = new List<Claim>
         {
             new(ClaimTypes.NameIdentifier, Guid.NewGuid().ToString()),
-            new(ClaimTypes.Email, email)
+            new(ClaimTypes.Email, "user@minicommerce")
         };
+
+        claims.AddRange(permissions.Select(p => new Claim("permission", p)));
 
         var token = new JwtSecurityToken(
             issuer: jwtOptions.Value.Issuer,
@@ -49,9 +46,7 @@ public class TestFixture : IAsyncLifetime
             signingCredentials: creds
         );
 
-        var accessToken = new JwtSecurityTokenHandler().WriteToken(token);
-
-        Client.DefaultRequestHeaders.Authorization = new("Bearer", accessToken);
+        return new JwtSecurityTokenHandler().WriteToken(token);
     }
 
     public async Task ResetStateAsync()

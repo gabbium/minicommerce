@@ -1,5 +1,6 @@
 ﻿using MiniCommerce.Catalog.Application.Features.Products.ListProducts;
 using MiniCommerce.Catalog.Application.Models;
+using MiniCommerce.Catalog.Infrastructure.Security;
 
 namespace MiniCommerce.Catalog.Web.Endpoints.V1.Products;
 
@@ -22,7 +23,7 @@ public class ListProductsEndpoint : IEndpointV1
 
             return result.Match(Results.Ok, CustomResults.Problem);
         })
-        .RequireAuthorization()
+        .RequireAuthorization(Permissions.CanListProducts)
         .WithTags(Tags.Products);
     }
 }

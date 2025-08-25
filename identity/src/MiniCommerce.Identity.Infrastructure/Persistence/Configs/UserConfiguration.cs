@@ -1,4 +1,5 @@
 ﻿using MiniCommerce.Identity.Domain.Entities;
+using MiniCommerce.Identity.Domain.ValueObjects;
 
 namespace MiniCommerce.Identity.Infrastructure.Persistence.Configs;
 
@@ -9,10 +10,18 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.HasKey(u => u.Id);
 
         builder.Property(u => u.Email)
-            .IsRequired()
-            .HasMaxLength(256);
+            .HasMaxLength(256)
+            .IsRequired();
 
         builder.HasIndex(u => u.Email)
             .IsUnique();
+
+        builder.Property(u => u.Role)
+            .HasConversion(
+                r => r.Value,
+                v => Role.From(v)
+            )
+            .HasMaxLength(32)
+            .IsRequired();
     }
 }

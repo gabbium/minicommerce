@@ -2,6 +2,7 @@
 using MiniCommerce.Identity.Application.Features.Auth.Login;
 using MiniCommerce.Identity.Domain.Abstractions;
 using MiniCommerce.Identity.Domain.Entities;
+using MiniCommerce.Identity.Domain.ValueObjects;
 
 namespace MiniCommerce.Identity.Application.UnitTests.Features.Auth;
 
@@ -23,7 +24,7 @@ public class LoginCommandHandlerTests
     {
         // Arrange
         var command = new LoginCommand("user@minicommerce");
-        var user = new User(command.Email);
+        var user = new User(command.Email, Role.User);
         var accessToken = "valid.access.token";
 
         _userRepositoryMock

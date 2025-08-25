@@ -1,7 +1,10 @@
-﻿namespace MiniCommerce.Identity.Domain.Entities;
+﻿using MiniCommerce.Identity.Domain.ValueObjects;
 
-public sealed class User(string email)
+namespace MiniCommerce.Identity.Domain.Entities;
+
+public sealed class User(string email, Role role)
 {
     public Guid Id { get; set; }
     public string Email { get; private set; } = email;
+    public Role Role { get; private set; } = role;
 }

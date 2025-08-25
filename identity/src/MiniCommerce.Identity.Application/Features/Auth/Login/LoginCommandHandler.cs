@@ -2,6 +2,7 @@
 using MiniCommerce.Identity.Application.Models;
 using MiniCommerce.Identity.Domain.Abstractions;
 using MiniCommerce.Identity.Domain.Entities;
+using MiniCommerce.Identity.Domain.ValueObjects;
 
 namespace MiniCommerce.Identity.Application.Features.Auth.Login;
 
@@ -13,7 +14,7 @@ public class LoginCommandHandler(IUserRepository userRepository, IJwtTokenServic
 
         if (user is null)
         {
-            user = new User(command.Email);
+            user = new User(command.Email, Role.User);
             await userRepository.AddAsync(user, cancellationToken);
             await userRepository.SaveChangesAsync(cancellationToken);
         }

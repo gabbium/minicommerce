@@ -1,4 +1,5 @@
 ﻿using MiniCommerce.Catalog.Application.Features.Products.DeleteProduct;
+using MiniCommerce.Catalog.Infrastructure.Security;
 
 namespace MiniCommerce.Catalog.Web.Endpoints.V1.Products;
 
@@ -19,7 +20,7 @@ public class DeleteProductEndpoint : IEndpointV1
 
             return result.Match(Results.NoContent, CustomResults.Problem);
         })
-        .RequireAuthorization()
+        .RequireAuthorization(Permissions.CanDeleteProduct)
         .WithTags(Tags.Products);
     }
 }
