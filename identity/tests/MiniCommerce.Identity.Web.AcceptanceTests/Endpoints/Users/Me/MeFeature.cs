@@ -10,10 +10,10 @@ public class MeFeature(TestFixture fixture) : TestBase(fixture)
     [Fact]
     public async Task UserFetchesMe()
     {
-        await _steps.GivenAnAuthenticatedUser("user@minicommerce.com");
+        await _steps.GivenAnAuthenticatedUser("user@minicommerce");
         await _steps.WhenTheyAttemptToFetchMe();
         await _steps.ThenTheResponseShouldBe200OK();
-        await _steps.ThenTheResponseShouldContainUser("user@minicommerce.com");
+        await _steps.ThenTheResponseShouldContainUser("user@minicommerce");
     }
 
     [Fact]

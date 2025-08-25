@@ -30,7 +30,7 @@ public class AppDbContextInitialiserTests(TestFixture fixture) : TestBase(fixtur
         await _initialiser.SeedAsync();
 
         // Assert
-        var administrator = _context.Users.FirstOrDefault(u => u.Email == "admin@minicommerce.com");
+        var administrator = _context.Users.FirstOrDefault(u => u.Email == "admin@minicommerce");
         Assert.NotNull(administrator);
     }
 }

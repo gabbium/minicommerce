@@ -1,6 +1,6 @@
 ﻿using MiniCommerce.Identity.Application.Abstractions;
 using MiniCommerce.Identity.Domain.Abstractions;
-using MiniCommerce.Identity.Infrastructure.Auth;
+using MiniCommerce.Identity.Infrastructure.Jwt;
 using MiniCommerce.Identity.Infrastructure.Persistence;
 using MiniCommerce.Identity.Infrastructure.Repositories;
 

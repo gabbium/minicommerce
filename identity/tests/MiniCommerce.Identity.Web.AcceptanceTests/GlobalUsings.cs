@@ -1,6 +1,7 @@
 ﻿global using System.Data.Common;
 global using System.Net;
 global using System.Net.Http.Json;
+global using CleanArch;
 global using Microsoft.AspNetCore.Hosting;
 global using Microsoft.AspNetCore.Http;
 global using Microsoft.AspNetCore.Mvc;

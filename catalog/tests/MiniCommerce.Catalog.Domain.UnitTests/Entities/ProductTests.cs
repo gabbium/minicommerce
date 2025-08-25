@@ -1,0 +1,51 @@
+﻿using MiniCommerce.Catalog.Domain.Entities;
+
+namespace MiniCommerce.Catalog.Domain.UnitTests.Entities;
+
+public class ProductTests
+{
+    [Fact]
+    public void Constructor_ShouldInstantiateProduct()
+    {
+        // Arrange
+        var sku = "SKU-001";
+        var name = "Bluetooth Headphones";
+        var price = 129.50m;
+
+        // Act
+        var product = new Product(sku, name, price);
+
+        // Assert
+        Assert.Equal(sku, product.Sku);
+        Assert.Equal(name, product.Name);
+        Assert.Equal(price, product.Price);
+    }
+
+    [Fact]
+    public void ChangeName_ShouldUpdateProductName()
+    {
+        // Arrange
+        var product = new Product("SKU-001", "Bluetooth Headphones", 129.50m);
+        var newName = "Wireless Mouse";
+
+        // Act
+        product.ChangeName(newName);
+
+        // Assert
+        Assert.Equal(newName, product.Name);
+    }
+
+    [Fact]
+    public void ChangePrice_ShouldUpdateProductPrice()
+    {
+        // Arrange
+        var product = new Product("SKU-001", "Bluetooth Headphones", 129.50m);
+        var newPrice = 79.90m;
+
+        // Act
+        product.ChangePrice(newPrice);
+
+        // Assert
+        Assert.Equal(newPrice, product.Price);
+    }
+}

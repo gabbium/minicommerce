@@ -8,7 +8,7 @@ public class MeSteps(TestFixture fixture) : CommonStepsBase(fixture)
 {
     public async Task WhenTheyAttemptToFetchMe()
     {
-        HttpResponse = await Fixture.Client.GetAsync("/api/v1/users/me");
+        HttpResponse = await Fixture.Client.GetAsync(MeEndpoint.Route);
     }
 
     public async Task ThenTheResponseShouldContainUser(string email)
