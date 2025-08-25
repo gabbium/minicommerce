@@ -13,9 +13,10 @@ public abstract class CommonStepsBase(TestFixture fixture)
         return Task.CompletedTask;
     }
 
-    public Task GivenAnAuthenticatedRegularUser()
+    public Task GivenAnAuthenticatedUser(params string[] permissions)
     {
-        Fixture.AuthenticateAsDefault();
+        var accessToken = Fixture.CreateAccessToken(permissions);
+        Fixture.Client.DefaultRequestHeaders.Authorization = new("Bearer", accessToken);
         return Task.CompletedTask;
     }
 

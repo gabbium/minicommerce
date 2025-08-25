@@ -1,5 +1,6 @@
 ﻿using MiniCommerce.Catalog.Application.Features.Products.CreateProduct;
 using MiniCommerce.Catalog.Application.Models;
+using MiniCommerce.Catalog.Infrastructure.Security;
 
 namespace MiniCommerce.Catalog.Web.Endpoints.V1.Products;
 
@@ -24,7 +25,7 @@ public class CreateProductEndpoint : IEndpointV1
                 product => Results.Created(GetProductByIdEndpoint.BuildRoute(product.Id), product),
                 CustomResults.Problem);
         })
-        .RequireAuthorization()
+        .RequireAuthorization(Permissions.CanCreateProduct)
         .WithTags(Tags.Products);
     }
 }

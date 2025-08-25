@@ -1,5 +1,6 @@
 ﻿using MiniCommerce.Catalog.Application.Features.Products.UpdateProduct;
 using MiniCommerce.Catalog.Application.Models;
+using MiniCommerce.Catalog.Infrastructure.Security;
 
 namespace MiniCommerce.Catalog.Web.Endpoints.V1.Products;
 
@@ -23,7 +24,7 @@ public class UpdateProductEndpoint : IEndpointV1
 
             return result.Match(Results.Ok, CustomResults.Problem);
         })
-        .RequireAuthorization()
+        .RequireAuthorization(Permissions.CanUpdateProduct)
         .WithTags(Tags.Products);
     }
 }

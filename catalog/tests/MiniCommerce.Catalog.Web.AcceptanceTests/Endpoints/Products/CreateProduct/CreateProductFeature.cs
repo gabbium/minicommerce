@@ -1,4 +1,5 @@
-﻿using MiniCommerce.Catalog.Web.AcceptanceTests.TestHelpers;
+﻿using MiniCommerce.Catalog.Infrastructure.Security;
+using MiniCommerce.Catalog.Web.AcceptanceTests.TestHelpers;
 
 namespace MiniCommerce.Catalog.Web.AcceptanceTests.Endpoints.Products.CreateProduct;
 
@@ -8,18 +9,18 @@ public class CreateProductFeature(TestFixture fixture) : TestBase(fixture)
     private readonly CreateProductSteps _steps = new(fixture);
 
     [Fact]
-    public async Task RegularUserCreatesProductWithValidData()
+    public async Task UserCreatesProductWithValidData()
     {
-        await _steps.GivenAnAuthenticatedRegularUser();
+        await _steps.GivenAnAuthenticatedUser(Permissions.CanCreateProduct);
         await _steps.WhenTheyAttemptToCreateProduct("SKU-001", "Bluetooth Headphones", 129.50m);
         await _steps.ThenTheResponseShouldBe201Created();
         await _steps.ThenTheResponseShouldContainProduct();
     }
 
     [Fact]
-    public async Task RegularUserAttemptsToCreateProductWithEmptySku()
+    public async Task UserAttemptsToCreateProductWithEmptySku()
     {
-        await _steps.GivenAnAuthenticatedRegularUser();
+        await _steps.GivenAnAuthenticatedUser(Permissions.CanCreateProduct);
         await _steps.WhenTheyAttemptToCreateProduct(string.Empty, "Bluetooth Headphones", 129.50m);
         await _steps.ThenTheResponseShouldBe400BadRequest();
         await _steps.ThenTheResponseShouldBeValidationProblemDetails(new()
@@ -29,9 +30,9 @@ public class CreateProductFeature(TestFixture fixture) : TestBase(fixture)
     }
 
     [Fact]
-    public async Task RegularUserAttemptsToCreateProductWithEmptyName()
+    public async Task UserAttemptsToCreateProductWithEmptyName()
     {
-        await _steps.GivenAnAuthenticatedRegularUser();
+        await _steps.GivenAnAuthenticatedUser(Permissions.CanCreateProduct);
         await _steps.WhenTheyAttemptToCreateProduct("SKU-001", string.Empty, 129.50m);
         await _steps.ThenTheResponseShouldBe400BadRequest();
         await _steps.ThenTheResponseShouldBeValidationProblemDetails(new()
@@ -41,9 +42,9 @@ public class CreateProductFeature(TestFixture fixture) : TestBase(fixture)
     }
 
     [Fact]
-    public async Task RegularUserAttemptsToCreateProductWithEmptyPrice()
+    public async Task UserAttemptsToCreateProductWithEmptyPrice()
     {
-        await _steps.GivenAnAuthenticatedRegularUser();
+        await _steps.GivenAnAuthenticatedUser(Permissions.CanCreateProduct);
         await _steps.WhenTheyAttemptToCreateProduct("SKU-001", "Bluetooth Headphones", 0m);
         await _steps.ThenTheResponseShouldBe400BadRequest();
         await _steps.ThenTheResponseShouldBeValidationProblemDetails(new()
@@ -58,5 +59,13 @@ public class CreateProductFeature(TestFixture fixture) : TestBase(fixture)
         await _steps.GivenAnAnonymousUser();
         await _steps.WhenTheyAttemptToCreateProduct("SKU-001", "Bluetooth Headphones", 129.50m);
         await _steps.ThenTheResponseShouldBe401Unauthorized();
+    }
+
+    [Fact]
+    public async Task ForbiddenUserAttemptsToCreateProduct()
+    {
+        await _steps.GivenAnAuthenticatedUser();
+        await _steps.WhenTheyAttemptToCreateProduct("SKU-001", "Bluetooth Headphones", 129.50m);
+        await _steps.ThenTheResponseShouldBe403Forbidden();
     }
 }

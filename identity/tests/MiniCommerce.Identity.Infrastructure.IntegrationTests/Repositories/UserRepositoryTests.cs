@@ -1,5 +1,6 @@
 ﻿using MiniCommerce.Identity.Domain.Abstractions;
 using MiniCommerce.Identity.Domain.Entities;
+using MiniCommerce.Identity.Domain.ValueObjects;
 using MiniCommerce.Identity.Infrastructure.IntegrationTests.TestHelpers;
 
 namespace MiniCommerce.Identity.Infrastructure.IntegrationTests.Repositories;
@@ -14,7 +15,7 @@ public class UserRepositoryTests(TestFixture fixture) : TestBase(fixture)
     public async Task UserIsCreatedAndLoadedCorrectly()
     {
         // Arrange
-        var user = new User("user@minicommerce");
+        var user = new User("user@minicommerce", Role.User);
 
         // Act
         await _repository.AddAsync(user);
@@ -26,5 +27,6 @@ public class UserRepositoryTests(TestFixture fixture) : TestBase(fixture)
         Assert.NotNull(retrieved);
         Assert.Equal(user.Id, retrieved.Id);
         Assert.Equal(user.Email, retrieved.Email);
+        Assert.Equal(user.Role, retrieved.Role);
     }
 }
