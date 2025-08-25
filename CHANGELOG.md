@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/gabbium/minicommerce/compare/v1.1.0...v1.2.0) (2025-08-25)
+
+
+### Features
+
+* add rbac ([#3](https://github.com/gabbium/minicommerce/issues/3)) ([07ea2e6](https://github.com/gabbium/minicommerce/commit/07ea2e69cc6a8f1d6538ac88d96f41581cf30cb7))
+
 # [1.1.0](https://github.com/gabbium/minicommerce/compare/v1.0.0...v1.1.0) (2025-08-25)
 
 
