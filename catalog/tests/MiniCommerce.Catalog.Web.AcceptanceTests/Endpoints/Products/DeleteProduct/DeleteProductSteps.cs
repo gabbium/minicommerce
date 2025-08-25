@@ -7,9 +7,8 @@ namespace MiniCommerce.Catalog.Web.AcceptanceTests.Endpoints.Products.DeleteProd
 
 public class DeleteProductSteps(TestFixture fixture) : CommonStepsBase(fixture)
 {
-    public async Task<Guid> GivenAnExistingProduct()
+    public async Task<Guid> GivenAnExistingProduct(CreateProductEndpoint.Request request)
     {
-        var request = new CreateProductEndpoint.Request("SKU-001", "Bluetooth Headphones", 129.50m);
         var response = await Fixture.Client.PostAsJsonAsync(CreateProductEndpoint.Route, request);
         var created = await response.Content.ReadFromJsonAsync<ProductResponse>();
         return created!.Id;

@@ -30,9 +30,10 @@ A modular **.NET 9** solution for e-commerce, featuring Clean Architecture, CQRS
 
 ## 📦 Services
 
-| Service  | Description                   | README                                   |
-| -------- | ----------------------------- | ---------------------------------------- |
-| Identity | Authentication & user context | [identity/README.md](identity/README.md) |
+| Service  | Description                    | README                                   |
+| -------- | ------------------------------ | ---------------------------------------- |
+| Identity | Authentication & user context  | [identity/README.md](identity/README.md) |
+| Catalog  | Product catalog CRUD & queries | [catalog/README.md](catalog/README.md)   |
 
 ---
 
@@ -41,6 +42,10 @@ A modular **.NET 9** solution for e-commerce, featuring Clean Architecture, CQRS
 ```
 ├─ services/
 │  └─ identity/
+│     ├─ src/
+│     ├─ tests/
+│     └─ README.md
+│  └─ catalog/
 │     ├─ src/
 │     ├─ tests/
 │     └─ README.md

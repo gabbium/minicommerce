@@ -8,39 +8,31 @@ namespace MiniCommerce.Catalog.Web.AcceptanceTests.Endpoints.Products.ListProduc
 
 public class ListProductsSteps(TestFixture fixture) : CommonStepsBase(fixture)
 {
-    private ListProductsEndpoint.Request _request = null!;
-
-    public async Task GivenSomeProductsExist()
+    public async Task GivenProductsExist(List<CreateProductEndpoint.Request> requests)
     {
-        var products = new List<CreateProductEndpoint.Request>
+        foreach (var request in requests)
         {
-            new("SKU-001", "Bluetooth Headphones", 129.50m),
-            new("SKU-002", "Wireless Mouse", 79.90m),
-            new("SKU-003", "Mechanical Keyboard", 299.00m)
-        };
-
-        foreach (var product in products)
-        {
-            await Fixture.Client.PostAsJsonAsync(CreateProductEndpoint.Route, product);
+            await Fixture.Client.PostAsJsonAsync(CreateProductEndpoint.Route, request);
         }
     }
 
-    public async Task WhenTheyAttemptToListProducts(int page, int pageSize)
+    public async Task WhenTheyAttemptToListProducts(ListProductsEndpoint.Request request)
     {
-        _request = new(page, pageSize);
-        HttpResponse = await Fixture.Client.GetAsync(ListProductsEndpoint.BuildRoute(_request));
+        HttpResponse = await Fixture.Client.GetAsync(ListProductsEndpoint.BuildRoute(request));
     }
 
-    public async Task ThenTheResponseShouldContainProducts()
+    public async Task ThenResponseContainsProducts(
+        int expectedPage,
+        int expectedPageSize,
+        int expectedItemsCount,
+        int expectedTotalCount,
+        int expectedTotalPages)
     {
-        Assert.NotNull(HttpResponse);
-        Assert.Equal(HttpStatusCode.OK, HttpResponse.StatusCode);
-
-        var paged = await HttpResponse.Content.ReadFromJsonAsync<FlatPagedList<ProductResponse>>();
-        Assert.NotNull(paged);
-        Assert.Equal(_request.Page, paged.PageNumber);
-        Assert.True(paged.Items.Count >= 3);
-        Assert.True(paged.TotalCount >= paged.Items.Count);
-        Assert.True(paged.TotalPages >= 1);
+        var paged = await ReadBodyAs<FlatPagedList<ProductResponse>>();
+        Assert.Equal(expectedPage, paged.Page);
+        Assert.Equal(expectedPageSize, paged.PageSize);
+        Assert.Equal(expectedItemsCount, paged.Items.Count);
+        Assert.Equal(expectedTotalCount, paged.TotalCount);
+        Assert.Equal(expectedTotalPages, paged.TotalPages);
     }
 }

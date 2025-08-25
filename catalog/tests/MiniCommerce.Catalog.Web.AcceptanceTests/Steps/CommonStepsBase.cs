@@ -20,81 +20,83 @@ public abstract class CommonStepsBase(TestFixture fixture)
         return Task.CompletedTask;
     }
 
-    public Task ThenTheResponseShouldBe200OK()
+    public Task ThenResponseIs200Ok()
     {
         Assert.NotNull(HttpResponse);
         Assert.Equal(HttpStatusCode.OK, HttpResponse.StatusCode);
         return Task.CompletedTask;
     }
 
-    public Task ThenTheResponseShouldBe201Created()
+    public Task ThenResponseIs201Created()
     {
         Assert.NotNull(HttpResponse);
         Assert.Equal(HttpStatusCode.Created, HttpResponse.StatusCode);
         return Task.CompletedTask;
     }
 
-    public Task ThenTheResponseShouldBe204NoContent()
+    public Task ThenResponseIs204NoContent()
     {
         Assert.NotNull(HttpResponse);
         Assert.Equal(HttpStatusCode.NoContent, HttpResponse.StatusCode);
         return Task.CompletedTask;
     }
 
-    public Task ThenTheResponseShouldBe400BadRequest()
+    public Task ThenResponseIs400BadRequest()
     {
         Assert.NotNull(HttpResponse);
         Assert.Equal(HttpStatusCode.BadRequest, HttpResponse.StatusCode);
         return Task.CompletedTask;
     }
 
-    public Task ThenTheResponseShouldBe401Unauthorized()
+    public Task ThenResponseIs401Unauthorized()
     {
         Assert.NotNull(HttpResponse);
         Assert.Equal(HttpStatusCode.Unauthorized, HttpResponse.StatusCode);
         return Task.CompletedTask;
     }
 
-    public Task ThenTheResponseShouldBe403Forbidden()
+    public Task ThenResponseIs403Forbidden()
     {
         Assert.NotNull(HttpResponse);
         Assert.Equal(HttpStatusCode.Forbidden, HttpResponse.StatusCode);
         return Task.CompletedTask;
     }
 
-    public Task ThenTheResponseShouldBe404NotFound()
+    public Task ThenResponseIs404NotFound()
     {
         Assert.NotNull(HttpResponse);
         Assert.Equal(HttpStatusCode.NotFound, HttpResponse.StatusCode);
         return Task.CompletedTask;
     }
 
-    public async Task ThenTheResponseShouldBeProblemDetails(string title, string detail)
+    public async Task ThenResponseIsProblemDetails(string title, string detail)
     {
         Assert.NotNull(HttpResponse);
 
-        var problem = await HttpResponse.Content.ReadFromJsonAsync<ProblemDetails>();
-        Assert.NotNull(problem);
-
+        var problem = await ReadBodyAs<ProblemDetails>();
         Assert.Equal(title, problem.Title);
         Assert.Equal(detail, problem.Detail);
         Assert.NotNull(problem.Type);
         Assert.NotNull(problem.Status);
     }
 
-    public async Task ThenTheResponseShouldBeValidationProblemDetails(Dictionary<string, string[]> errors)
+    public async Task ThenResponseIsValidationProblemDetails(Dictionary<string, string[]> errors)
     {
         Assert.NotNull(HttpResponse);
 
-        var problem = await HttpResponse.Content.ReadFromJsonAsync<ValidationProblemDetails>();
-        Assert.NotNull(problem);
-
+        var problem = await ReadBodyAs<ValidationProblemDetails>();
         Assert.NotEmpty(problem.Errors);
         Assert.Equal(errors, problem.Errors);
-
         Assert.Null(problem.Detail);
         Assert.Equal(StatusCodes.Status400BadRequest, problem.Status);
         Assert.Equal("One or more validation errors occurred", problem.Title);
         Assert.Equal("https://tools.ietf.org/html/rfc7231#section-6.5.1", problem.Type);
+    }
+
+    protected async Task<T> ReadBodyAs<T>()
+    {
+        var model = await HttpResponse!.Content.ReadFromJsonAsync<T>();
+        Assert.NotNull(model);
+        return model!;
     }
 }

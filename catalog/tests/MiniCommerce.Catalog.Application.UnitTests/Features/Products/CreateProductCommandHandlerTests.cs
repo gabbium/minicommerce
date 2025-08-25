@@ -16,7 +16,7 @@ public class CreateProductCommandHandlerTests
     }
 
     [Fact]
-    public async Task HandleAsync_ThenCreatesAndReturnsProductResponse()
+    public async Task HandleAsync_CreatesProductAndReturnsIt()
     {
         // Arrange
         var command = new CreateProductCommand("SKU-001", "Bluetooth Headphones", 129.50m);
@@ -32,5 +32,6 @@ public class CreateProductCommandHandlerTests
 
         _productRepositoryMock.Verify(x => x.AddAsync(It.IsAny<Product>(), It.IsAny<CancellationToken>()), Times.Once);
         _productRepositoryMock.Verify(x => x.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
+        _productRepositoryMock.VerifyNoOtherCalls();
     }
 }

@@ -23,7 +23,6 @@ public class UserRepositoryTests(TestFixture fixture) : TestBase(fixture)
 
         // Assert
         var retrieved = await _repository.GetByEmailAsync(user.Email);
-
         Assert.NotNull(retrieved);
         Assert.Equal(user.Id, retrieved.Id);
         Assert.Equal(user.Email, retrieved.Email);

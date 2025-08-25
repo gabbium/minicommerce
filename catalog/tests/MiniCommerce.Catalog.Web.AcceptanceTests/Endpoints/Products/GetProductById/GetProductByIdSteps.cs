@@ -7,12 +7,9 @@ namespace MiniCommerce.Catalog.Web.AcceptanceTests.Endpoints.Products.GetProduct
 
 public class GetProductByIdSteps(TestFixture fixture) : CommonStepsBase(fixture)
 {
-    private CreateProductEndpoint.Request _request = null!;
-
-    public async Task<Guid> GivenAnExistingProduct()
+    public async Task<Guid> GivenAnExistingProduct(CreateProductEndpoint.Request request)
     {
-        _request = new("SKU-001", "Bluetooth Headphones", 129.50m);
-        var response = await Fixture.Client.PostAsJsonAsync(CreateProductEndpoint.Route, _request);
+        var response = await Fixture.Client.PostAsJsonAsync(CreateProductEndpoint.Route, request);
         var created = await response.Content.ReadFromJsonAsync<ProductResponse>();
         return created!.Id;
     }
@@ -22,13 +19,12 @@ public class GetProductByIdSteps(TestFixture fixture) : CommonStepsBase(fixture)
         HttpResponse = await Fixture.Client.GetAsync(GetProductByIdEndpoint.BuildRoute(id));
     }
 
-    public async Task ThenTheResponseShouldContainProduct(Guid id)
+    public async Task ThenResponseContainsProduct(Guid expectedId, string expectedSku, string expectedName, decimal expectedPrice)
     {
-        Assert.NotNull(HttpResponse);
-        Assert.Equal(HttpStatusCode.OK, HttpResponse.StatusCode);
-
-        var response = await HttpResponse.Content.ReadFromJsonAsync<ProductResponse>();
-        Assert.NotNull(response);
-        Assert.Equal(id, response.Id);
+        var response = await ReadBodyAs<ProductResponse>();
+        Assert.Equal(expectedId, response.Id);
+        Assert.Equal(expectedSku, response.Sku);
+        Assert.Equal(expectedName, response.Name);
+        Assert.Equal(expectedPrice, response.Price);
     }
 }

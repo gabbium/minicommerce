@@ -11,23 +11,23 @@ public class GetSwaggerFeature(TestFixture fixture) : TestBase(fixture)
     public async Task AnonymousUserChecksSwaggerJson()
     {
         await _steps.GivenAnAnonymousUser();
-        await _steps.WhenTheyAttemptToChecksSwaggerJson();
-        await _steps.ThenTheResponseShouldBe200OK();
+        await _steps.WhenTheyAttemptToCheckSwaggerJson();
+        await _steps.ThenResponseIs200Ok();
     }
 
     [Fact]
     public async Task AnonymousUserChecksSwaggerUi()
     {
         await _steps.GivenAnAnonymousUser();
-        await _steps.WhenTheyAttemptToChecksSwaggerUi();
-        await _steps.ThenTheResponseShouldBe200OK();
+        await _steps.WhenTheyAttemptToCheckSwaggerUi();
+        await _steps.ThenResponseIs200Ok();
     }
 
     [Fact]
     public async Task AnonymousUserChecksSwaggerRedocs()
     {
         await _steps.GivenAnAnonymousUser();
-        await _steps.WhenTheyAttemptToChecksSwaggerRedocs();
-        await _steps.ThenTheResponseShouldBe200OK();
+        await _steps.WhenTheyAttemptToCheckSwaggerRedocs();
+        await _steps.ThenResponseIs200Ok();
     }
 }

@@ -43,14 +43,14 @@ public class LoginCommandHandlerTests
         Assert.Equal(accessToken, result.Value.Token.AccessToken);
 
         _userRepositoryMock.Verify(x => x.GetByEmailAsync(command.Email, It.IsAny<CancellationToken>()), Times.Once);
-        _jwtTokenServiceMock.Verify(x => x.CreateAccessToken(user), Times.Once);
+        _userRepositoryMock.VerifyNoOtherCalls();
 
-        _userRepositoryMock.Verify(x => x.AddAsync(It.IsAny<User>(), It.IsAny<CancellationToken>()), Times.Never);
-        _userRepositoryMock.Verify(x => x.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
+        _jwtTokenServiceMock.Verify(x => x.CreateAccessToken(user), Times.Once);
+        _jwtTokenServiceMock.VerifyNoOtherCalls();
     }
 
     [Fact]
-    public async Task HandleAsync_WhenUserNotExists_ThenCreatesAndReturnsAuthResponse()
+    public async Task HandleAsync_WhenUserNotExists_ThenCreatesUserAndReturnsAuthResponse()
     {
         // Arrange
         var command = new LoginCommand("user@minicommerce");
@@ -70,6 +70,9 @@ public class LoginCommandHandlerTests
         _userRepositoryMock.Verify(x => x.GetByEmailAsync(command.Email, It.IsAny<CancellationToken>()), Times.Once);
         _userRepositoryMock.Verify(x => x.AddAsync(It.IsAny<User>(), It.IsAny<CancellationToken>()), Times.Once);
         _userRepositoryMock.Verify(x => x.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
+        _userRepositoryMock.VerifyNoOtherCalls();
+
         _jwtTokenServiceMock.Verify(x => x.CreateAccessToken(It.IsAny<User>()), Times.Once);
+        _jwtTokenServiceMock.VerifyNoOtherCalls();
     }
 }

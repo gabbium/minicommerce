@@ -5,7 +5,7 @@ namespace MiniCommerce.Catalog.Domain.UnitTests.Entities;
 public class ProductTests
 {
     [Fact]
-    public void Constructor_ShouldInstantiateProduct()
+    public void Ctor_CreatesProduct()
     {
         // Arrange
         var sku = "SKU-001";
@@ -16,13 +16,14 @@ public class ProductTests
         var product = new Product(sku, name, price);
 
         // Assert
+        Assert.NotEqual(Guid.Empty, product.Id);
         Assert.Equal(sku, product.Sku);
         Assert.Equal(name, product.Name);
         Assert.Equal(price, product.Price);
     }
 
     [Fact]
-    public void ChangeName_ShouldUpdateProductName()
+    public void ChangeName_UpdatesProductName()
     {
         // Arrange
         var product = new Product("SKU-001", "Bluetooth Headphones", 129.50m);
@@ -36,7 +37,7 @@ public class ProductTests
     }
 
     [Fact]
-    public void ChangePrice_ShouldUpdateProductPrice()
+    public void ChangePrice_UpdatesProductPrice()
     {
         // Arrange
         var product = new Product("SKU-001", "Bluetooth Headphones", 129.50m);

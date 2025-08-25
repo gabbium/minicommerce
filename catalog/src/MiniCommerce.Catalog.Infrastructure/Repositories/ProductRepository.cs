@@ -9,18 +9,19 @@ public class ProductRepository(AppDbContext context) : IProductRepository
     public Task<Product?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
         return context.Products
+            .AsNoTracking()
             .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
-    }
-
-    public Task<Product?> GetBySkuAsync(string sku, CancellationToken cancellationToken = default)
-    {
-        return context.Products
-            .FirstOrDefaultAsync(x => x.Sku == sku, cancellationToken);
     }
 
     public async Task AddAsync(Product product, CancellationToken cancellationToken = default)
     {
         await context.Products.AddAsync(product, cancellationToken);
+    }
+
+    public Task UpdateAsync(Product product, CancellationToken cancellationToken = default)
+    {
+        context.Products.Update(product);
+        return Task.CompletedTask;
     }
 
     public Task DeleteAsync(Product product, CancellationToken cancellationToken = default)

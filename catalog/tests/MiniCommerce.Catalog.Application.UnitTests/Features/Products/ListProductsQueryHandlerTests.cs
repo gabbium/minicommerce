@@ -15,7 +15,7 @@ public class ListProductsQueryHandlerTests
     }
 
     [Fact]
-    public async Task Handle_ThenReturnsPagedList()
+    public async Task HandleAsync_ReturnsPagedProducts()
     {
         // Arrange
         var query = new ListProductsQuery(1, 10);
@@ -39,5 +39,6 @@ public class ListProductsQueryHandlerTests
         Assert.Equal(expectedProducts, result.Value);
 
         _listProductsServiceMock.Verify(x => x.ListAsync(query, It.IsAny<CancellationToken>()), Times.Once);
+        _listProductsServiceMock.VerifyNoOtherCalls();
     }
 }

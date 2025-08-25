@@ -12,9 +12,9 @@ public class DeleteProductFeature(TestFixture fixture) : TestBase(fixture)
     public async Task UserDeletesProduct()
     {
         await _steps.GivenAnAuthenticatedUser(Permissions.CanCreateProduct, Permissions.CanDeleteProduct);
-        var id = await _steps.GivenAnExistingProduct();
+        var id = await _steps.GivenAnExistingProduct(new("SKU-001", "Bluetooth Headphones", 129.50m));
         await _steps.WhenTheyAttemptToDeleteProduct(id);
-        await _steps.ThenTheResponseShouldBe204NoContent();
+        await _steps.ThenResponseIs204NoContent();
     }
 
     [Fact]
@@ -22,8 +22,8 @@ public class DeleteProductFeature(TestFixture fixture) : TestBase(fixture)
     {
         await _steps.GivenAnAuthenticatedUser(Permissions.CanDeleteProduct);
         await _steps.WhenTheyAttemptToDeleteProduct(Guid.Empty);
-        await _steps.ThenTheResponseShouldBe400BadRequest();
-        await _steps.ThenTheResponseShouldBeValidationProblemDetails(new()
+        await _steps.ThenResponseIs400BadRequest();
+        await _steps.ThenResponseIsValidationProblemDetails(new()
         {
             ["Id"] = ["'Id' must not be empty."]
         });
@@ -34,7 +34,7 @@ public class DeleteProductFeature(TestFixture fixture) : TestBase(fixture)
     {
         await _steps.GivenAnAnonymousUser();
         await _steps.WhenTheyAttemptToDeleteProduct(Guid.Empty);
-        await _steps.ThenTheResponseShouldBe401Unauthorized();
+        await _steps.ThenResponseIs401Unauthorized();
     }
 
     [Fact]
@@ -42,7 +42,7 @@ public class DeleteProductFeature(TestFixture fixture) : TestBase(fixture)
     {
         await _steps.GivenAnAuthenticatedUser();
         await _steps.WhenTheyAttemptToDeleteProduct(Guid.Empty);
-        await _steps.ThenTheResponseShouldBe403Forbidden();
+        await _steps.ThenResponseIs403Forbidden();
     }
 
     [Fact]
@@ -50,7 +50,7 @@ public class DeleteProductFeature(TestFixture fixture) : TestBase(fixture)
     {
         await _steps.GivenAnAuthenticatedUser(Permissions.CanDeleteProduct);
         await _steps.WhenTheyAttemptToDeleteProduct(Guid.NewGuid());
-        await _steps.ThenTheResponseShouldBe404NotFound();
-        await _steps.ThenTheResponseShouldBeProblemDetails("Products.NotFound", "The specified product was not found.");
+        await _steps.ThenResponseIs404NotFound();
+        await _steps.ThenResponseIsProblemDetails("Products.NotFound", "The specified product was not found.");
     }
 }

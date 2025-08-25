@@ -17,17 +17,16 @@ public class UpdateProductCommandHandlerTests
     }
 
     [Fact]
-    public async Task Handle_WhenProductExistsAndProductIsUpdated_ThenReturnsProductResponse()
+    public async Task HandleAsync_WhenProductExists_ThenUpdatesProductAndReturnsIt()
     {
         // Arrange
-        var productId = Guid.NewGuid();
         var product = new Product("SKU-001", "Bluetooth Headphones", 129.50m);
 
         _productRepositoryMock
-            .Setup(x => x.GetByIdAsync(productId, It.IsAny<CancellationToken>()))
+            .Setup(x => x.GetByIdAsync(product.Id, It.IsAny<CancellationToken>()))
             .ReturnsAsync(product);
 
-        var command = new UpdateProductCommand(productId, "Wireless Mouse", 79.90m);
+        var command = new UpdateProductCommand(product.Id, "Wireless Mouse", 79.90m);
 
         // Act
         var result = await _handler.HandleAsync(command);
@@ -38,10 +37,15 @@ public class UpdateProductCommandHandlerTests
         Assert.Equal(product.Sku, result.Value.Sku);
         Assert.Equal(command.Name, result.Value.Name);
         Assert.Equal(command.Price, result.Value.Price);
+
+        _productRepositoryMock.Verify(x => x.GetByIdAsync(product.Id, It.IsAny<CancellationToken>()), Times.Once);
+        _productRepositoryMock.Verify(x => x.UpdateAsync(product, It.IsAny<CancellationToken>()), Times.Once);
+        _productRepositoryMock.Verify(x => x.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
+        _productRepositoryMock.VerifyNoOtherCalls();
     }
 
     [Fact]
-    public async Task Handle_WhenProductDoesNotExist_ThenReturnsNotFound()
+    public async Task HandleAsync_WhenProductDoesNotExist_ThenReturnsNotFound()
     {
         // Arrange
         var productId = Guid.NewGuid();
@@ -58,5 +62,8 @@ public class UpdateProductCommandHandlerTests
         // Assert
         Assert.False(result.IsSuccess);
         Assert.Equal(ProductErrors.NotFound, result.Error);
+
+        _productRepositoryMock.Verify(x => x.GetByIdAsync(productId, It.IsAny<CancellationToken>()), Times.Once);
+        _productRepositoryMock.VerifyNoOtherCalls();
     }
 }

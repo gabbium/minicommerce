@@ -8,19 +8,19 @@ public class MeFeature(TestFixture fixture) : TestBase(fixture)
     private readonly MeSteps _steps = new(fixture);
 
     [Fact]
-    public async Task UserFetchesMe()
+    public async Task UserGetsMe()
     {
         await _steps.GivenAnAuthenticatedUser("user@minicommerce");
-        await _steps.WhenTheyAttemptToFetchMe();
-        await _steps.ThenTheResponseShouldBe200OK();
-        await _steps.ThenTheResponseShouldContainUser("user@minicommerce");
+        await _steps.WhenTheyAttemptToGetMe();
+        await _steps.ThenResponseIs200Ok();
+        await _steps.ThenResponseContainsUserInfo("user@minicommerce");
     }
 
     [Fact]
-    public async Task AnonymousUserAttemptsToFetchMe()
+    public async Task AnonymousUserAttemptsToGetMe()
     {
         await _steps.GivenAnAnonymousUser();
-        await _steps.WhenTheyAttemptToFetchMe();
-        await _steps.ThenTheResponseShouldBe401Unauthorized();
+        await _steps.WhenTheyAttemptToGetMe();
+        await _steps.ThenResponseIs401Unauthorized();
     }
 }

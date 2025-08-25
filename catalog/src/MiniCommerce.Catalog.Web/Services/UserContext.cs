@@ -1,5 +1,4 @@
 ﻿using MiniCommerce.Catalog.Application.Abstractions;
-using MiniCommerce.Catalog.Web.Services;
 
 namespace MiniCommerce.Catalog.Web.Services;
 

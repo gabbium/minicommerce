@@ -5,7 +5,7 @@ namespace MiniCommerce.Identity.Web.AcceptanceTests.Endpoints.Health;
 
 public class GetHealthSteps(TestFixture fixture) : CommonStepsBase(fixture)
 {
-    public async Task WhenTheyAttemptToChecksHealth()
+    public async Task WhenTheyAttemptToCheckHealth()
     {
         HttpResponse = await Fixture.Client.GetAsync("/api/health");
     }
