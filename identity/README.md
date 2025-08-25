@@ -6,8 +6,6 @@ Authentication and user context service for MiniCommerce.
 
 -   .NET (Minimal APIs)
 -   EF Core + PostgreSQL
--   Auto migrations on startup
--   Authentication with JWT
 
 ## ⚙️ Configuration
 

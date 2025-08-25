@@ -13,7 +13,7 @@ public class AppDbContextInitialiserTests(TestFixture fixture) : TestBase(fixtur
         fixture.GetRequiredService<AppDbContextInitialiser>();
 
     [Fact]
-    public async Task InitialiseAsync_ThenAppliesPendingMigrations()
+    public async Task DatabaseAppliesPendingMigrations()
     {
         // Act
         await _initialiser.InitialiseAsync();

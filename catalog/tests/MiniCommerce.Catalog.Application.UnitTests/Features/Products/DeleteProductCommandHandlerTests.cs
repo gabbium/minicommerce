@@ -17,27 +17,31 @@ public class DeleteProductCommandHandlerTests
     }
 
     [Fact]
-    public async Task Handle_WhenProductExistsAndProductIsDelete_ThenReturnsSuccess()
+    public async Task HandleAsync_WhenProductExists_ThenDeletesProductAndReturnsSuccess()
     {
         // Arrange
-        var productId = Guid.NewGuid();
         var product = new Product("SKU-001", "Bluetooth Headphones", 129.50m);
 
         _productRepositoryMock
-            .Setup(x => x.GetByIdAsync(productId, It.IsAny<CancellationToken>()))
+            .Setup(x => x.GetByIdAsync(product.Id, It.IsAny<CancellationToken>()))
             .ReturnsAsync(product);
 
-        var command = new DeleteProductCommand(productId);
+        var command = new DeleteProductCommand(product.Id);
 
         // Act
         var result = await _handler.HandleAsync(command);
 
         // Assert
         Assert.True(result.IsSuccess);
+
+        _productRepositoryMock.Verify(x => x.GetByIdAsync(product.Id, It.IsAny<CancellationToken>()), Times.Once);
+        _productRepositoryMock.Verify(x => x.DeleteAsync(product, It.IsAny<CancellationToken>()), Times.Once);
+        _productRepositoryMock.Verify(x => x.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
+        _productRepositoryMock.VerifyNoOtherCalls();
     }
 
     [Fact]
-    public async Task Handle_WhenProductDoesNotExist_ThenReturnsNotFound()
+    public async Task HandleAsync_WhenProductDoesNotExist_ThenReturnsNotFound()
     {
         // Arrange
         var productId = Guid.NewGuid();
@@ -54,5 +58,8 @@ public class DeleteProductCommandHandlerTests
         // Assert
         Assert.False(result.IsSuccess);
         Assert.Equal(ProductErrors.NotFound, result.Error);
+
+        _productRepositoryMock.Verify(x => x.GetByIdAsync(productId, It.IsAny<CancellationToken>()), Times.Once);
+        _productRepositoryMock.VerifyNoOtherCalls();
     }
 }

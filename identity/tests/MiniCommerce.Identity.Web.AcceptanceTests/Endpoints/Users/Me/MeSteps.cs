@@ -6,16 +6,16 @@ namespace MiniCommerce.Identity.Web.AcceptanceTests.Endpoints.Users.Me;
 
 public class MeSteps(TestFixture fixture) : CommonStepsBase(fixture)
 {
-    public async Task WhenTheyAttemptToFetchMe()
+    public async Task WhenTheyAttemptToGetMe()
     {
         HttpResponse = await Fixture.Client.GetAsync(MeEndpoint.Route);
     }
 
-    public async Task ThenTheResponseShouldContainUser(string email)
+    public async Task ThenResponseContainsUserInfo(string expectedEmail)
     {
         var response = await HttpResponse!.Content.ReadFromJsonAsync<MeEndpoint.Response>();
         Assert.NotNull(response);
         Assert.NotEqual(Guid.Empty, response.Id);
-        Assert.Equal(email, response.Email);
+        Assert.Equal(expectedEmail, response.Email);
     }
 }

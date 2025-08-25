@@ -6,7 +6,7 @@ namespace MiniCommerce.Identity.Domain.UnitTests.Entities;
 public class UserTests
 {
     [Fact]
-    public void Constructor_ThenInstantiate()
+    public void Ctor_CreatesUser()
     {
         // Arrange
         var email = "user@minicommerce";
@@ -16,6 +16,7 @@ public class UserTests
         var user = new User(email, role);
 
         // Assert
+        Assert.NotEqual(Guid.Empty, user.Id);
         Assert.Equal(email, user.Email);
         Assert.Equal(role, user.Role);
     }

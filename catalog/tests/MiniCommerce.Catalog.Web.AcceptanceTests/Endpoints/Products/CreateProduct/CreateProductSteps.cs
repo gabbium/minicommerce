@@ -7,21 +7,17 @@ namespace MiniCommerce.Catalog.Web.AcceptanceTests.Endpoints.Products.CreateProd
 
 public class CreateProductSteps(TestFixture fixture) : CommonStepsBase(fixture)
 {
-    private CreateProductEndpoint.Request _request = null!;
-
-    public async Task WhenTheyAttemptToCreateProduct(string sku, string name, decimal price)
+    public async Task WhenTheyAttemptToCreateProduct(CreateProductEndpoint.Request request)
     {
-        _request = new(sku, name, price);
-        HttpResponse = await Fixture.Client.PostAsJsonAsync(CreateProductEndpoint.Route, _request);
+        HttpResponse = await Fixture.Client.PostAsJsonAsync(CreateProductEndpoint.Route, request);
     }
 
-    public async Task ThenTheResponseShouldContainProduct()
+    public async Task ThenResponseContainsProduct(string expectedSku, string expectedName, decimal expectedPrice)
     {
-        var response = await HttpResponse!.Content.ReadFromJsonAsync<ProductResponse>();
-        Assert.NotNull(response);
+        var response = await ReadBodyAs<ProductResponse>();
         Assert.NotEqual(Guid.Empty, response.Id);
-        Assert.Equal(_request.Sku, response.Sku);
-        Assert.Equal(_request.Name, response.Name);
-        Assert.Equal(_request.Price, response.Price);
+        Assert.Equal(expectedSku, response.Sku);
+        Assert.Equal(expectedName, response.Name);
+        Assert.Equal(expectedPrice, response.Price);
     }
 }

@@ -17,17 +17,16 @@ public class GetProductByIdQueryHandlerTests
     }
 
     [Fact]
-    public async Task Handle_WhenProductExists_ThenReturnsProductResponse()
+    public async Task HandleAsync_WhenProductExists_ThenReturnsProduct()
     {
         // Arrange
-        var productId = Guid.NewGuid();
         var product = new Product("SKU-001", "Bluetooth Headphones", 129.50m);
 
         _productRepositoryMock
-            .Setup(x => x.GetByIdAsync(productId, It.IsAny<CancellationToken>()))
+            .Setup(x => x.GetByIdAsync(product.Id, It.IsAny<CancellationToken>()))
             .ReturnsAsync(product);
 
-        var query = new GetProductByIdQuery(productId);
+        var query = new GetProductByIdQuery(product.Id);
 
         // Act
         var result = await _handler.HandleAsync(query);
@@ -38,10 +37,13 @@ public class GetProductByIdQueryHandlerTests
         Assert.Equal(product.Sku, result.Value.Sku);
         Assert.Equal(product.Name, result.Value.Name);
         Assert.Equal(product.Price, result.Value.Price);
+
+        _productRepositoryMock.Verify(x => x.GetByIdAsync(product.Id, It.IsAny<CancellationToken>()), Times.Once);
+        _productRepositoryMock.VerifyNoOtherCalls();
     }
 
     [Fact]
-    public async Task Handle_WhenProductDoesNotExist_ThenReturnsNotFound()
+    public async Task HandleAsync_WhenProductDoesNotExist_ThenReturnsNotFound()
     {
         // Arrange
         var productId = Guid.NewGuid();
@@ -58,5 +60,8 @@ public class GetProductByIdQueryHandlerTests
         // Assert
         Assert.False(result.IsSuccess);
         Assert.Equal(ProductErrors.NotFound, result.Error);
+
+        _productRepositoryMock.Verify(x => x.GetByIdAsync(productId, It.IsAny<CancellationToken>()), Times.Once);
+        _productRepositoryMock.VerifyNoOtherCalls();
     }
 }

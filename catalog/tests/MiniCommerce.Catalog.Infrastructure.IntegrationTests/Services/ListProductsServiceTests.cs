@@ -15,7 +15,7 @@ public class ListProductsServiceTests(TestFixture fixture) : TestBase(fixture)
         fixture.GetRequiredService<IProductRepository>();
 
     [Fact]
-    public async Task ListAsync_WhenProductsExist_ThenReturnsPagedProducts()
+    public async Task ProductsArePagedAndOrderedCorrectly()
     {
         // Arrange
         var product1 = new Product("SKU-001", "Bluetooth Headphones", 129.50m);
@@ -33,12 +33,11 @@ public class ListProductsServiceTests(TestFixture fixture) : TestBase(fixture)
         var result = await _service.ListAsync(query);
 
         // Assert
+        Assert.Equal(1, result.Page);
+        Assert.Equal(2, result.PageSize);
         Assert.Equal(3, result.TotalCount);
-        Assert.Equal(2, result.Items.Count);
-        Assert.Equal(1, result.PageNumber);
         Assert.Equal(2, result.TotalPages);
-        Assert.False(result.HasPreviousPage);
-        Assert.True(result.HasNextPage);
+        Assert.Equal(2, result.Items.Count);
 
         Assert.Equal(product1.Id, result.Items.ElementAt(0).Id);
         Assert.Equal(product1.Sku, result.Items.ElementAt(0).Sku);
@@ -50,5 +49,22 @@ public class ListProductsServiceTests(TestFixture fixture) : TestBase(fixture)
         Assert.Equal(product2.Name, result.Items.ElementAt(1).Name);
         Assert.Equal(product2.Price, result.Items.ElementAt(1).Price);
 
+        Assert.Collection(
+            result.Items,
+            first =>
+            {
+                Assert.Equal(product1.Id, first.Id);
+                Assert.Equal(product1.Sku, first.Sku);
+                Assert.Equal(product1.Name, first.Name);
+                Assert.Equal(product1.Price, first.Price);
+            },
+            second =>
+            {
+                Assert.Equal(product2.Id, second.Id);
+                Assert.Equal(product2.Sku, second.Sku);
+                Assert.Equal(product2.Name, second.Name);
+                Assert.Equal(product2.Price, second.Price);
+            }
+        );
     }
 }

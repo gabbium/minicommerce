@@ -4,7 +4,7 @@ using MiniCommerce.Catalog.Web.AcceptanceTests.TestHelpers;
 namespace MiniCommerce.Catalog.Web.AcceptanceTests.Endpoints.Products.GetProductById;
 
 [Collection(nameof(TestCollection))]
-public class GetUserByIdFeature(TestFixture fixture) : TestBase(fixture)
+public class GetProductByIdFeature(TestFixture fixture) : TestBase(fixture)
 {
     private readonly GetProductByIdSteps _steps = new(fixture);
 
@@ -12,10 +12,10 @@ public class GetUserByIdFeature(TestFixture fixture) : TestBase(fixture)
     public async Task UserGetsProductById()
     {
         await _steps.GivenAnAuthenticatedUser(Permissions.CanCreateProduct, Permissions.CanGetProductById);
-        var id = await _steps.GivenAnExistingProduct();
+        var id = await _steps.GivenAnExistingProduct(new("SKU-001", "Bluetooth Headphones", 129.50m));
         await _steps.WhenTheyAttemptToGetProductById(id);
-        await _steps.ThenTheResponseShouldBe200OK();
-        await _steps.ThenTheResponseShouldContainProduct(id);
+        await _steps.ThenResponseIs200Ok();
+        await _steps.ThenResponseContainsProduct(id, "SKU-001", "Bluetooth Headphones", 129.50m);
     }
 
     [Fact]
@@ -23,8 +23,8 @@ public class GetUserByIdFeature(TestFixture fixture) : TestBase(fixture)
     {
         await _steps.GivenAnAuthenticatedUser(Permissions.CanGetProductById);
         await _steps.WhenTheyAttemptToGetProductById(Guid.Empty);
-        await _steps.ThenTheResponseShouldBe400BadRequest();
-        await _steps.ThenTheResponseShouldBeValidationProblemDetails(new()
+        await _steps.ThenResponseIs400BadRequest();
+        await _steps.ThenResponseIsValidationProblemDetails(new()
         {
             ["Id"] = ["'Id' must not be empty."]
         });
@@ -35,7 +35,7 @@ public class GetUserByIdFeature(TestFixture fixture) : TestBase(fixture)
     {
         await _steps.GivenAnAnonymousUser();
         await _steps.WhenTheyAttemptToGetProductById(Guid.NewGuid());
-        await _steps.ThenTheResponseShouldBe401Unauthorized();
+        await _steps.ThenResponseIs401Unauthorized();
     }
 
     [Fact]
@@ -43,7 +43,7 @@ public class GetUserByIdFeature(TestFixture fixture) : TestBase(fixture)
     {
         await _steps.GivenAnAuthenticatedUser();
         await _steps.WhenTheyAttemptToGetProductById(Guid.NewGuid());
-        await _steps.ThenTheResponseShouldBe403Forbidden();
+        await _steps.ThenResponseIs403Forbidden();
     }
 
     [Fact]
@@ -51,7 +51,7 @@ public class GetUserByIdFeature(TestFixture fixture) : TestBase(fixture)
     {
         await _steps.GivenAnAuthenticatedUser(Permissions.CanGetProductById);
         await _steps.WhenTheyAttemptToGetProductById(Guid.NewGuid());
-        await _steps.ThenTheResponseShouldBe404NotFound();
-        await _steps.ThenTheResponseShouldBeProblemDetails("Products.NotFound", "The specified product was not found.");
+        await _steps.ThenResponseIs404NotFound();
+        await _steps.ThenResponseIsProblemDetails("Products.NotFound", "The specified product was not found.");
     }
 }

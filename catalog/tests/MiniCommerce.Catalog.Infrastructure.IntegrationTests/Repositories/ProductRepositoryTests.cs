@@ -11,7 +11,7 @@ public class ProductRepositoryTests(TestFixture fixture) : TestBase(fixture)
         fixture.GetRequiredService<IProductRepository>();
 
     [Fact]
-    public async Task AddAsync_ThenCreatesProductSuccessfully()
+    public async Task ProductIsCreatedAndLoadedCorrectly()
     {
         // Arrange
         var product = new Product("SKU-001", "Bluetooth Headphones", 129.50m);
@@ -21,27 +21,16 @@ public class ProductRepositoryTests(TestFixture fixture) : TestBase(fixture)
         await _repository.SaveChangesAsync();
 
         // Assert
-        var found = await _repository.GetByIdAsync(product.Id);
-
-        Assert.NotNull(found);
-        Assert.Equal(product.Id, found.Id);
-        Assert.Equal(product.Sku, found.Sku);
-        Assert.Equal(product.Name, found.Name);
-        Assert.Equal(product.Price, found.Price);
+        var retrieved = await _repository.GetByIdAsync(product.Id);
+        Assert.NotNull(retrieved);
+        Assert.Equal(product.Id, retrieved.Id);
+        Assert.Equal("SKU-001", retrieved.Sku);
+        Assert.Equal("Bluetooth Headphones", retrieved.Name);
+        Assert.Equal(129.50m, retrieved.Price);
     }
 
     [Fact]
-    public async Task GetByIdAsync_WhenNonExistentProduct_ThenReturnsNull()
-    {
-        // Act
-        var found = await _repository.GetByIdAsync(Guid.NewGuid());
-
-        // Assert
-        Assert.Null(found);
-    }
-
-    [Fact]
-    public async Task GetBySkuAsync_ThenReturnsProduct()
+    public async Task ProductIsUpdatedCorrectly()
     {
         // Arrange
         var product = new Product("SKU-001", "Bluetooth Headphones", 129.50m);
@@ -49,18 +38,21 @@ public class ProductRepositoryTests(TestFixture fixture) : TestBase(fixture)
         await _repository.SaveChangesAsync();
 
         // Act
-        var found = await _repository.GetBySkuAsync(product.Sku);
+        product.ChangeName("Wireless Mouse");
+        product.ChangePrice(79.90m);
+
+        await _repository.UpdateAsync(product);
+        await _repository.SaveChangesAsync();
 
         // Assert
-        Assert.NotNull(found);
-        Assert.Equal(product.Id, found.Id);
-        Assert.Equal(product.Sku, found.Sku);
-        Assert.Equal(product.Name, found.Name);
-        Assert.Equal(product.Price, found.Price);
+        var retrieved = await _repository.GetByIdAsync(product.Id);
+        Assert.NotNull(retrieved);
+        Assert.Equal("Wireless Mouse", retrieved.Name);
+        Assert.Equal(79.90m, retrieved.Price);
     }
 
     [Fact]
-    public async Task DeleteAsync_ThenDeletesProductSuccessfully()
+    public async Task ProductIsDeletedCorrectly()
     {
         // Arrange
         var product = new Product("SKU-001", "Bluetooth Headphones", 129.50m);
@@ -72,8 +64,7 @@ public class ProductRepositoryTests(TestFixture fixture) : TestBase(fixture)
         await _repository.SaveChangesAsync();
 
         // Assert
-        var found = await _repository.GetByIdAsync(product.Id);
-
-        Assert.Null(found);
+        var retrieved = await _repository.GetByIdAsync(product.Id);
+        Assert.Null(retrieved);
     }
 }

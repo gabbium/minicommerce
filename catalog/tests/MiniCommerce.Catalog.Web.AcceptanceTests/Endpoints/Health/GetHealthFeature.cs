@@ -11,7 +11,7 @@ public class GetHealthFeature(TestFixture fixture) : TestBase(fixture)
     public async Task AnonymousUserChecksHealth()
     {
         await _steps.GivenAnAnonymousUser();
-        await _steps.WhenTheyAttemptToChecksHealth();
-        await _steps.ThenTheResponseShouldBe200OK();
+        await _steps.WhenTheyAttemptToCheckHealth();
+        await _steps.ThenResponseIs200Ok();
     }
 }

@@ -15,6 +15,7 @@ public class UpdateProductCommandHandler(IProductRepository productRepository) :
         product.ChangeName(command.Name);
         product.ChangePrice(command.Price);
 
+        await productRepository.UpdateAsync(product, cancellationToken);
         await productRepository.SaveChangesAsync(cancellationToken);
 
         return new ProductResponse(product.Id, product.Sku, product.Name, product.Price);
