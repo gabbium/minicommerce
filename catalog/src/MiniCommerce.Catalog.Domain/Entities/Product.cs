@@ -6,12 +6,9 @@ public sealed class Product(string sku, string name, decimal price)
     public string Sku { get; private set; } = sku;
     public string Name { get; private set; } = name;
     public decimal Price { get; private set; } = price;
-    public bool IsActive { get; private set; }
 
     public void ChangeName(string name) => Name = name;
 
     public void ChangePrice(decimal price) => Price = price;
-
-    public void Deactivate() => IsActive = false;
 }
 

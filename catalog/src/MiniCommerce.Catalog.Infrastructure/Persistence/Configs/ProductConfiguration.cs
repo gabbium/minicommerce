@@ -22,8 +22,5 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
         builder.Property(p => p.Price)
             .IsRequired()
             .HasPrecision(10, 2);
-
-        builder.Property(p => p.IsActive)
-            .IsRequired();
     }
 }

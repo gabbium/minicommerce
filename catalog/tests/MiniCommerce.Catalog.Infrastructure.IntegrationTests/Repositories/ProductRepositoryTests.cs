@@ -28,7 +28,6 @@ public class ProductRepositoryTests(TestFixture fixture) : TestBase(fixture)
         Assert.Equal(product.Sku, found.Sku);
         Assert.Equal(product.Name, found.Name);
         Assert.Equal(product.Price, found.Price);
-        Assert.Equal(product.IsActive, found.IsActive);
     }
 
     [Fact]
@@ -58,7 +57,6 @@ public class ProductRepositoryTests(TestFixture fixture) : TestBase(fixture)
         Assert.Equal(product.Sku, found.Sku);
         Assert.Equal(product.Name, found.Name);
         Assert.Equal(product.Price, found.Price);
-        Assert.Equal(product.IsActive, found.IsActive);
     }
 
     [Fact]
