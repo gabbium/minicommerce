@@ -1,4 +1,4 @@
-﻿using MiniCommerce.Catalog.Infrastructure.Persistence;
+﻿using MiniCommerce.Catalog.Infrastructure.Persistence.EFCore;
 
 namespace MiniCommerce.Catalog.Web.AcceptanceTests.TestHelpers;
 

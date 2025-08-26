@@ -1,7 +1,9 @@
 ﻿global using System.Data.Common;
+global using System.IdentityModel.Tokens.Jwt;
 global using System.Net;
 global using System.Net.Http.Json;
-global using CleanArch;
+global using System.Security.Claims;
+global using System.Text;
 global using Microsoft.AspNetCore.Hosting;
 global using Microsoft.AspNetCore.Http;
 global using Microsoft.AspNetCore.Mvc;
@@ -10,5 +12,7 @@ global using Microsoft.AspNetCore.TestHost;
 global using Microsoft.EntityFrameworkCore;
 global using Microsoft.Extensions.DependencyInjection;
 global using Microsoft.Extensions.DependencyInjection.Extensions;
+global using Microsoft.Extensions.Options;
+global using Microsoft.IdentityModel.Tokens;
 global using Npgsql;
 global using Testcontainers.PostgreSql;

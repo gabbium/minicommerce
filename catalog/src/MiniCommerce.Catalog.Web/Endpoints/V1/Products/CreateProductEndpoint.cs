@@ -1,6 +1,7 @@
-﻿using MiniCommerce.Catalog.Application.Features.Products.CreateProduct;
-using MiniCommerce.Catalog.Application.Models;
-using MiniCommerce.Catalog.Infrastructure.Security;
+﻿using MiniCommerce.Catalog.Application.Contracts;
+using MiniCommerce.Catalog.Application.Contracts.Products;
+using MiniCommerce.Catalog.Application.Features.Products.CreateProduct;
+using MiniCommerce.Catalog.Web.Endpoints.Common;
 
 namespace MiniCommerce.Catalog.Web.Endpoints.V1.Products;
 
@@ -18,14 +19,12 @@ public class CreateProductEndpoint : IEndpointV1
             CancellationToken cancellationToken) =>
         {
             var command = new CreateProductCommand(request.Sku, request.Name, request.Price);
-
             var result = await handler.HandleAsync(command, cancellationToken);
-
             return result.Match(
-                product => Results.Created(GetProductByIdEndpoint.BuildRoute(product.Id), product),
+                p => Results.Created(GetProductByIdEndpoint.BuildRoute(p.Id), p),
                 CustomResults.Problem);
         })
-        .RequireAuthorization(Permissions.CanCreateProduct)
+        .RequireAuthorization(CatalogPermissionNames.CanCreateProduct)
         .WithTags(Tags.Products);
     }
 }

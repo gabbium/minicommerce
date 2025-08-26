@@ -1,5 +1,6 @@
-﻿using MiniCommerce.Catalog.Application.Features.Products.DeleteProduct;
-using MiniCommerce.Catalog.Infrastructure.Security;
+﻿using MiniCommerce.Catalog.Application.Contracts;
+using MiniCommerce.Catalog.Application.Features.Products.DeleteProduct;
+using MiniCommerce.Catalog.Web.Endpoints.Common;
 
 namespace MiniCommerce.Catalog.Web.Endpoints.V1.Products;
 
@@ -15,12 +16,10 @@ public class DeleteProductEndpoint : IEndpointV1
             CancellationToken cancellationToken) =>
         {
             var command = new DeleteProductCommand(id);
-
             var result = await handler.HandleAsync(command, cancellationToken);
-
             return result.Match(Results.NoContent, CustomResults.Problem);
         })
-        .RequireAuthorization(Permissions.CanDeleteProduct)
+        .RequireAuthorization(CatalogPermissionNames.CanDeleteProduct)
         .WithTags(Tags.Products);
     }
 }

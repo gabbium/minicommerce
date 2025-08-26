@@ -1,6 +1,7 @@
-﻿using MiniCommerce.Catalog.Application.Features.Products.GetProductById;
-using MiniCommerce.Catalog.Application.Models;
-using MiniCommerce.Catalog.Infrastructure.Security;
+﻿using MiniCommerce.Catalog.Application.Contracts;
+using MiniCommerce.Catalog.Application.Contracts.Products;
+using MiniCommerce.Catalog.Application.Features.Products.GetProductById;
+using MiniCommerce.Catalog.Web.Endpoints.Common;
 
 namespace MiniCommerce.Catalog.Web.Endpoints.V1.Products;
 
@@ -16,12 +17,10 @@ public class GetProductByIdEndpoint : IEndpointV1
             CancellationToken cancellationToken) =>
         {
             var query = new GetProductByIdQuery(id);
-
             var result = await handler.HandleAsync(query, cancellationToken);
-
             return result.Match(Results.Ok, CustomResults.Problem);
         })
-        .RequireAuthorization(Permissions.CanGetProductById)
+        .RequireAuthorization(CatalogPermissionNames.CanGetProductById)
         .WithTags(Tags.Products);
     }
 }

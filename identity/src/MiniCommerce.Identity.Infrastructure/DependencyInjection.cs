@@ -1,8 +1,10 @@
 ﻿using MiniCommerce.Identity.Application.Abstractions;
-using MiniCommerce.Identity.Domain.Abstractions;
+using MiniCommerce.Identity.Application.Contracts;
+using MiniCommerce.Identity.Domain.Aggregates.Permissions;
+using MiniCommerce.Identity.Domain.Aggregates.Users;
 using MiniCommerce.Identity.Infrastructure.Jwt;
-using MiniCommerce.Identity.Infrastructure.Persistence;
-using MiniCommerce.Identity.Infrastructure.Repositories;
+using MiniCommerce.Identity.Infrastructure.Persistence.EFCore;
+using MiniCommerce.Identity.Infrastructure.Persistence.Repositories;
 
 namespace MiniCommerce.Identity.Infrastructure;
 
@@ -30,12 +32,12 @@ public static class DependencyInjection
 
         services
             .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            .AddJwtBearer(options =>
+            .AddJwtBearer(o =>
             {
                 var jwt = configuration.GetSection("Jwt").Get<JwtOptions>()!;
 
-                options.RequireHttpsMetadata = false;
-                options.TokenValidationParameters = new TokenValidationParameters
+                o.RequireHttpsMetadata = false;
+                o.TokenValidationParameters = new TokenValidationParameters
                 {
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt.Secret)),
                     ValidIssuer = jwt.Issuer,
@@ -44,11 +46,19 @@ public static class DependencyInjection
                 };
             });
 
-        services.AddAuthorization();
+        services.AddAuthorization(o =>
+        {
+            foreach (var permissionName in IdentityPermissionNames.All)
+            {
+                o.AddPolicy(permissionName, p =>
+                    p.RequireClaim(IdentityPermissionNames.ClaimType, permissionName));
+            }
+        });
 
         services.AddSingleton<IJwtTokenService, JwtTokenService>();
 
         services.AddTransient<IUserRepository, UserRepository>();
+        services.AddTransient<IPermissionRepository, PermissionRepository>();
 
         return services;
     }

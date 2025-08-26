@@ -1,8 +1,8 @@
 using MiniCommerce.Identity.Application;
 using MiniCommerce.Identity.Infrastructure;
-using MiniCommerce.Identity.Infrastructure.Persistence;
+using MiniCommerce.Identity.Infrastructure.Persistence.EFCore;
 using MiniCommerce.Identity.Web;
-using MiniCommerce.Identity.Web.Endpoints.V1;
+using MiniCommerce.Identity.Web.Endpoints.Common;
 using MiniCommerce.Identity.Web.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);

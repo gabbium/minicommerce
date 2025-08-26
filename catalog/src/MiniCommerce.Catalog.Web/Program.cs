@@ -1,8 +1,8 @@
 using MiniCommerce.Catalog.Application;
 using MiniCommerce.Catalog.Infrastructure;
-using MiniCommerce.Catalog.Infrastructure.Persistence;
+using MiniCommerce.Catalog.Infrastructure.Persistence.EFCore;
 using MiniCommerce.Catalog.Web;
-using MiniCommerce.Catalog.Web.Endpoints.V1;
+using MiniCommerce.Catalog.Web.Endpoints.Common;
 using MiniCommerce.Catalog.Web.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);

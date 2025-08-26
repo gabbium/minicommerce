@@ -1,7 +1,6 @@
 ﻿using MiniCommerce.Catalog.Application.Features.Products;
 using MiniCommerce.Catalog.Application.Features.Products.GetProductById;
-using MiniCommerce.Catalog.Domain.Abstractions;
-using MiniCommerce.Catalog.Domain.Entities;
+using MiniCommerce.Catalog.Domain.Aggregates.Products;
 
 namespace MiniCommerce.Catalog.Application.UnitTests.Features.Products;
 
@@ -23,7 +22,7 @@ public class GetProductByIdQueryHandlerTests
         var product = new Product("SKU-001", "Bluetooth Headphones", 129.50m);
 
         _productRepositoryMock
-            .Setup(x => x.GetByIdAsync(product.Id, It.IsAny<CancellationToken>()))
+            .Setup(r => r.GetByIdAsync(product.Id, It.IsAny<CancellationToken>()))
             .ReturnsAsync(product);
 
         var query = new GetProductByIdQuery(product.Id);
@@ -38,7 +37,7 @@ public class GetProductByIdQueryHandlerTests
         Assert.Equal(product.Name, result.Value.Name);
         Assert.Equal(product.Price, result.Value.Price);
 
-        _productRepositoryMock.Verify(x => x.GetByIdAsync(product.Id, It.IsAny<CancellationToken>()), Times.Once);
+        _productRepositoryMock.Verify(r => r.GetByIdAsync(product.Id, It.IsAny<CancellationToken>()), Times.Once);
         _productRepositoryMock.VerifyNoOtherCalls();
     }
 
@@ -49,7 +48,7 @@ public class GetProductByIdQueryHandlerTests
         var productId = Guid.NewGuid();
 
         _productRepositoryMock
-            .Setup(x => x.GetByIdAsync(productId, It.IsAny<CancellationToken>()))
+            .Setup(r => r.GetByIdAsync(productId, It.IsAny<CancellationToken>()))
             .ReturnsAsync((Product?)null);
 
         var query = new GetProductByIdQuery(productId);
@@ -61,7 +60,7 @@ public class GetProductByIdQueryHandlerTests
         Assert.False(result.IsSuccess);
         Assert.Equal(ProductErrors.NotFound, result.Error);
 
-        _productRepositoryMock.Verify(x => x.GetByIdAsync(productId, It.IsAny<CancellationToken>()), Times.Once);
+        _productRepositoryMock.Verify(r => r.GetByIdAsync(productId, It.IsAny<CancellationToken>()), Times.Once);
         _productRepositoryMock.VerifyNoOtherCalls();
     }
 }

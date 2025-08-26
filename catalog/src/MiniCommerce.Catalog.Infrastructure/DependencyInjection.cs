@@ -1,10 +1,10 @@
-﻿using MiniCommerce.Catalog.Application.Features.Products.ListProducts;
-using MiniCommerce.Catalog.Domain.Abstractions;
+﻿using MiniCommerce.Catalog.Application.Contracts;
+using MiniCommerce.Catalog.Application.Features.Products.ListProducts;
+using MiniCommerce.Catalog.Domain.Aggregates.Products;
 using MiniCommerce.Catalog.Infrastructure.Jwt;
-using MiniCommerce.Catalog.Infrastructure.Persistence;
-using MiniCommerce.Catalog.Infrastructure.Repositories;
-using MiniCommerce.Catalog.Infrastructure.Security;
-using MiniCommerce.Catalog.Infrastructure.Services;
+using MiniCommerce.Catalog.Infrastructure.Persistence.EFCore;
+using MiniCommerce.Catalog.Infrastructure.Persistence.Repositories;
+using MiniCommerce.Catalog.Infrastructure.Persistence.Services;
 
 namespace MiniCommerce.Catalog.Infrastructure;
 
@@ -32,12 +32,12 @@ public static class DependencyInjection
 
         services
             .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            .AddJwtBearer(options =>
+            .AddJwtBearer(o =>
             {
                 var jwt = configuration.GetSection("Jwt").Get<JwtOptions>()!;
 
-                options.RequireHttpsMetadata = false;
-                options.TokenValidationParameters = new TokenValidationParameters
+                o.RequireHttpsMetadata = false;
+                o.TokenValidationParameters = new TokenValidationParameters
                 {
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt.Secret)),
                     ValidIssuer = jwt.Issuer,
@@ -46,12 +46,12 @@ public static class DependencyInjection
                 };
             });
 
-        services.AddAuthorization(options =>
+        services.AddAuthorization(o =>
         {
-            foreach (var permission in Permissions.All)
+            foreach (var permissionName in CatalogPermissionNames.All)
             {
-                options.AddPolicy(permission, policy =>
-                    policy.RequireClaim("permission", permission));
+                o.AddPolicy(permissionName, p =>
+                    p.RequireClaim(CatalogPermissionNames.ClaimType, permissionName));
             }
         });
 

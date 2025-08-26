@@ -1,5 +1,6 @@
-﻿using MiniCommerce.Catalog.Application.Features.Products.ListProducts;
-using MiniCommerce.Catalog.Application.Models;
+﻿using MiniCommerce.Catalog.Application.Common.Models;
+using MiniCommerce.Catalog.Application.Contracts.Products;
+using MiniCommerce.Catalog.Application.Features.Products.ListProducts;
 
 namespace MiniCommerce.Catalog.Application.UnitTests.Features.Products;
 
@@ -28,7 +29,7 @@ public class ListProductsQueryHandlerTests
         );
 
         _listProductsServiceMock
-            .Setup(x => x.ListAsync(query, It.IsAny<CancellationToken>()))
+            .Setup(s => s.ListAsync(query, It.IsAny<CancellationToken>()))
             .ReturnsAsync(expectedProducts);
 
         // Act
@@ -38,7 +39,7 @@ public class ListProductsQueryHandlerTests
         Assert.True(result.IsSuccess);
         Assert.Equal(expectedProducts, result.Value);
 
-        _listProductsServiceMock.Verify(x => x.ListAsync(query, It.IsAny<CancellationToken>()), Times.Once);
+        _listProductsServiceMock.Verify(s => s.ListAsync(query, It.IsAny<CancellationToken>()), Times.Once);
         _listProductsServiceMock.VerifyNoOtherCalls();
     }
 }

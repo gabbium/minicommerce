@@ -1,4 +1,4 @@
-﻿using MiniCommerce.Catalog.Application.Models;
+﻿using MiniCommerce.Catalog.Application.Contracts.Products;
 
 namespace MiniCommerce.Catalog.Application.Features.Products.CreateProduct;
 

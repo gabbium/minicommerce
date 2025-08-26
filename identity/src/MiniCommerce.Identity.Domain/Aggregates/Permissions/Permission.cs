@@ -1,0 +1,10 @@
+﻿namespace MiniCommerce.Identity.Domain.Aggregates.Permissions;
+
+public sealed class Permission(string code)
+{
+    public Guid Id { get; set; } = Guid.NewGuid();
+    public string Code { get; private set; } = code;
+    public bool Deprecated { get; private set; }
+
+    public void Deprecate() => Deprecated = true;
+}

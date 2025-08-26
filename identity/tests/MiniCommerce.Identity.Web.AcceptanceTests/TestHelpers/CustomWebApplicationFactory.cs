@@ -1,4 +1,4 @@
-﻿using MiniCommerce.Identity.Infrastructure.Persistence;
+﻿using MiniCommerce.Identity.Infrastructure.Persistence.EFCore;
 
 namespace MiniCommerce.Identity.Web.AcceptanceTests.TestHelpers;
 
@@ -12,9 +12,9 @@ public class CustomWebApplicationFactory(DbConnection connection) : WebApplicati
         {
             services
                 .RemoveAll<DbContextOptions<AppDbContext>>()
-                .AddDbContext<AppDbContext>((sp, options) =>
+                .AddDbContext<AppDbContext>((_, opts) =>
                 {
-                    options.UseNpgsql(connection);
+                    opts.UseNpgsql(connection);
                 });
         });
     }

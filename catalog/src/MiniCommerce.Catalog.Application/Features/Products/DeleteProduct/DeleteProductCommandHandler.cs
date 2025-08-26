@@ -1,5 +1,5 @@
-﻿using MiniCommerce.Catalog.Application.Models;
-using MiniCommerce.Catalog.Domain.Abstractions;
+﻿using MiniCommerce.Catalog.Application.Contracts.Products;
+using MiniCommerce.Catalog.Domain.Aggregates.Products;
 
 namespace MiniCommerce.Catalog.Application.Features.Products.DeleteProduct;
 

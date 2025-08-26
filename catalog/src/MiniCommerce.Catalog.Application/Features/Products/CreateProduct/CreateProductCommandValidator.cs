@@ -4,13 +4,13 @@ public class CreateProductCommandValidator : AbstractValidator<CreateProductComm
 {
     public CreateProductCommandValidator()
     {
-        RuleFor(x => x.Sku)
+        RuleFor(c => c.Sku)
             .NotEmpty();
 
-        RuleFor(x => x.Name)
+        RuleFor(c => c.Name)
             .NotEmpty();
 
-        RuleFor(x => x.Price)
+        RuleFor(c => c.Price)
             .NotEmpty();
     }
 }

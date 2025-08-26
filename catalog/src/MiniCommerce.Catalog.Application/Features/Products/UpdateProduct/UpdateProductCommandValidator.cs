@@ -4,13 +4,13 @@ public class UpdateProductCommandValidator : AbstractValidator<UpdateProductComm
 {
     public UpdateProductCommandValidator()
     {
-        RuleFor(x => x.Id)
+        RuleFor(c => c.Id)
             .NotEmpty();
 
-        RuleFor(x => x.Name)
+        RuleFor(c => c.Name)
             .NotEmpty();
 
-        RuleFor(x => x.Price)
+        RuleFor(c => c.Price)
             .NotEmpty();
     }
 }

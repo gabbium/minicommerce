@@ -1,5 +1,6 @@
-﻿using MiniCommerce.Catalog.Infrastructure.Jwt;
-using MiniCommerce.Catalog.Infrastructure.Persistence;
+﻿using MiniCommerce.Catalog.Application.Contracts;
+using MiniCommerce.Catalog.Infrastructure.Jwt;
+using MiniCommerce.Catalog.Infrastructure.Persistence.EFCore;
 using MiniCommerce.Catalog.Web.AcceptanceTests.TestHelpers.Data;
 
 namespace MiniCommerce.Catalog.Web.AcceptanceTests.TestHelpers;
@@ -7,7 +8,7 @@ namespace MiniCommerce.Catalog.Web.AcceptanceTests.TestHelpers;
 public class TestFixture : IAsyncLifetime
 {
     private ITestDatabase _database = null!;
-    private CustomWebApplicationFactory _factory = null!;
+    private CustomWebApplicationFactory _webApp = null!;
     private IServiceScopeFactory _scopeFactory = null!;
 
     public HttpClient Client { get; private set; } = null!;
@@ -15,10 +16,10 @@ public class TestFixture : IAsyncLifetime
     public async Task InitializeAsync()
     {
         _database = await TestDatabaseFactory.CreateAsync();
-        _factory = new CustomWebApplicationFactory(_database.GetConnection());
-        _scopeFactory = _factory.Services.GetRequiredService<IServiceScopeFactory>();
+        _webApp = new CustomWebApplicationFactory(_database.GetConnection());
+        _scopeFactory = _webApp.Services.GetRequiredService<IServiceScopeFactory>();
 
-        Client = _factory.CreateClient();
+        Client = _webApp.CreateClient();
     }
 
     public string CreateAccessToken(params string[] permissions)
@@ -36,7 +37,7 @@ public class TestFixture : IAsyncLifetime
             new(ClaimTypes.Email, "user@minicommerce")
         };
 
-        claims.AddRange(permissions.Select(p => new Claim("permission", p)));
+        claims.AddRange(permissions.Select(p => new Claim(CatalogPermissionNames.ClaimType, p)));
 
         var token = new JwtSecurityToken(
             issuer: jwtOptions.Value.Issuer,
@@ -61,6 +62,6 @@ public class TestFixture : IAsyncLifetime
     public async Task DisposeAsync()
     {
         await _database.DisposeAsync();
-        await _factory.DisposeAsync();
+        await _webApp.DisposeAsync();
     }
 }

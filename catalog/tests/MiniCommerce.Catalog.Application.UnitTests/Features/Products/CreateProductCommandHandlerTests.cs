@@ -1,6 +1,5 @@
 ﻿using MiniCommerce.Catalog.Application.Features.Products.CreateProduct;
-using MiniCommerce.Catalog.Domain.Abstractions;
-using MiniCommerce.Catalog.Domain.Entities;
+using MiniCommerce.Catalog.Domain.Aggregates.Products;
 
 namespace MiniCommerce.Catalog.Application.UnitTests.Features.Products;
 
@@ -30,8 +29,8 @@ public class CreateProductCommandHandlerTests
         Assert.Equal(command.Name, result.Value.Name);
         Assert.Equal(command.Price, result.Value.Price);
 
-        _productRepositoryMock.Verify(x => x.AddAsync(It.IsAny<Product>(), It.IsAny<CancellationToken>()), Times.Once);
-        _productRepositoryMock.Verify(x => x.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
+        _productRepositoryMock.Verify(r => r.AddAsync(It.IsAny<Product>(), It.IsAny<CancellationToken>()), Times.Once);
+        _productRepositoryMock.Verify(r => r.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
         _productRepositoryMock.VerifyNoOtherCalls();
     }
 }

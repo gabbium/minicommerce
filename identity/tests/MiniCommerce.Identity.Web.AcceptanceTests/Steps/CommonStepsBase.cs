@@ -13,9 +13,11 @@ public abstract class CommonStepsBase(TestFixture fixture)
         return Task.CompletedTask;
     }
 
-    public async Task GivenAnAuthenticatedUser(string email)
+    public Task GivenAnAuthenticatedUser(params string[] permissions)
     {
-        await Fixture.AuthenticateAsync(email);
+        var accessToken = Fixture.CreateAccessToken(permissions);
+        Fixture.Client.DefaultRequestHeaders.Authorization = new("Bearer", accessToken);
+        return Task.CompletedTask;
     }
 
     public Task ThenResponseIs200Ok()

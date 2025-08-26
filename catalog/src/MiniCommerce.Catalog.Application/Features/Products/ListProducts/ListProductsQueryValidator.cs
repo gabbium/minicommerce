@@ -4,10 +4,10 @@ public class ListProductsQueryValidator : AbstractValidator<ListProductsQuery>
 {
     public ListProductsQueryValidator()
     {
-        RuleFor(x => x.Page)
+        RuleFor(q => q.Page)
             .NotEmpty();
 
-        RuleFor(x => x.PageSize)
+        RuleFor(q => q.PageSize)
             .NotEmpty();
     }
 }

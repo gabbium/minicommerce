@@ -1,6 +1,8 @@
-﻿using MiniCommerce.Catalog.Application.Features.Products.ListProducts;
-using MiniCommerce.Catalog.Application.Models;
-using MiniCommerce.Catalog.Infrastructure.Security;
+﻿using MiniCommerce.Catalog.Application.Common.Models;
+using MiniCommerce.Catalog.Application.Contracts;
+using MiniCommerce.Catalog.Application.Contracts.Products;
+using MiniCommerce.Catalog.Application.Features.Products.ListProducts;
+using MiniCommerce.Catalog.Web.Endpoints.Common;
 
 namespace MiniCommerce.Catalog.Web.Endpoints.V1.Products;
 
@@ -18,12 +20,10 @@ public class ListProductsEndpoint : IEndpointV1
             CancellationToken cancellationToken) =>
         {
             var query = new ListProductsQuery(request.Page, request.PageSize);
-
             var result = await handler.HandleAsync(query, cancellationToken);
-
             return result.Match(Results.Ok, CustomResults.Problem);
         })
-        .RequireAuthorization(Permissions.CanListProducts)
+        .RequireAuthorization(CatalogPermissionNames.CanListProducts)
         .WithTags(Tags.Products);
     }
 }

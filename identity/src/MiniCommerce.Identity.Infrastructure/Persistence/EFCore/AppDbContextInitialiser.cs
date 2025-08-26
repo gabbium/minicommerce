@@ -1,0 +1,27 @@
+﻿using MiniCommerce.Identity.Domain.Aggregates.Users;
+
+namespace MiniCommerce.Identity.Infrastructure.Persistence.EFCore;
+
+public class AppDbContextInitialiser(AppDbContext context)
+{
+    public async Task InitialiseAsync()
+    {
+        await context.Database.MigrateAsync();
+    }
+
+    public async Task SeedAsync()
+    {
+        await TrySeedAsync();
+    }
+
+    public async Task TrySeedAsync()
+    {
+        var administrator = new User("admin@minicommerce");
+
+        if (await context.Users.AllAsync(u => u.Email != administrator.Email))
+        {
+            await context.Users.AddAsync(administrator);
+            await context.SaveChangesAsync();
+        }
+    }
+}
