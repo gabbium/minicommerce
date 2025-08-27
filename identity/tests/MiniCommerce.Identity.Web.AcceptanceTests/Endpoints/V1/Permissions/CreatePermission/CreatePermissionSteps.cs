@@ -7,7 +7,7 @@ namespace MiniCommerce.Identity.Web.AcceptanceTests.Endpoints.V1.Permissions.Cre
 
 public class CreatePermissionSteps(TestFixture fixture) : CommonStepsBase(fixture)
 {
-    public async Task WhenTheyAttemptToCreatePermission(CreatePermissionEndpoint.Request request)
+    public async Task WhenTheyAttemptToCreatePermission(CreatePermissionEndpoint.CreatePermissionRequest request)
     {
         HttpResponse = await Fixture.Client.PostAsJsonAsync(CreatePermissionEndpoint.Route, request);
     }

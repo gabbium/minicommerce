@@ -19,6 +19,8 @@ public class GetCurrentUserEndpoint : IEndpointV1
             return result.Match(Results.Ok, CustomResults.Problem);
         })
         .RequireAuthorization()
-        .WithTags(Tags.Users);
+        .WithTags(Tags.Users)
+        .Produces<UserResponse>(StatusCodes.Status200OK)
+        .ProducesProblem(StatusCodes.Status401Unauthorized);
     }
 }

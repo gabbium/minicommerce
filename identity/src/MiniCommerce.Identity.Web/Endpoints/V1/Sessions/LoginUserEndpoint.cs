@@ -8,12 +8,12 @@ public class LoginUserEndpoint : IEndpointV1
 {
     public const string Route = "api/v1/sessions/login";
 
-    public record Request(string Email);
+    public record LoginUserRequest(string Email);
 
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
         app.MapPost("sessions/login", async (
-            Request request,
+            LoginUserRequest request,
             ICommandHandler<LoginUserCommand, TokenResponse> handler,
             CancellationToken cancellationToken) =>
         {
@@ -21,6 +21,8 @@ public class LoginUserEndpoint : IEndpointV1
             var result = await handler.HandleAsync(command, cancellationToken);
             return result.Match(Results.Ok, CustomResults.Problem);
         })
-        .WithTags(Tags.Sessions);
+        .WithTags(Tags.Sessions)
+        .Produces<TokenResponse>(StatusCodes.Status200OK)
+        .ProducesValidationProblem(StatusCodes.Status400BadRequest);
     }
 }

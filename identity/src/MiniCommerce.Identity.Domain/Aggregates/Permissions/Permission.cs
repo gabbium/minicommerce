@@ -2,7 +2,7 @@
 
 public sealed class Permission(string code)
 {
-    public Guid Id { get; set; } = Guid.NewGuid();
+    public Guid Id { get; private set; } = Guid.NewGuid();
     public string Code { get; private set; } = code;
     public bool Deprecated { get; private set; }
 

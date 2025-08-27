@@ -9,12 +9,12 @@ public class CreateUserEndpoint : IEndpointV1
 {
     public const string Route = "api/v1/users";
 
-    public record Request(string Email);
+    public record CreateUserRequest(string Email);
 
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
         app.MapPost("users", async (
-            Request request,
+            CreateUserRequest request,
             ICommandHandler<CreateUserCommand, UserResponse> handler,
             CancellationToken cancellationToken) =>
         {
@@ -25,6 +25,10 @@ public class CreateUserEndpoint : IEndpointV1
                 CustomResults.Problem);
         })
         .RequireAuthorization(IdentityPermissionNames.CanCreateUser)
-        .WithTags(Tags.Users);
+        .WithTags(Tags.Users)
+        .Produces<UserResponse>(StatusCodes.Status201Created)
+        .ProducesValidationProblem(StatusCodes.Status400BadRequest)
+        .ProducesProblem(StatusCodes.Status401Unauthorized)
+        .ProducesProblem(StatusCodes.Status403Forbidden);
     }
 }

@@ -7,12 +7,12 @@ namespace MiniCommerce.Identity.Web.AcceptanceTests.Endpoints.V1.Sessions.LoginU
 
 public class LoginUserSteps(TestFixture fixture) : CommonStepsBase(fixture)
 {
-    public async Task GivenAnExistingUser(LoginUserEndpoint.Request request)
+    public async Task GivenAnExistingUser(LoginUserEndpoint.LoginUserRequest request)
     {
         await WhenTheyAttemptToLogin(request);
     }
 
-    public async Task WhenTheyAttemptToLogin(LoginUserEndpoint.Request request)
+    public async Task WhenTheyAttemptToLogin(LoginUserEndpoint.LoginUserRequest request)
     {
         HttpResponse = await Fixture.Client.PostAsJsonAsync(LoginUserEndpoint.Route, request);
     }

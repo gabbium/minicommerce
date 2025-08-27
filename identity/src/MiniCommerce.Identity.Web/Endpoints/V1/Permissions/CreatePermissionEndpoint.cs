@@ -9,12 +9,12 @@ public class CreatePermissionEndpoint : IEndpointV1
 {
     public const string Route = "api/v1/permissions";
 
-    public record Request(string Code);
+    public record CreatePermissionRequest(string Code);
 
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
         app.MapPost("permissions", async (
-            Request request,
+            CreatePermissionRequest request,
             ICommandHandler<CreatePermissionCommand, PermissionResponse> handler,
             CancellationToken cancellationToken) =>
         {
@@ -25,6 +25,10 @@ public class CreatePermissionEndpoint : IEndpointV1
                 CustomResults.Problem);
         })
         .RequireAuthorization(IdentityPermissionNames.CanCreatePermission)
-        .WithTags(Tags.Permissions);
+        .WithTags(Tags.Permissions)
+        .Produces<PermissionResponse>(StatusCodes.Status201Created)
+        .ProducesValidationProblem(StatusCodes.Status400BadRequest)
+        .ProducesProblem(StatusCodes.Status401Unauthorized)
+        .ProducesProblem(StatusCodes.Status403Forbidden);
     }
 }

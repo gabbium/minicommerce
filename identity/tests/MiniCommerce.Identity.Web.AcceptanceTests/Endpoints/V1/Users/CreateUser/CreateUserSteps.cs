@@ -7,7 +7,7 @@ namespace MiniCommerce.Identity.Web.AcceptanceTests.Endpoints.V1.Users.CreateUse
 
 public class CreateUserSteps(TestFixture fixture) : CommonStepsBase(fixture)
 {
-    public async Task WhenTheyAttemptToCreateUser(CreateUserEndpoint.Request request)
+    public async Task WhenTheyAttemptToCreateUser(CreateUserEndpoint.CreateUserRequest request)
     {
         HttpResponse = await Fixture.Client.PostAsJsonAsync(CreateUserEndpoint.Route, request);
     }
