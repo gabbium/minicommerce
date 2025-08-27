@@ -15,4 +15,13 @@
     <ProjectReference Include="..\MiniCommerce.Identity.Domain\MiniCommerce.Identity.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Features\Permissions\DeletePermission\" />
+    <Folder Include="Features\Permissions\GetPermissionById\" />
+    <Folder Include="Features\Permissions\ListPermissions\" />
+    <Folder Include="Features\Users\UpdateUserPermissions\" />
+    <Folder Include="Features\Users\UpdateUserPassword\" />
+    <Folder Include="Features\Users\UpdateUserLockout\" />
+  </ItemGroup>
+
 </Project>

@@ -1,10 +1,12 @@
 ﻿using MiniCommerce.Identity.Application.Abstractions;
 using MiniCommerce.Identity.Application.Contracts;
+using MiniCommerce.Identity.Application.Features.Users.ListUsers;
 using MiniCommerce.Identity.Domain.Aggregates.Permissions;
 using MiniCommerce.Identity.Domain.Aggregates.Users;
 using MiniCommerce.Identity.Infrastructure.Jwt;
 using MiniCommerce.Identity.Infrastructure.Persistence.EFCore;
 using MiniCommerce.Identity.Infrastructure.Persistence.Repositories;
+using MiniCommerce.Identity.Infrastructure.Persistence.Services;
 
 namespace MiniCommerce.Identity.Infrastructure;
 
@@ -59,6 +61,8 @@ public static class DependencyInjection
 
         services.AddTransient<IUserRepository, UserRepository>();
         services.AddTransient<IPermissionRepository, PermissionRepository>();
+
+        services.AddTransient<IListUsersService, ListUsersService>();
 
         return services;
     }

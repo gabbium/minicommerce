@@ -21,7 +21,7 @@ public class CreateUserEndpoint : IEndpointV1
             var command = new CreateUserCommand(request.Email);
             var result = await handler.HandleAsync(command, cancellationToken);
             return result.Match(
-                u => Results.Created(string.Empty, u),
+                u => Results.Created(GetUserByIdEndpoint.BuildRoute(u.Id), u),
                 CustomResults.Problem);
         })
         .RequireAuthorization(IdentityPermissionNames.CanCreateUser)

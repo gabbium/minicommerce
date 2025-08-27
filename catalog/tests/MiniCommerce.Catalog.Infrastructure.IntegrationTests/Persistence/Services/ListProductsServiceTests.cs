@@ -38,16 +38,6 @@ public class ListProductsServiceTests(TestFixture fixture) : TestBase(fixture)
         Assert.Equal(2, result.TotalPages);
         Assert.Equal(2, result.Items.Count);
 
-        Assert.Equal(product1.Id, result.Items.ElementAt(0).Id);
-        Assert.Equal(product1.Sku, result.Items.ElementAt(0).Sku);
-        Assert.Equal(product1.Name, result.Items.ElementAt(0).Name);
-        Assert.Equal(product1.Price, result.Items.ElementAt(0).Price);
-
-        Assert.Equal(product2.Id, result.Items.ElementAt(1).Id);
-        Assert.Equal(product2.Sku, result.Items.ElementAt(1).Sku);
-        Assert.Equal(product2.Name, result.Items.ElementAt(1).Name);
-        Assert.Equal(product2.Price, result.Items.ElementAt(1).Price);
-
         Assert.Collection(
             result.Items,
             first =>
