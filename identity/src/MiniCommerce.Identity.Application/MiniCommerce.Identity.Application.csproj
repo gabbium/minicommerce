@@ -7,21 +7,24 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Features\Users\UpdateUserLockout\**" />
+    <Compile Remove="Features\Users\UpdateUserPassword\**" />
+    <Compile Remove="Features\Users\UpdateUserPermissions\**" />
+    <EmbeddedResource Remove="Features\Users\UpdateUserLockout\**" />
+    <EmbeddedResource Remove="Features\Users\UpdateUserPassword\**" />
+    <EmbeddedResource Remove="Features\Users\UpdateUserPermissions\**" />
+    <None Remove="Features\Users\UpdateUserLockout\**" />
+    <None Remove="Features\Users\UpdateUserPassword\**" />
+    <None Remove="Features\Users\UpdateUserPermissions\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.0.0" />
     <PackageReference Include="Scrutor" Version="6.1.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\MiniCommerce.Identity.Domain\MiniCommerce.Identity.Domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Features\Permissions\DeletePermission\" />
-    <Folder Include="Features\Permissions\GetPermissionById\" />
-    <Folder Include="Features\Permissions\ListPermissions\" />
-    <Folder Include="Features\Users\UpdateUserPermissions\" />
-    <Folder Include="Features\Users\UpdateUserPassword\" />
-    <Folder Include="Features\Users\UpdateUserLockout\" />
   </ItemGroup>
 
 </Project>

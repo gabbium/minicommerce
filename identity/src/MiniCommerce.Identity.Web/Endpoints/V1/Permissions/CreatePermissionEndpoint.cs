@@ -21,7 +21,7 @@ public class CreatePermissionEndpoint : IEndpointV1
             var command = new CreatePermissionCommand(request.Code);
             var result = await handler.HandleAsync(command, cancellationToken);
             return result.Match(
-                p => Results.Created(string.Empty, p),
+                p => Results.Created(GetPermissionByIdEndpoint.BuildRoute(p.Id), p),
                 CustomResults.Problem);
         })
         .RequireAuthorization(IdentityPermissionNames.CanCreatePermission)

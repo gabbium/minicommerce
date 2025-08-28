@@ -1,5 +1,6 @@
 ﻿using MiniCommerce.Identity.Application.Abstractions;
 using MiniCommerce.Identity.Application.Contracts;
+using MiniCommerce.Identity.Application.Features.Permissions.ListPermissions;
 using MiniCommerce.Identity.Application.Features.Users.ListUsers;
 using MiniCommerce.Identity.Domain.Aggregates.Permissions;
 using MiniCommerce.Identity.Domain.Aggregates.Users;
@@ -63,6 +64,7 @@ public static class DependencyInjection
         services.AddTransient<IPermissionRepository, PermissionRepository>();
 
         services.AddTransient<IListUsersService, ListUsersService>();
+        services.AddTransient<IListPermissionsService, ListPermissionsService>();
 
         return services;
     }
