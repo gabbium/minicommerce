@@ -7,4 +7,14 @@ public sealed class User(string email)
 
     private readonly List<UserPermission> _permissions = [];
     public IReadOnlyCollection<UserPermission> Permissions => _permissions.AsReadOnly();
+
+    public void ReplacePermissions(IEnumerable<Guid> permissionIds)
+    {
+        _permissions.Clear();
+
+        foreach (var permissionId in permissionIds.Distinct())
+        {
+            _permissions.Add(new UserPermission(Id, permissionId));
+        }
+    }
 }

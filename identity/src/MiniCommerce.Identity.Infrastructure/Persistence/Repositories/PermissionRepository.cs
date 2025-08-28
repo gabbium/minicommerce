@@ -12,6 +12,14 @@ public class PermissionRepository(AppDbContext context) : IPermissionRepository
             .FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
     }
 
+    public async Task<IReadOnlyList<Permission>> GetByIdsAsync(IEnumerable<Guid> ids, CancellationToken cancellationToken = default)
+    {
+        return await context.Permissions
+            .AsNoTracking()
+            .Where(p => ids.Contains(p.Id))
+            .ToListAsync(cancellationToken);
+    }
+
     public async Task AddAsync(Permission permission, CancellationToken cancellationToken = default)
     {
         await context.Permissions.AddAsync(permission, cancellationToken);

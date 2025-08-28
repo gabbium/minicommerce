@@ -7,11 +7,11 @@ namespace MiniCommerce.Identity.Web.Endpoints.V1.Permissions;
 
 public class DeprecatePermissionEndpoint : IEndpointV1
 {
-    public static string BuildRoute(Guid id) => $"api/v1/permissions/{id}";
+    public static string BuildRoute(Guid id) => $"api/v1/permissions/{id}/deprecate";
 
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapPatch("permissions/{id}", async (
+        app.MapPatch("permissions/{id}/deprecate", async (
             Guid id,
             ICommandHandler<DeprecatePermissionCommand, PermissionResponse> handler,
             CancellationToken cancellationToken) =>

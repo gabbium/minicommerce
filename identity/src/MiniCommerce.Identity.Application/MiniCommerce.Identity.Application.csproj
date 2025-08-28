@@ -9,13 +9,10 @@
   <ItemGroup>
     <Compile Remove="Features\Users\UpdateUserLockout\**" />
     <Compile Remove="Features\Users\UpdateUserPassword\**" />
-    <Compile Remove="Features\Users\UpdateUserPermissions\**" />
     <EmbeddedResource Remove="Features\Users\UpdateUserLockout\**" />
     <EmbeddedResource Remove="Features\Users\UpdateUserPassword\**" />
-    <EmbeddedResource Remove="Features\Users\UpdateUserPermissions\**" />
     <None Remove="Features\Users\UpdateUserLockout\**" />
     <None Remove="Features\Users\UpdateUserPassword\**" />
-    <None Remove="Features\Users\UpdateUserPermissions\**" />
   </ItemGroup>
 
   <ItemGroup>

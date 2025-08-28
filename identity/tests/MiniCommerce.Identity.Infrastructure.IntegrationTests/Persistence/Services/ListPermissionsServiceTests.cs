@@ -17,9 +17,9 @@ public class ListPermissionsServiceTests(TestFixture fixture) : TestBase(fixture
     public async Task PermissionsArePagedAndOrderedCorrectly()
     {
         // Arrange
-        var permission1 = new Permission("catalog:products.list");
-        var permission2 = new Permission("catalog:products.create");
-        var permission3 = new Permission("catalog:products.delete");
+        var permission1 = new Permission("catalog:products.create");
+        var permission2 = new Permission("catalog:products.delete");
+        var permission3 = new Permission("catalog:products.list");
 
         await _repository.AddAsync(permission1);
         await _repository.AddAsync(permission2);

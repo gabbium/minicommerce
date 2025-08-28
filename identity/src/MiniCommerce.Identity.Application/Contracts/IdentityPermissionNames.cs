@@ -6,6 +6,7 @@ public static class IdentityPermissionNames
 
     public const string CanListUsers = "identity:users.list";
     public const string CanGetUserById = "identity:users.get.byId";
+    public const string CanUpdateUserPermissions = "identity:users.update.permissions";
     public const string CanCreateUser = "identity:users.create";
     public const string CanDeleteUser = "identity:users.delete";
 
@@ -21,6 +22,7 @@ public static class IdentityPermissionNames
         {
             yield return CanListUsers;
             yield return CanGetUserById;
+            yield return CanUpdateUserPermissions;
             yield return CanCreateUser;
             yield return CanDeleteUser;
             yield return CanListPermissions;
