@@ -1,13 +1,15 @@
 ﻿using MiniCommerce.Identity.Application.Contracts;
+using MiniCommerce.Identity.Application.Contracts.Permissions;
 using MiniCommerce.Identity.Application.Features.Permissions;
+using MiniCommerce.Identity.Web.AcceptanceTests.Steps;
 using MiniCommerce.Identity.Web.AcceptanceTests.TestHelpers;
 
-namespace MiniCommerce.Identity.Web.AcceptanceTests.Endpoints.V1.Permissions.DeprecatePermission;
+namespace MiniCommerce.Identity.Web.AcceptanceTests.Endpoints.V1.Permissions;
 
 [Collection(nameof(TestCollection))]
 public class DeprecatePermissionFeature(TestFixture fixture) : TestBase(fixture)
 {
-    private readonly DeprecatePermissionSteps _steps = new(fixture);
+    private readonly PermissionSteps _steps = new(fixture);
 
     [Fact]
     public async Task UserDeprecatesPermission()
@@ -16,7 +18,12 @@ public class DeprecatePermissionFeature(TestFixture fixture) : TestBase(fixture)
         var id = await _steps.GivenAnExistingPermission(new("catalog:products.list"));
         await _steps.WhenTheyAttemptToDeprecatePermission(id);
         await _steps.ThenResponseIs200Ok();
-        await _steps.ThenResponseContainsPermission(new(id, "catalog:products.list", true));
+        await _steps.ThenResponseMatches<PermissionResponse>(permission =>
+        {
+            Assert.Equal(id, permission.Id);
+            Assert.Equal("catalog:products.list", permission.Code);
+            Assert.True(permission.Deprecated);
+        });
     }
 
     [Fact]

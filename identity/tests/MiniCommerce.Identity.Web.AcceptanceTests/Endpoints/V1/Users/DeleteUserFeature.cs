@@ -1,13 +1,14 @@
 ﻿using MiniCommerce.Identity.Application.Contracts;
 using MiniCommerce.Identity.Application.Features.Users;
+using MiniCommerce.Identity.Web.AcceptanceTests.Steps;
 using MiniCommerce.Identity.Web.AcceptanceTests.TestHelpers;
 
-namespace MiniCommerce.Identity.Web.AcceptanceTests.Endpoints.V1.Users.DeleteUser;
+namespace MiniCommerce.Identity.Web.AcceptanceTests.Endpoints.V1.Users;
 
 [Collection(nameof(TestCollection))]
 public class DeleteUserFeature(TestFixture fixture) : TestBase(fixture)
 {
-    private readonly DeleteUserSteps _steps = new(fixture);
+    private readonly UserSteps _steps = new(fixture);
 
     [Fact]
     public async Task UserDeletesUser()

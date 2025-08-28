@@ -1,13 +1,15 @@
 ﻿using MiniCommerce.Identity.Application.Contracts;
+using MiniCommerce.Identity.Application.Contracts.Users;
 using MiniCommerce.Identity.Application.Features.Users;
+using MiniCommerce.Identity.Web.AcceptanceTests.Steps;
 using MiniCommerce.Identity.Web.AcceptanceTests.TestHelpers;
 
-namespace MiniCommerce.Identity.Web.AcceptanceTests.Endpoints.V1.Users.GetUserById;
+namespace MiniCommerce.Identity.Web.AcceptanceTests.Endpoints.V1.Users;
 
 [Collection(nameof(TestCollection))]
 public class GetUserByIdFeature(TestFixture fixture) : TestBase(fixture)
 {
-    private readonly GetUserByIdSteps _steps = new(fixture);
+    private readonly UserSteps _steps = new(fixture);
 
     [Fact]
     public async Task UserGetsUserById()
@@ -16,7 +18,11 @@ public class GetUserByIdFeature(TestFixture fixture) : TestBase(fixture)
         var id = await _steps.GivenAnExistingUser(new("user@minicommerce"));
         await _steps.WhenTheyAttemptToGetUserById(id);
         await _steps.ThenResponseIs200Ok();
-        await _steps.ThenResponseContainsUser(id, "user@minicommerce");
+        await _steps.ThenResponseMatches<UserResponse>(user =>
+        {
+            Assert.Equal(id, user.Id);
+            Assert.Equal("user@minicommerce", user.Email);
+        });
     }
 
     [Fact]

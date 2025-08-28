@@ -1,11 +1,12 @@
-﻿using MiniCommerce.Identity.Web.AcceptanceTests.TestHelpers;
+﻿using MiniCommerce.Identity.Web.AcceptanceTests.Steps;
+using MiniCommerce.Identity.Web.AcceptanceTests.TestHelpers;
 
 namespace MiniCommerce.Identity.Web.AcceptanceTests.Endpoints.Health;
 
 [Collection(nameof(TestCollection))]
 public class GetHealthFeature(TestFixture fixture) : TestBase(fixture)
 {
-    private readonly GetHealthSteps _steps = new(fixture);
+    private readonly HealthSteps _steps = new(fixture);
 
     [Fact]
     public async Task AnonymousUserChecksHealth()

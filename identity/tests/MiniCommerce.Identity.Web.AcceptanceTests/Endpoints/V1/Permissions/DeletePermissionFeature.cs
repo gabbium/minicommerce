@@ -1,13 +1,14 @@
 ﻿using MiniCommerce.Identity.Application.Contracts;
 using MiniCommerce.Identity.Application.Features.Permissions;
+using MiniCommerce.Identity.Web.AcceptanceTests.Steps;
 using MiniCommerce.Identity.Web.AcceptanceTests.TestHelpers;
 
-namespace MiniCommerce.Identity.Web.AcceptanceTests.Endpoints.V1.Permissions.DeletePermission;
+namespace MiniCommerce.Identity.Web.AcceptanceTests.Endpoints.V1.Permissions;
 
 [Collection(nameof(TestCollection))]
 public class DeletePermissionFeature(TestFixture fixture) : TestBase(fixture)
 {
-    private readonly DeletePermissionSteps _steps = new(fixture);
+    private readonly PermissionSteps _steps = new(fixture);
 
     [Fact]
     public async Task UserDeletesPermission()

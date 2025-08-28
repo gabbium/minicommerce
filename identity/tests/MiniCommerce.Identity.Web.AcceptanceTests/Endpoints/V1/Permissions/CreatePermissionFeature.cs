@@ -1,12 +1,14 @@
 ﻿using MiniCommerce.Identity.Application.Contracts;
+using MiniCommerce.Identity.Application.Contracts.Permissions;
+using MiniCommerce.Identity.Web.AcceptanceTests.Steps;
 using MiniCommerce.Identity.Web.AcceptanceTests.TestHelpers;
 
-namespace MiniCommerce.Identity.Web.AcceptanceTests.Endpoints.V1.Permissions.CreatePermission;
+namespace MiniCommerce.Identity.Web.AcceptanceTests.Endpoints.V1.Permissions;
 
 [Collection(nameof(TestCollection))]
 public class CreatePermissionFeature(TestFixture fixture) : TestBase(fixture)
 {
-    private readonly CreatePermissionSteps _steps = new(fixture);
+    private readonly PermissionSteps _steps = new(fixture);
 
     [Fact]
     public async Task UserCreatesPermissionWithValidData()
@@ -14,7 +16,12 @@ public class CreatePermissionFeature(TestFixture fixture) : TestBase(fixture)
         await _steps.GivenAnAuthenticatedUser(IdentityPermissionNames.CanCreatePermission);
         await _steps.WhenTheyAttemptToCreatePermission(new("catalog:products.list"));
         await _steps.ThenResponseIs201Created();
-        await _steps.ThenResponseContainsPermission("catalog:products.list");
+        await _steps.ThenResponseMatches<PermissionResponse>(permission =>
+        {
+            Assert.NotEqual(Guid.Empty, permission.Id);
+            Assert.Equal("catalog:products.list", permission.Code);
+            Assert.False(permission.Deprecated);
+        });
     }
 
     [Fact]

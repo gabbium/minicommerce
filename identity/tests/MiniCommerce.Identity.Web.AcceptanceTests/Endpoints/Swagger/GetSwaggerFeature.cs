@@ -1,11 +1,12 @@
-﻿using MiniCommerce.Identity.Web.AcceptanceTests.TestHelpers;
+﻿using MiniCommerce.Identity.Web.AcceptanceTests.Steps;
+using MiniCommerce.Identity.Web.AcceptanceTests.TestHelpers;
 
 namespace MiniCommerce.Identity.Web.AcceptanceTests.Endpoints.Swagger;
 
 [Collection(nameof(TestCollection))]
 public class GetSwaggerFeature(TestFixture fixture) : TestBase(fixture)
 {
-    private readonly GetSwaggerSteps _steps = new(fixture);
+    private readonly SwaggerSteps _steps = new(fixture);
 
     [Fact]
     public async Task AnonymousUserChecksSwaggerJson()

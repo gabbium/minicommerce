@@ -69,10 +69,14 @@ public abstract class CommonStepsBase(TestFixture fixture)
         return Task.CompletedTask;
     }
 
+    public async Task ThenResponseMatches<T>(Action<T> assert)
+    {
+        var body = await ReadBodyAs<T>();
+        assert(body);
+    }
+
     public async Task ThenResponseIsProblemDetails(string title, string detail)
     {
-        Assert.NotNull(HttpResponse);
-
         var problem = await ReadBodyAs<ProblemDetails>();
         Assert.Equal(title, problem.Title);
         Assert.Equal(detail, problem.Detail);
@@ -82,8 +86,6 @@ public abstract class CommonStepsBase(TestFixture fixture)
 
     public async Task ThenResponseIsValidationProblemDetails(Dictionary<string, string[]> errors)
     {
-        Assert.NotNull(HttpResponse);
-
         var problem = await ReadBodyAs<ValidationProblemDetails>();
         Assert.NotEmpty(problem.Errors);
         Assert.Equal(errors, problem.Errors);

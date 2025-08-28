@@ -1,11 +1,13 @@
-﻿using MiniCommerce.Identity.Web.AcceptanceTests.TestHelpers;
+﻿using MiniCommerce.Identity.Application.Contracts.Users;
+using MiniCommerce.Identity.Web.AcceptanceTests.Steps;
+using MiniCommerce.Identity.Web.AcceptanceTests.TestHelpers;
 
-namespace MiniCommerce.Identity.Web.AcceptanceTests.Endpoints.V1.Users.GetCurrentUser;
+namespace MiniCommerce.Identity.Web.AcceptanceTests.Endpoints.V1.Users;
 
 [Collection(nameof(TestCollection))]
 public class GetCurrentUserFeature(TestFixture fixture) : TestBase(fixture)
 {
-    private readonly GetCurrentUserSteps _steps = new(fixture);
+    private readonly UserSteps _steps = new(fixture);
 
     [Fact]
     public async Task UserGetsCurrentUser()
@@ -13,7 +15,11 @@ public class GetCurrentUserFeature(TestFixture fixture) : TestBase(fixture)
         await _steps.GivenAnAuthenticatedUser("user@minicommerce");
         await _steps.WhenTheyAttemptToGetCurrentUser();
         await _steps.ThenResponseIs200Ok();
-        await _steps.ThenResponseContainsUserInfo("user@minicommerce");
+        await _steps.ThenResponseMatches<UserResponse>(user =>
+        {
+            Assert.NotEqual(Guid.Empty, user.Id);
+            Assert.Equal("user@minicommerce", user.Email);
+        });
     }
 
     [Fact]

@@ -1,13 +1,15 @@
 ﻿using MiniCommerce.Identity.Application.Contracts;
+using MiniCommerce.Identity.Application.Contracts.Permissions;
 using MiniCommerce.Identity.Application.Features.Permissions;
+using MiniCommerce.Identity.Web.AcceptanceTests.Steps;
 using MiniCommerce.Identity.Web.AcceptanceTests.TestHelpers;
 
-namespace MiniCommerce.Identity.Web.AcceptanceTests.Endpoints.V1.Permissions.GetPermissionById;
+namespace MiniCommerce.Identity.Web.AcceptanceTests.Endpoints.V1.Permissions;
 
 [Collection(nameof(TestCollection))]
 public class GetPermissionByIdFeature(TestFixture fixture) : TestBase(fixture)
 {
-    private readonly GetPermissionByIdSteps _steps = new(fixture);
+    private readonly PermissionSteps _steps = new(fixture);
 
     [Fact]
     public async Task UserGetsPermissionById()
@@ -16,7 +18,12 @@ public class GetPermissionByIdFeature(TestFixture fixture) : TestBase(fixture)
         var id = await _steps.GivenAnExistingPermission(new("catalog:products.list"));
         await _steps.WhenTheyAttemptToGetPermissionById(id);
         await _steps.ThenResponseIs200Ok();
-        await _steps.ThenResponseContainsPermission(id, "catalog:products.list");
+        await _steps.ThenResponseMatches<PermissionResponse>(permission =>
+        {
+            Assert.NotEqual(Guid.Empty, permission.Id);
+            Assert.Equal("catalog:products.list", permission.Code);
+            Assert.False(permission.Deprecated);
+        });
     }
 
     [Fact]

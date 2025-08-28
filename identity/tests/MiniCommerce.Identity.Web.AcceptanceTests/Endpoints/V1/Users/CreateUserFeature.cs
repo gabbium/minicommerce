@@ -1,12 +1,14 @@
 ﻿using MiniCommerce.Identity.Application.Contracts;
+using MiniCommerce.Identity.Application.Contracts.Users;
+using MiniCommerce.Identity.Web.AcceptanceTests.Steps;
 using MiniCommerce.Identity.Web.AcceptanceTests.TestHelpers;
 
-namespace MiniCommerce.Identity.Web.AcceptanceTests.Endpoints.V1.Users.CreateUser;
+namespace MiniCommerce.Identity.Web.AcceptanceTests.Endpoints.V1.Users;
 
 [Collection(nameof(TestCollection))]
 public class CreateUserFeature(TestFixture fixture) : TestBase(fixture)
 {
-    private readonly CreateUserSteps _steps = new(fixture);
+    private readonly UserSteps _steps = new(fixture);
 
     [Fact]
     public async Task UserCreatesUserWithValidData()
@@ -14,7 +16,11 @@ public class CreateUserFeature(TestFixture fixture) : TestBase(fixture)
         await _steps.GivenAnAuthenticatedUser(IdentityPermissionNames.CanCreateUser);
         await _steps.WhenTheyAttemptToCreateUser(new("user@minicommerce"));
         await _steps.ThenResponseIs201Created();
-        await _steps.ThenResponseContainsUser("user@minicommerce");
+        await _steps.ThenResponseMatches<UserResponse>(user =>
+        {
+            Assert.NotEqual(Guid.Empty, user.Id);
+            Assert.Equal("user@minicommerce", user.Email);
+        });
     }
 
     [Fact]
