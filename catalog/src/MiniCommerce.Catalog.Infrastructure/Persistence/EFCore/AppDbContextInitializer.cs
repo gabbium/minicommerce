@@ -1,8 +1,8 @@
 ﻿namespace MiniCommerce.Catalog.Infrastructure.Persistence.EFCore;
 
-public class AppDbContextInitialiser(AppDbContext context)
+public class AppDbContextInitializer(AppDbContext context)
 {
-    public async Task InitialiseAsync()
+    public async Task InitializeAsync()
     {
         await context.Database.MigrateAsync();
     }

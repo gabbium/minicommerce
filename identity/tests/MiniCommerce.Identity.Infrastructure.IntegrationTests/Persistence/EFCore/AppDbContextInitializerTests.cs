@@ -4,19 +4,19 @@ using MiniCommerce.Identity.Infrastructure.Persistence.EFCore;
 namespace MiniCommerce.Identity.Infrastructure.IntegrationTests.Persistence.EFCore;
 
 [Collection(nameof(TestCollection))]
-public class AppDbContextInitialiserTests(TestFixture fixture) : TestBase(fixture)
+public class AppDbContextInitializerTests(TestFixture fixture) : TestBase(fixture)
 {
     private readonly AppDbContext _context =
         fixture.GetRequiredService<AppDbContext>();
 
-    private readonly AppDbContextInitialiser _initialiser =
-        fixture.GetRequiredService<AppDbContextInitialiser>();
+    private readonly AppDbContextInitializer _initializer =
+        fixture.GetRequiredService<AppDbContextInitializer>();
 
     [Fact]
     public async Task DatabaseAppliesPendingMigrations()
     {
         // Act
-        await _initialiser.InitialiseAsync();
+        await _initializer.InitializeAsync();
 
         // Assert 
         var tablesExist = await _context.Database.CanConnectAsync();
@@ -27,7 +27,7 @@ public class AppDbContextInitialiserTests(TestFixture fixture) : TestBase(fixtur
     public async Task AdminUserIsSeededCorrectly()
     {
         // Act
-        await _initialiser.SeedAsync();
+        await _initializer.SeedAsync();
 
         // Assert
         var administrator = _context.Users.FirstOrDefault(u => u.Email == "admin@minicommerce");

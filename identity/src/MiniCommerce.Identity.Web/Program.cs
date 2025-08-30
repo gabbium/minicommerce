@@ -39,6 +39,6 @@ app.MapHealthChecks("api/health", new HealthCheckOptions
 
 app.MapEndpoints<IEndpointV1>(new(1, 0));
 
-await app.InitialiseDatabaseAsync();
+await app.InitializeDatabaseAsync();
 
 await app.RunAsync();

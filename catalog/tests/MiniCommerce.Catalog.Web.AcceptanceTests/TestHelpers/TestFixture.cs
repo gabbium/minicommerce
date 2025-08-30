@@ -55,7 +55,7 @@ public class TestFixture : IAsyncLifetime
         await _database.ResetAsync();
 
         using var scope = _scopeFactory.CreateScope();
-        var initialiser = scope.ServiceProvider.GetRequiredService<AppDbContextInitialiser>();
+        var initialiser = scope.ServiceProvider.GetRequiredService<AppDbContextInitializer>();
         await initialiser.SeedAsync();
     }
 

@@ -15,7 +15,7 @@ public static class DependencyInjection
             opts.UseNpgsql(configuration.GetConnectionString("DefaultConnection")).AddAsyncSeeding(sp);
         });
 
-        services.AddScoped<AppDbContextInitialiser>();
+        services.AddScoped<AppDbContextInitializer>();
 
         services
             .AddHealthChecks()

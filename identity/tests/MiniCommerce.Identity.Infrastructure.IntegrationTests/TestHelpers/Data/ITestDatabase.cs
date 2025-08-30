@@ -2,7 +2,7 @@
 
 public interface ITestDatabase
 {
-    Task InitialiseAsync();
+    Task InitializeAsync();
 
     DbConnection GetConnection();
 

@@ -13,7 +13,7 @@ public class PostgresTestDatabase : ITestDatabase
             .Build();
     }
 
-    public async Task InitialiseAsync()
+    public async Task InitializeAsync()
     {
         await _container.StartAsync();
 
