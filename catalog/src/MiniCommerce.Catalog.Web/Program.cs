@@ -2,41 +2,45 @@ using MiniCommerce.Catalog.Application;
 using MiniCommerce.Catalog.Infrastructure;
 using MiniCommerce.Catalog.Infrastructure.Persistence.EFCore;
 using MiniCommerce.Catalog.Web;
-using MiniCommerce.Catalog.Web.Endpoints.Common;
-using MiniCommerce.Catalog.Web.Extensions;
+using MiniCommerce.Catalog.Web.Endpoints.V1;
+using MiniCommerce.Catalog.Web.Extensions.Auth;
+using MiniCommerce.Catalog.Web.Extensions.Docs;
+using MiniCommerce.Catalog.Web.Extensions.Logging;
+using MiniCommerce.Catalog.Web.Extensions.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Host.UseSerilogWithDefaults();
-
-builder.Services.AddSwaggerGenWithAuth();
 
 builder.Services
     .AddApplication()
     .AddPresentation()
     .AddInfrastructure(builder.Configuration);
 
-builder.Services.AddEndpoints(Assembly.GetExecutingAssembly());
+builder.Services
+    .AddAuthWithJwt(builder.Configuration)
+    .AddSwaggerGenWithAuth()
+    .AddEndpoints(Assembly.GetExecutingAssembly());
 
 var app = builder.Build();
 
-app.MapEndpoints<IEndpointV1>(new(1, 0));
+app.UseExceptionHandler();
 
 if (app.Environment.IsDevelopment())
 {
     app.UseSwaggerWithUi();
 }
 
+app.UseRequestContextLogging();
+
+app.UseSerilogRequestLoggingWithDefaults();
+
 app.MapHealthChecks("api/health", new HealthCheckOptions
 {
     ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
 });
 
-app.UseRequestContextLogging();
-
-app.UseSerilogRequestLoggingWithDefaults();
-
-app.UseExceptionHandler();
+app.MapEndpoints<IEndpointV1>(new(1, 0));
 
 await app.InitialiseDatabaseAsync();
 

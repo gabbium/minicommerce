@@ -10,11 +10,6 @@ public class ServiceProviderFactory
     {
         var builder = new HostApplicationBuilder();
 
-        builder.Configuration.AddInMemoryCollection(new Dictionary<string, string?>
-        {
-            ["Jwt:Secret"] = Guid.NewGuid().ToString(),
-        });
-
         builder.Services.AddInfrastructure(builder.Configuration);
 
         builder.Services

@@ -1,8 +1,5 @@
-﻿using MiniCommerce.Catalog.Application.Common.Models;
-using MiniCommerce.Catalog.Application.Contracts;
-using MiniCommerce.Catalog.Application.Contracts.Products;
-using MiniCommerce.Catalog.Application.Features.Products.ListProducts;
-using MiniCommerce.Catalog.Web.Endpoints.Common;
+﻿using MiniCommerce.Catalog.Application.UseCases.Products;
+using MiniCommerce.Catalog.Application.UseCases.Products.ListProducts;
 
 namespace MiniCommerce.Catalog.Web.Endpoints.V1.Products;
 
@@ -16,14 +13,14 @@ public class ListProductsEndpoint : IEndpointV1
     {
         app.MapGet("products", async (
             [AsParameters] Request request,
-            IQueryHandler<ListProductsQuery, PagedList<ProductResponse>> handler,
+            IQueryHandler<ListProductsQuery, PaginatedList<ProductResponse>> handler,
             CancellationToken cancellationToken) =>
         {
             var query = new ListProductsQuery(request.Page, request.PageSize);
             var result = await handler.HandleAsync(query, cancellationToken);
             return result.Match(Results.Ok, CustomResults.Problem);
         })
-        .RequireAuthorization(CatalogPermissionNames.CanListProducts)
+        .RequireAuthorization(Permissions.CanListProducts)
         .WithTags(Tags.Products);
     }
 }

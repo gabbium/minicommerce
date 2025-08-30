@@ -1,6 +1,4 @@
-﻿using MiniCommerce.Catalog.Application.Contracts;
-using MiniCommerce.Catalog.Application.Features.Products.DeleteProduct;
-using MiniCommerce.Catalog.Web.Endpoints.Common;
+﻿using MiniCommerce.Catalog.Application.UseCases.Products.DeleteProduct;
 
 namespace MiniCommerce.Catalog.Web.Endpoints.V1.Products;
 
@@ -19,7 +17,7 @@ public class DeleteProductEndpoint : IEndpointV1
             var result = await handler.HandleAsync(command, cancellationToken);
             return result.Match(Results.NoContent, CustomResults.Problem);
         })
-        .RequireAuthorization(CatalogPermissionNames.CanDeleteProduct)
+        .RequireAuthorization(Permissions.CanDeleteProduct)
         .WithTags(Tags.Products);
     }
 }

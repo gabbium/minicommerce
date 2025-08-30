@@ -11,9 +11,9 @@ public static class InitialiserExtensions
         });
     }
 
-    public static async Task InitialiseDatabaseAsync(this WebApplication app)
+    public static async Task InitialiseDatabaseAsync(this IHost host)
     {
-        using var scope = app.Services.CreateScope();
+        using var scope = host.Services.CreateScope();
         var initialiser = scope.ServiceProvider.GetRequiredService<AppDbContextInitialiser>();
         await initialiser.InitialiseAsync();
     }

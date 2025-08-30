@@ -1,4 +1,5 @@
-﻿using MiniCommerce.Catalog.Domain.Aggregates.Products;
+﻿using MiniCommerce.Catalog.Domain.ProductAggregate.Entities;
+using MiniCommerce.Catalog.Domain.ProductAggregate.Repositories;
 using MiniCommerce.Catalog.Infrastructure.IntegrationTests.TestHelpers;
 
 namespace MiniCommerce.Catalog.Infrastructure.IntegrationTests.Persistence.Repositories;
@@ -9,6 +10,9 @@ public class ProductRepositoryTests(TestFixture fixture) : TestBase(fixture)
     private readonly IProductRepository _repository =
         fixture.GetRequiredService<IProductRepository>();
 
+    private readonly IUnitOfWork _unitOfWork =
+        fixture.GetRequiredService<IUnitOfWork>();
+
     [Fact]
     public async Task ProductIsCreatedAndLoadedCorrectly()
     {
@@ -17,7 +21,7 @@ public class ProductRepositoryTests(TestFixture fixture) : TestBase(fixture)
 
         // Act
         await _repository.AddAsync(product);
-        await _repository.SaveChangesAsync();
+        await _unitOfWork.SaveChangesAsync();
 
         // Assert
         var retrieved = await _repository.GetByIdAsync(product.Id);
@@ -34,14 +38,14 @@ public class ProductRepositoryTests(TestFixture fixture) : TestBase(fixture)
         // Arrange
         var product = new Product("SKU-001", "Bluetooth Headphones", 129.50m);
         await _repository.AddAsync(product);
-        await _repository.SaveChangesAsync();
+        await _unitOfWork.SaveChangesAsync();
 
         // Act
         product.ChangeName("Wireless Mouse");
         product.ChangePrice(79.90m);
 
         await _repository.UpdateAsync(product);
-        await _repository.SaveChangesAsync();
+        await _unitOfWork.SaveChangesAsync();
 
         // Assert
         var retrieved = await _repository.GetByIdAsync(product.Id);
@@ -56,11 +60,11 @@ public class ProductRepositoryTests(TestFixture fixture) : TestBase(fixture)
         // Arrange
         var product = new Product("SKU-001", "Bluetooth Headphones", 129.50m);
         await _repository.AddAsync(product);
-        await _repository.SaveChangesAsync();
+        await _unitOfWork.SaveChangesAsync();
 
         // Act
         await _repository.DeleteAsync(product);
-        await _repository.SaveChangesAsync();
+        await _unitOfWork.SaveChangesAsync();
 
         // Assert
         var retrieved = await _repository.GetByIdAsync(product.Id);
