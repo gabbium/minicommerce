@@ -22,7 +22,11 @@ public class CreateProductEndpoint : IEndpointV1
                 p => Results.Created(GetProductByIdEndpoint.BuildRoute(p.Id), p),
                 CustomResults.Problem);
         })
-        .RequireAuthorization(Policies.CanCreateProduct)
-        .WithTags(Tags.Products);
+        .RequireAuthorization(PermissionNames.CanCreateProduct)
+        .WithTags(Tags.Products)
+        .Produces<ProductResponse>(StatusCodes.Status201Created)
+        .ProducesValidationProblem(StatusCodes.Status400BadRequest)
+        .ProducesProblem(StatusCodes.Status401Unauthorized)
+        .ProducesProblem(StatusCodes.Status403Forbidden);
     }
 }

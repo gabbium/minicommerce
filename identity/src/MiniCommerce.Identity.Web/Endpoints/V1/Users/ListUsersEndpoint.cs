@@ -20,7 +20,7 @@ public class ListUsersEndpoint : IEndpointV1
             var result = await handler.HandleAsync(query, cancellationToken);
             return result.Match(Results.Ok, CustomResults.Problem);
         })
-        .RequireAuthorization(Policies.CanListUsers)
+        .RequireAuthorization(PermissionNames.CanListUsers)
         .WithTags(Tags.Users)
         .Produces<PaginatedList<UserResponse>>(StatusCodes.Status200OK)
         .ProducesValidationProblem(StatusCodes.Status400BadRequest)

@@ -18,7 +18,7 @@ public sealed class JwtTokenFactory(IOptions<JwtOptions> jwtOptions)
             new(ClaimTypes.Email, email)
         };
 
-        claims.AddRange(permissions.Select(p => new Claim(Policies.ClaimType, p)));
+        claims.AddRange(permissions.Select(p => new Claim(PermissionNames.ClaimType, p)));
 
         var token = new JwtSecurityToken(
             issuer: _jwtOptions.Issuer,

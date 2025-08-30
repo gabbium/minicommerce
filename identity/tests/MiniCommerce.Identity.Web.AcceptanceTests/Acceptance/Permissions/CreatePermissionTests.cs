@@ -13,7 +13,7 @@ public class CreatePermissionTests(TestFixture fixture) : TestBase(fixture)
     [Fact]
     public async Task UserCreatesPermissionWithValidData()
     {
-        await _steps.GivenAnAuthenticatedUser(Policies.CanCreatePermission);
+        await _steps.GivenAnAuthenticatedUser(PermissionNames.CanCreatePermission);
         await _steps.WhenTheyAttemptToCreatePermission(new("catalog:products.list"));
         await _steps.ThenResponseIs201Created();
         await _steps.ThenResponseMatches<PermissionResponse>(permission =>
@@ -27,7 +27,7 @@ public class CreatePermissionTests(TestFixture fixture) : TestBase(fixture)
     [Fact]
     public async Task UserAttemptsToCreatePermissionWithEmptyCode()
     {
-        await _steps.GivenAnAuthenticatedUser(Policies.CanCreatePermission);
+        await _steps.GivenAnAuthenticatedUser(PermissionNames.CanCreatePermission);
         await _steps.WhenTheyAttemptToCreatePermission(new(string.Empty));
         await _steps.ThenResponseIs400BadRequest();
         await _steps.ThenResponseIsValidationProblemDetails(new()

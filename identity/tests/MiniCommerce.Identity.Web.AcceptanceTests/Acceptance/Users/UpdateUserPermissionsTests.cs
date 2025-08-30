@@ -15,7 +15,7 @@ public class UpdateUserPermissionsTests(TestFixture fixture) : TestBase(fixture)
     [Fact]
     public async Task UserUpdatesUserPermissions()
     {
-        await _userSteps.GivenAnAuthenticatedUser(Policies.CanCreatePermission, Policies.CanCreateUser, Policies.CanUpdateUserPermissions);
+        await _userSteps.GivenAnAuthenticatedUser(PermissionNames.CanCreatePermission, PermissionNames.CanCreateUser, PermissionNames.CanUpdateUserPermissions);
         var userId = await _userSteps.GivenAnExistingUser(new("user@minicommerce"));
         var permissionId = await _permissionSteps.GivenAnExistingPermission(new("catalog:products.list"));
         await _userSteps.WhenTheyAttemptToUpdateUserPermissions(userId, new([permissionId]));
@@ -30,7 +30,7 @@ public class UpdateUserPermissionsTests(TestFixture fixture) : TestBase(fixture)
     [Fact]
     public async Task UserAttemptsToUpdateUserPermissionsWithEmptyUserId()
     {
-        await _userSteps.GivenAnAuthenticatedUser(Policies.CanUpdateUserPermissions);
+        await _userSteps.GivenAnAuthenticatedUser(PermissionNames.CanUpdateUserPermissions);
         await _userSteps.WhenTheyAttemptToUpdateUserPermissions(Guid.Empty, new([]));
         await _userSteps.ThenResponseIs400BadRequest();
         await _userSteps.ThenResponseIsValidationProblemDetails(new()
@@ -58,7 +58,7 @@ public class UpdateUserPermissionsTests(TestFixture fixture) : TestBase(fixture)
     [Fact]
     public async Task UserAttemptsToUpdateNonExistentUser()
     {
-        await _userSteps.GivenAnAuthenticatedUser(Policies.CanUpdateUserPermissions);
+        await _userSteps.GivenAnAuthenticatedUser(PermissionNames.CanUpdateUserPermissions);
         await _userSteps.WhenTheyAttemptToUpdateUserPermissions(Guid.NewGuid(), new([]));
         await _userSteps.ThenResponseIs404NotFound();
         await _userSteps.ThenResponseIsProblemDetails(UserErrors.NotFound.Code, UserErrors.NotFound.Description);

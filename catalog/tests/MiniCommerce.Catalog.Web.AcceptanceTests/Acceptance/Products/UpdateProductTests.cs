@@ -13,7 +13,7 @@ public class UpdateProductTests(TestFixture fixture) : TestBase(fixture)
     [Fact]
     public async Task UserUpdatesProduct()
     {
-        await _steps.GivenAnAuthenticatedUser(Policies.CanCreateProduct, Policies.CanUpdateProduct);
+        await _steps.GivenAnAuthenticatedUser(PermissionNames.CanCreateProduct, PermissionNames.CanUpdateProduct);
         var id = await _steps.GivenAnExistingProduct(new("SKU-001", "Bluetooth Headphones", 129.50m));
         await _steps.WhenTheyAttemptToUpdateProduct(id, new("Wireless Mouse", 79.90m));
         await _steps.ThenResponseIs200Ok();
@@ -29,7 +29,7 @@ public class UpdateProductTests(TestFixture fixture) : TestBase(fixture)
     [Fact]
     public async Task UserAttemptsToUpdateProductWithEmptyId()
     {
-        await _steps.GivenAnAuthenticatedUser(Policies.CanUpdateProduct);
+        await _steps.GivenAnAuthenticatedUser(PermissionNames.CanUpdateProduct);
         await _steps.WhenTheyAttemptToUpdateProduct(Guid.Empty, new("Wireless Mouse", 79.90m));
         await _steps.ThenResponseIs400BadRequest();
         await _steps.ThenResponseIsValidationProblemDetails(new()
@@ -41,7 +41,7 @@ public class UpdateProductTests(TestFixture fixture) : TestBase(fixture)
     [Fact]
     public async Task UserAttemptsToUpdateProductWithEmptyName()
     {
-        await _steps.GivenAnAuthenticatedUser(Policies.CanCreateProduct, Policies.CanUpdateProduct);
+        await _steps.GivenAnAuthenticatedUser(PermissionNames.CanCreateProduct, PermissionNames.CanUpdateProduct);
         var id = await _steps.GivenAnExistingProduct(new("SKU-001", "Bluetooth Headphones", 129.50m));
         await _steps.WhenTheyAttemptToUpdateProduct(id, new(string.Empty, 79.90m));
         await _steps.ThenResponseIs400BadRequest();
@@ -54,7 +54,7 @@ public class UpdateProductTests(TestFixture fixture) : TestBase(fixture)
     [Fact]
     public async Task UserAttemptsToUpdateProductWithEmptyPrice()
     {
-        await _steps.GivenAnAuthenticatedUser(Policies.CanCreateProduct, Policies.CanUpdateProduct);
+        await _steps.GivenAnAuthenticatedUser(PermissionNames.CanCreateProduct, PermissionNames.CanUpdateProduct);
         var id = await _steps.GivenAnExistingProduct(new("SKU-001", "Bluetooth Headphones", 129.50m));
         await _steps.WhenTheyAttemptToUpdateProduct(id, new("Wireless Mouse", 0m));
         await _steps.ThenResponseIs400BadRequest();
@@ -83,7 +83,7 @@ public class UpdateProductTests(TestFixture fixture) : TestBase(fixture)
     [Fact]
     public async Task UserAttemptsToUpdateNonExistentProduct()
     {
-        await _steps.GivenAnAuthenticatedUser(Policies.CanUpdateProduct);
+        await _steps.GivenAnAuthenticatedUser(PermissionNames.CanUpdateProduct);
         await _steps.WhenTheyAttemptToUpdateProduct(Guid.NewGuid(), new("Wireless Mouse", 79.90m));
         await _steps.ThenResponseIs404NotFound();
         await _steps.ThenResponseIsProblemDetails("Products.NotFound", "The specified product was not found.");

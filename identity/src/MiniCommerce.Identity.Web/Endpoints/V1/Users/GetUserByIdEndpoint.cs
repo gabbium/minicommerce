@@ -18,7 +18,7 @@ public class GetUserByIdEndpoint : IEndpointV1
             var result = await handler.HandleAsync(query, cancellationToken);
             return result.Match(Results.Ok, CustomResults.Problem);
         })
-        .RequireAuthorization(Policies.CanGetUserById)
+        .RequireAuthorization(PermissionNames.CanGetUserById)
         .WithTags(Tags.Users)
         .Produces<UserResponse>(StatusCodes.Status200OK)
         .ProducesValidationProblem(StatusCodes.Status400BadRequest)

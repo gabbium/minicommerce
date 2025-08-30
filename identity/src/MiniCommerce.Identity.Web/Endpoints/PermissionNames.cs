@@ -1,6 +1,6 @@
 ﻿namespace MiniCommerce.Identity.Web.Endpoints;
 
-public static class Policies
+public static class PermissionNames
 {
     public const string ClaimType = "https://gabbium.dev/claims/permission";
 

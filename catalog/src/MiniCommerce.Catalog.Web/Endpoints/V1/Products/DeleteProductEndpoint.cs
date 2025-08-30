@@ -17,7 +17,12 @@ public class DeleteProductEndpoint : IEndpointV1
             var result = await handler.HandleAsync(command, cancellationToken);
             return result.Match(Results.NoContent, CustomResults.Problem);
         })
-        .RequireAuthorization(Policies.CanDeleteProduct)
-        .WithTags(Tags.Products);
+        .RequireAuthorization(PermissionNames.CanDeleteProduct)
+        .WithTags(Tags.Products)
+        .Produces(StatusCodes.Status204NoContent)
+        .ProducesValidationProblem(StatusCodes.Status400BadRequest)
+        .ProducesProblem(StatusCodes.Status401Unauthorized)
+        .ProducesProblem(StatusCodes.Status403Forbidden)
+        .ProducesProblem(StatusCodes.Status404NotFound);
     }
 }

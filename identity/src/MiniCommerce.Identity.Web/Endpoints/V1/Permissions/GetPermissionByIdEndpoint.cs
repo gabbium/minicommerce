@@ -18,7 +18,7 @@ public class GetPermissionByIdEndpoint : IEndpointV1
             var result = await handler.HandleAsync(query, cancellationToken);
             return result.Match(Results.Ok, CustomResults.Problem);
         })
-        .RequireAuthorization(Policies.CanGetPermissionById)
+        .RequireAuthorization(PermissionNames.CanGetPermissionById)
         .WithTags(Tags.Permissions)
         .Produces<PermissionResponse>(StatusCodes.Status200OK)
         .ProducesValidationProblem(StatusCodes.Status400BadRequest)

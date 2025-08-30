@@ -13,7 +13,7 @@ public class DeletePermissionTests(TestFixture fixture) : TestBase(fixture)
     [Fact]
     public async Task UserDeletesPermission()
     {
-        await _steps.GivenAnAuthenticatedUser(Policies.CanCreatePermission, Policies.CanDeletePermission);
+        await _steps.GivenAnAuthenticatedUser(PermissionNames.CanCreatePermission, PermissionNames.CanDeletePermission);
         var id = await _steps.GivenAnExistingPermission(new("catalog:products.list"));
         await _steps.WhenTheyAttemptToDeletePermission(id);
         await _steps.ThenResponseIs204NoContent();
@@ -22,7 +22,7 @@ public class DeletePermissionTests(TestFixture fixture) : TestBase(fixture)
     [Fact]
     public async Task UserAttemptsToDeletePermissionWithEmptyId()
     {
-        await _steps.GivenAnAuthenticatedUser(Policies.CanDeletePermission);
+        await _steps.GivenAnAuthenticatedUser(PermissionNames.CanDeletePermission);
         await _steps.WhenTheyAttemptToDeletePermission(Guid.Empty);
         await _steps.ThenResponseIs400BadRequest();
         await _steps.ThenResponseIsValidationProblemDetails(new()
@@ -50,7 +50,7 @@ public class DeletePermissionTests(TestFixture fixture) : TestBase(fixture)
     [Fact]
     public async Task UserAttemptsToDeleteNonExistentPermission()
     {
-        await _steps.GivenAnAuthenticatedUser(Policies.CanDeletePermission);
+        await _steps.GivenAnAuthenticatedUser(PermissionNames.CanDeletePermission);
         await _steps.WhenTheyAttemptToDeletePermission(Guid.NewGuid());
         await _steps.ThenResponseIs404NotFound();
         await _steps.ThenResponseIsProblemDetails(PermissionErrors.NotFound.Code, PermissionErrors.NotFound.Description);

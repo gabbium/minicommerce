@@ -13,7 +13,7 @@ public class ListPermissionsTests(TestFixture fixture) : TestBase(fixture)
     [Fact]
     public async Task UserListsPermissions()
     {
-        await _steps.GivenAnAuthenticatedUser(Policies.CanCreatePermission, Policies.CanListPermissions);
+        await _steps.GivenAnAuthenticatedUser(PermissionNames.CanCreatePermission, PermissionNames.CanListPermissions);
         await _steps.GivenAnExistingPermission(new("catalog:products.list"));
         await _steps.GivenAnExistingPermission(new("catalog:products.create"));
         await _steps.GivenAnExistingPermission(new("catalog:products.delete"));

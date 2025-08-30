@@ -17,7 +17,7 @@ public class DeleteUserEndpoint : IEndpointV1
             var result = await handler.HandleAsync(command, cancellationToken);
             return result.Match(Results.NoContent, CustomResults.Problem);
         })
-        .RequireAuthorization(Policies.CanDeleteUser)
+        .RequireAuthorization(PermissionNames.CanDeleteUser)
         .WithTags(Tags.Users)
         .Produces(StatusCodes.Status204NoContent)
         .ProducesValidationProblem(StatusCodes.Status400BadRequest)

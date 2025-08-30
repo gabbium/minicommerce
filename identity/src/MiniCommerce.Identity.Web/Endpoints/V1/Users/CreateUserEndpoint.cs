@@ -22,7 +22,7 @@ public class CreateUserEndpoint : IEndpointV1
                 u => Results.Created(GetUserByIdEndpoint.BuildRoute(u.Id), u),
                 CustomResults.Problem);
         })
-        .RequireAuthorization(Policies.CanCreateUser)
+        .RequireAuthorization(PermissionNames.CanCreateUser)
         .WithTags(Tags.Users)
         .Produces<UserResponse>(StatusCodes.Status201Created)
         .ProducesValidationProblem(StatusCodes.Status400BadRequest)

@@ -14,7 +14,7 @@ public class DeprecatePermissionTests(TestFixture fixture) : TestBase(fixture)
     [Fact]
     public async Task UserDeprecatesPermission()
     {
-        await _steps.GivenAnAuthenticatedUser(Policies.CanCreatePermission, Policies.CanDeprecatePermission);
+        await _steps.GivenAnAuthenticatedUser(PermissionNames.CanCreatePermission, PermissionNames.CanDeprecatePermission);
         var id = await _steps.GivenAnExistingPermission(new("catalog:products.list"));
         await _steps.WhenTheyAttemptToDeprecatePermission(id);
         await _steps.ThenResponseIs200Ok();
@@ -29,7 +29,7 @@ public class DeprecatePermissionTests(TestFixture fixture) : TestBase(fixture)
     [Fact]
     public async Task UserAttemptsToDeprecatePermissionWithEmptyId()
     {
-        await _steps.GivenAnAuthenticatedUser(Policies.CanDeprecatePermission);
+        await _steps.GivenAnAuthenticatedUser(PermissionNames.CanDeprecatePermission);
         await _steps.WhenTheyAttemptToDeprecatePermission(Guid.Empty);
         await _steps.ThenResponseIs400BadRequest();
         await _steps.ThenResponseIsValidationProblemDetails(new()
@@ -57,7 +57,7 @@ public class DeprecatePermissionTests(TestFixture fixture) : TestBase(fixture)
     [Fact]
     public async Task UserAttemptsToDeprecateNonExistentPermission()
     {
-        await _steps.GivenAnAuthenticatedUser(Policies.CanDeprecatePermission);
+        await _steps.GivenAnAuthenticatedUser(PermissionNames.CanDeprecatePermission);
         await _steps.WhenTheyAttemptToDeprecatePermission(Guid.NewGuid());
         await _steps.ThenResponseIs404NotFound();
         await _steps.ThenResponseIsProblemDetails(PermissionErrors.NotFound.Code, PermissionErrors.NotFound.Description);

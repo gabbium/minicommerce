@@ -21,7 +21,12 @@ public class UpdateProductEndpoint : IEndpointV1
             var result = await handler.HandleAsync(command, cancellationToken);
             return result.Match(Results.Ok, CustomResults.Problem);
         })
-        .RequireAuthorization(Policies.CanUpdateProduct)
-        .WithTags(Tags.Products);
+        .RequireAuthorization(PermissionNames.CanUpdateProduct)
+        .WithTags(Tags.Products)
+        .Produces<ProductResponse>(StatusCodes.Status200OK)
+        .ProducesValidationProblem(StatusCodes.Status400BadRequest)
+        .ProducesProblem(StatusCodes.Status401Unauthorized)
+        .ProducesProblem(StatusCodes.Status403Forbidden)
+        .ProducesProblem(StatusCodes.Status404NotFound);
     }
 }

@@ -21,7 +21,7 @@ public class UpdateUserPermissionsEndpoint : IEndpointV1
             var result = await handler.HandleAsync(command, cancellationToken);
             return result.Match(Results.Ok, CustomResults.Problem);
         })
-        .RequireAuthorization(Policies.CanUpdateUserPermissions)
+        .RequireAuthorization(PermissionNames.CanUpdateUserPermissions)
         .WithTags(Tags.Users)
         .Produces<UserResponse>(StatusCodes.Status200OK)
         .ProducesValidationProblem(StatusCodes.Status400BadRequest)

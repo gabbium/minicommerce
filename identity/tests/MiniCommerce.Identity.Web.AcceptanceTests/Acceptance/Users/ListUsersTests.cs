@@ -13,7 +13,7 @@ public class ListUsersTests(TestFixture fixture) : TestBase(fixture)
     [Fact]
     public async Task UserListsUsers()
     {
-        await _steps.GivenAnAuthenticatedUser(Policies.CanCreateUser, Policies.CanListUsers);
+        await _steps.GivenAnAuthenticatedUser(PermissionNames.CanCreateUser, PermissionNames.CanListUsers);
         await _steps.GivenAnExistingUser(new("user1@minicommerce"));
         await _steps.GivenAnExistingUser(new("user2@minicommerce"));
         await _steps.GivenAnExistingUser(new("user3@minicommerce"));

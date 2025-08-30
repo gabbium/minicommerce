@@ -14,7 +14,7 @@ public class GetUserByIdTests(TestFixture fixture) : TestBase(fixture)
     [Fact]
     public async Task UserGetsUserById()
     {
-        await _steps.GivenAnAuthenticatedUser(Policies.CanCreateUser, Policies.CanGetUserById);
+        await _steps.GivenAnAuthenticatedUser(PermissionNames.CanCreateUser, PermissionNames.CanGetUserById);
         var id = await _steps.GivenAnExistingUser(new("user@minicommerce"));
         await _steps.WhenTheyAttemptToGetUserById(id);
         await _steps.ThenResponseIs200Ok();
@@ -28,7 +28,7 @@ public class GetUserByIdTests(TestFixture fixture) : TestBase(fixture)
     [Fact]
     public async Task UserAttemptsToGetUserWithEmptyId()
     {
-        await _steps.GivenAnAuthenticatedUser(Policies.CanGetUserById);
+        await _steps.GivenAnAuthenticatedUser(PermissionNames.CanGetUserById);
         await _steps.WhenTheyAttemptToGetUserById(Guid.Empty);
         await _steps.ThenResponseIs400BadRequest();
         await _steps.ThenResponseIsValidationProblemDetails(new()
@@ -56,7 +56,7 @@ public class GetUserByIdTests(TestFixture fixture) : TestBase(fixture)
     [Fact]
     public async Task UserAttemptsToGetNonExistentUser()
     {
-        await _steps.GivenAnAuthenticatedUser(Policies.CanGetUserById);
+        await _steps.GivenAnAuthenticatedUser(PermissionNames.CanGetUserById);
         await _steps.WhenTheyAttemptToGetUserById(Guid.NewGuid());
         await _steps.ThenResponseIs404NotFound();
         await _steps.ThenResponseIsProblemDetails(UserErrors.NotFound.Code, UserErrors.NotFound.Description);

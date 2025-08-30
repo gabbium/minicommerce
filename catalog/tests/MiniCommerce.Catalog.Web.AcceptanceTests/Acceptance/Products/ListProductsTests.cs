@@ -13,7 +13,7 @@ public class ListProductsTests(TestFixture fixture) : TestBase(fixture)
     [Fact]
     public async Task UserListsProducts()
     {
-        await _steps.GivenAnAuthenticatedUser(Policies.CanCreateProduct, Policies.CanListProducts);
+        await _steps.GivenAnAuthenticatedUser(PermissionNames.CanCreateProduct, PermissionNames.CanListProducts);
         await _steps.GivenAnExistingProduct(new("SKU-001", "Bluetooth Headphones", 129.50m));
         await _steps.GivenAnExistingProduct(new("SKU-002", "Wireless Mouse", 79.90m));
         await _steps.GivenAnExistingProduct(new("SKU-003", "Mechanical Keyboard", 299.00m));

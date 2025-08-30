@@ -18,6 +18,8 @@ public class JwtTokenService(IOptions<JwtOptions> jwtOptions) : IJwtTokenService
             new(ClaimTypes.Email, user.Email),
         };
 
+        claims.AddRange(user.Permissions.Select(p => new Claim("https://gabbium.dev/claims/permission", p.Permission.Code)));
+
         var token = new JwtSecurityToken(
             issuer: _jwtOptions.Issuer,
             audience: _jwtOptions.Audience,

@@ -20,7 +20,11 @@ public class ListProductsEndpoint : IEndpointV1
             var result = await handler.HandleAsync(query, cancellationToken);
             return result.Match(Results.Ok, CustomResults.Problem);
         })
-        .RequireAuthorization(Policies.CanListProducts)
-        .WithTags(Tags.Products);
+        .RequireAuthorization(PermissionNames.CanListProducts)
+        .WithTags(Tags.Products)
+        .Produces<PaginatedList<ProductResponse>>(StatusCodes.Status200OK)
+        .ProducesValidationProblem(StatusCodes.Status400BadRequest)
+        .ProducesProblem(StatusCodes.Status401Unauthorized)
+        .ProducesProblem(StatusCodes.Status403Forbidden);
     }
 }

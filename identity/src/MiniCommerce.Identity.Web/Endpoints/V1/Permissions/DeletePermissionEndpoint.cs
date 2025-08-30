@@ -17,7 +17,7 @@ public class DeletePermissionEndpoint : IEndpointV1
             var result = await handler.HandleAsync(command, cancellationToken);
             return result.Match(Results.NoContent, CustomResults.Problem);
         })
-        .RequireAuthorization(Policies.CanDeletePermission)
+        .RequireAuthorization(PermissionNames.CanDeletePermission)
         .WithTags(Tags.Permissions)
         .Produces(StatusCodes.Status204NoContent)
         .ProducesValidationProblem(StatusCodes.Status400BadRequest)

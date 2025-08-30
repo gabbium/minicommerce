@@ -32,10 +32,10 @@ public static class JwtExtensions
 
         services.AddAuthorization(o =>
         {
-            foreach (var permissionName in Policies.All)
+            foreach (var permissionName in PermissionNames.All)
             {
                 o.AddPolicy(permissionName, p =>
-                    p.RequireClaim(Policies.ClaimType, permissionName));
+                    p.RequireClaim(PermissionNames.ClaimType, permissionName));
             }
         });
 

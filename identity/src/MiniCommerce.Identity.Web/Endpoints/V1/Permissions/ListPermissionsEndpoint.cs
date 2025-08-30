@@ -20,7 +20,7 @@ public class ListPermissionsEndpoint : IEndpointV1
             var result = await handler.HandleAsync(query, cancellationToken);
             return result.Match(Results.Ok, CustomResults.Problem);
         })
-        .RequireAuthorization(Policies.CanListPermissions)
+        .RequireAuthorization(PermissionNames.CanListPermissions)
         .WithTags(Tags.Permissions)
         .Produces<PaginatedList<PermissionResponse>>(StatusCodes.Status200OK)
         .ProducesValidationProblem(StatusCodes.Status400BadRequest)

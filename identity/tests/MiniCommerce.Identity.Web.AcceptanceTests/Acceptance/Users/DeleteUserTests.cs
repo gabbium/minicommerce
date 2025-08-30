@@ -13,7 +13,7 @@ public class DeleteUserTests(TestFixture fixture) : TestBase(fixture)
     [Fact]
     public async Task UserDeletesUser()
     {
-        await _steps.GivenAnAuthenticatedUser(Policies.CanCreateUser, Policies.CanDeleteUser);
+        await _steps.GivenAnAuthenticatedUser(PermissionNames.CanCreateUser, PermissionNames.CanDeleteUser);
         var id = await _steps.GivenAnExistingUser(new("user@minicommerce"));
         await _steps.WhenTheyAttemptToDeleteUser(id);
         await _steps.ThenResponseIs204NoContent();
@@ -22,7 +22,7 @@ public class DeleteUserTests(TestFixture fixture) : TestBase(fixture)
     [Fact]
     public async Task UserAttemptsToDeleteUserWithEmptyId()
     {
-        await _steps.GivenAnAuthenticatedUser(Policies.CanDeleteUser);
+        await _steps.GivenAnAuthenticatedUser(PermissionNames.CanDeleteUser);
         await _steps.WhenTheyAttemptToDeleteUser(Guid.Empty);
         await _steps.ThenResponseIs400BadRequest();
         await _steps.ThenResponseIsValidationProblemDetails(new()
@@ -50,7 +50,7 @@ public class DeleteUserTests(TestFixture fixture) : TestBase(fixture)
     [Fact]
     public async Task UserAttemptsToDeleteNonExistentUser()
     {
-        await _steps.GivenAnAuthenticatedUser(Policies.CanDeleteUser);
+        await _steps.GivenAnAuthenticatedUser(PermissionNames.CanDeleteUser);
         await _steps.WhenTheyAttemptToDeleteUser(Guid.NewGuid());
         await _steps.ThenResponseIs404NotFound();
         await _steps.ThenResponseIsProblemDetails(UserErrors.NotFound.Code, UserErrors.NotFound.Description);

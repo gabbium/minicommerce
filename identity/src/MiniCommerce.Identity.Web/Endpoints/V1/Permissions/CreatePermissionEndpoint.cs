@@ -22,7 +22,7 @@ public class CreatePermissionEndpoint : IEndpointV1
                 p => Results.Created(GetPermissionByIdEndpoint.BuildRoute(p.Id), p),
                 CustomResults.Problem);
         })
-        .RequireAuthorization(Policies.CanCreatePermission)
+        .RequireAuthorization(PermissionNames.CanCreatePermission)
         .WithTags(Tags.Permissions)
         .Produces<PermissionResponse>(StatusCodes.Status201Created)
         .ProducesValidationProblem(StatusCodes.Status400BadRequest)

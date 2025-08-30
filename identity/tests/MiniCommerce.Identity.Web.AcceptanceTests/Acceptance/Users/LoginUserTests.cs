@@ -13,7 +13,7 @@ public class LoginUserTests(TestFixture fixture) : TestBase(fixture)
     [Fact]
     public async Task UserLogsInWithExistentEmail()
     {
-        await _steps.GivenAnAuthenticatedUser(Policies.CanCreateUser);
+        await _steps.GivenAnAuthenticatedUser(PermissionNames.CanCreateUser);
         await _steps.GivenAnExistingUser(new("user@minicommerce"));
         await _steps.WhenTheyAttemptToLogin(new("user@minicommerce"));
         await _steps.ThenResponseIs200Ok();

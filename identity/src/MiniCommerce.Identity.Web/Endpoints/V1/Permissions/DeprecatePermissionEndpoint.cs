@@ -18,7 +18,7 @@ public class DeprecatePermissionEndpoint : IEndpointV1
             var result = await handler.HandleAsync(command, cancellationToken);
             return result.Match(Results.Ok, CustomResults.Problem);
         })
-        .RequireAuthorization(Policies.CanDeprecatePermission)
+        .RequireAuthorization(PermissionNames.CanDeprecatePermission)
         .WithTags(Tags.Permissions)
         .Produces<PermissionResponse>(StatusCodes.Status200OK)
         .ProducesValidationProblem(StatusCodes.Status400BadRequest)

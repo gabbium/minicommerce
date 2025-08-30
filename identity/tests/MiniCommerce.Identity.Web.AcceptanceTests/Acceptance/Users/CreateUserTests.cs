@@ -13,7 +13,7 @@ public class CreateUserTests(TestFixture fixture) : TestBase(fixture)
     [Fact]
     public async Task UserCreatesUserWithValidData()
     {
-        await _steps.GivenAnAuthenticatedUser(Policies.CanCreateUser);
+        await _steps.GivenAnAuthenticatedUser(PermissionNames.CanCreateUser);
         await _steps.WhenTheyAttemptToCreateUser(new("user@minicommerce"));
         await _steps.ThenResponseIs201Created();
         await _steps.ThenResponseMatches<UserResponse>(user =>
@@ -26,7 +26,7 @@ public class CreateUserTests(TestFixture fixture) : TestBase(fixture)
     [Fact]
     public async Task UserAttemptsToCreateUserWithEmptyEmail()
     {
-        await _steps.GivenAnAuthenticatedUser(Policies.CanCreateUser);
+        await _steps.GivenAnAuthenticatedUser(PermissionNames.CanCreateUser);
         await _steps.WhenTheyAttemptToCreateUser(new(string.Empty));
         await _steps.ThenResponseIs400BadRequest();
         await _steps.ThenResponseIsValidationProblemDetails(new()
@@ -38,7 +38,7 @@ public class CreateUserTests(TestFixture fixture) : TestBase(fixture)
     [Fact]
     public async Task UserAttemptsToCreateUserWithInvalidEmail()
     {
-        await _steps.GivenAnAuthenticatedUser(Policies.CanCreateUser);
+        await _steps.GivenAnAuthenticatedUser(PermissionNames.CanCreateUser);
         await _steps.WhenTheyAttemptToCreateUser(new("user"));
         await _steps.ThenResponseIs400BadRequest();
         await _steps.ThenResponseIsValidationProblemDetails(new()
