@@ -1,6 +1,5 @@
-﻿using MiniCommerce.Catalog.Application.Features.Products.UpdateProduct;
-using MiniCommerce.Catalog.Application.Models;
-using MiniCommerce.Catalog.Infrastructure.Security;
+﻿using MiniCommerce.Catalog.Application.Contracts;
+using MiniCommerce.Catalog.Application.UseCases.Products.UpdateProduct;
 
 namespace MiniCommerce.Catalog.Web.Endpoints.V1.Products;
 
@@ -19,12 +18,15 @@ public class UpdateProductEndpoint : IEndpointV1
             CancellationToken cancellationToken) =>
         {
             var command = new UpdateProductCommand(id, request.Name, request.Price);
-
             var result = await handler.HandleAsync(command, cancellationToken);
-
             return result.Match(Results.Ok, CustomResults.Problem);
         })
-        .RequireAuthorization(Permissions.CanUpdateProduct)
-        .WithTags(Tags.Products);
+        .RequireAuthorization(PermissionNames.CanUpdateProduct)
+        .WithTags(Tags.Products)
+        .Produces<ProductResponse>(StatusCodes.Status200OK)
+        .ProducesValidationProblem(StatusCodes.Status400BadRequest)
+        .ProducesProblem(StatusCodes.Status401Unauthorized)
+        .ProducesProblem(StatusCodes.Status403Forbidden)
+        .ProducesProblem(StatusCodes.Status404NotFound);
     }
 }

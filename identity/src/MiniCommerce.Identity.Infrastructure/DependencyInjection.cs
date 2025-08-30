@@ -1,8 +1,10 @@
 ﻿using MiniCommerce.Identity.Application.Abstractions;
-using MiniCommerce.Identity.Domain.Abstractions;
+using MiniCommerce.Identity.Domain.Aggregates.Permissions.Repositories;
+using MiniCommerce.Identity.Domain.Aggregates.Users.Repositories;
 using MiniCommerce.Identity.Infrastructure.Jwt;
-using MiniCommerce.Identity.Infrastructure.Persistence;
-using MiniCommerce.Identity.Infrastructure.Repositories;
+using MiniCommerce.Identity.Infrastructure.Persistence.EFCore;
+using MiniCommerce.Identity.Infrastructure.Persistence.Queries;
+using MiniCommerce.Identity.Infrastructure.Persistence.Repositories;
 
 namespace MiniCommerce.Identity.Infrastructure;
 
@@ -15,40 +17,21 @@ public static class DependencyInjection
             opts.UseNpgsql(configuration.GetConnectionString("DefaultConnection")).AddAsyncSeeding(sp);
         });
 
-        services.AddScoped<AppDbContextInitialiser>();
+        services.AddScoped<AppDbContextInitializer>();
 
         services
             .AddHealthChecks()
             .AddDbContextCheck<AppDbContext>("Database");
 
-        services
-            .AddOptions<JwtOptions>()
-            .Bind(configuration.GetSection("Jwt"))
-            .ValidateOnStart();
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-        services.AddSingleton<IValidateOptions<JwtOptions>, JwtOptionsValidator>();
-
-        services
-            .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            .AddJwtBearer(options =>
-            {
-                var jwt = configuration.GetSection("Jwt").Get<JwtOptions>()!;
-
-                options.RequireHttpsMetadata = false;
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt.Secret)),
-                    ValidIssuer = jwt.Issuer,
-                    ValidAudience = jwt.Audience,
-                    ClockSkew = TimeSpan.Zero
-                };
-            });
-
-        services.AddAuthorization();
-
-        services.AddSingleton<IJwtTokenService, JwtTokenService>();
+        services.AddTransient<IPermissionRepository, PermissionRepository>();
+        services.AddTransient<IPermissionQueries, PermissionQueries>();
 
         services.AddTransient<IUserRepository, UserRepository>();
+        services.AddTransient<IUserQueries, UserQueries>();
+
+        services.AddSingleton<IJwtTokenService, JwtTokenService>();
 
         return services;
     }

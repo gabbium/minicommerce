@@ -6,14 +6,14 @@ public static class SwaggerExtensions
     {
         services.AddEndpointsApiExplorer();
 
-        services.AddOpenApiDocument(document =>
+        services.AddOpenApiDocument(d =>
         {
-            document.Title = "MiniCommerce.Identity.V1";
-            document.DocumentName = "v1";
-            document.Version = "v1";
-            document.ApiGroupNames = ["v1"];
+            d.Title = "MiniCommerce.Identity.V1";
+            d.DocumentName = "v1";
+            d.Version = "v1";
+            d.ApiGroupNames = ["v1"];
 
-            document.AddSecurity("Bearer", [], new OpenApiSecurityScheme
+            d.AddSecurity("Bearer", [], new OpenApiSecurityScheme
             {
                 Description = "JWT Authorization header using the Bearer scheme (Example: 'Bearer 12345abcdef')",
                 Name = "Authorization",
@@ -22,7 +22,7 @@ public static class SwaggerExtensions
                 Scheme = "Bearer"
             });
 
-            document.OperationProcessors.Add(new AspNetCoreOperationSecurityScopeProcessor("Bearer"));
+            d.OperationProcessors.Add(new AspNetCoreOperationSecurityScopeProcessor("Bearer"));
         });
 
         return services;
@@ -30,18 +30,18 @@ public static class SwaggerExtensions
 
     public static IApplicationBuilder UseSwaggerWithUi(this IApplicationBuilder app)
     {
-        app.UseOpenApi(settings => settings.Path = "/api/specification.json");
+        app.UseOpenApi(s => s.Path = "/api/specification.json");
 
-        app.UseSwaggerUi(settings =>
+        app.UseSwaggerUi(s =>
         {
-            settings.Path = "/api";
-            settings.DocumentPath = "/api/specification.json";
+            s.Path = "/api";
+            s.DocumentPath = "/api/specification.json";
         });
 
-        app.UseReDoc(settings =>
+        app.UseReDoc(s =>
         {
-            settings.Path = "/docs";
-            settings.DocumentPath = "/api/specification.json";
+            s.Path = "/docs";
+            s.DocumentPath = "/api/specification.json";
         });
 
         return app;

@@ -7,6 +7,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="UseCases\Users\UpdateUserLockout\**" />
+    <Compile Remove="UseCases\Users\UpdateUserPassword\**" />
+    <EmbeddedResource Remove="UseCases\Users\UpdateUserLockout\**" />
+    <EmbeddedResource Remove="UseCases\Users\UpdateUserPassword\**" />
+    <None Remove="UseCases\Users\UpdateUserLockout\**" />
+    <None Remove="UseCases\Users\UpdateUserPassword\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.0.0" />
     <PackageReference Include="Scrutor" Version="6.1.0" />
   </ItemGroup>

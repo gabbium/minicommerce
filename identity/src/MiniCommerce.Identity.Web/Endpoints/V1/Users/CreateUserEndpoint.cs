@@ -1,0 +1,32 @@
+﻿using MiniCommerce.Identity.Application.Contracts;
+using MiniCommerce.Identity.Application.UseCases.Users.CreateUser;
+
+namespace MiniCommerce.Identity.Web.Endpoints.V1.Users;
+
+public class CreateUserEndpoint : IEndpointV1
+{
+    public const string Route = "api/v1/users";
+
+    public record CreateUserRequest(string Email);
+
+    public void MapEndpoint(IEndpointRouteBuilder app)
+    {
+        app.MapPost("users", async (
+            CreateUserRequest request,
+            ICommandHandler<CreateUserCommand, UserResponse> handler,
+            CancellationToken cancellationToken) =>
+        {
+            var command = new CreateUserCommand(request.Email);
+            var result = await handler.HandleAsync(command, cancellationToken);
+            return result.Match(
+                u => Results.Created(GetUserByIdEndpoint.BuildRoute(u.Id), u),
+                CustomResults.Problem);
+        })
+        .RequireAuthorization(PermissionNames.CanCreateUser)
+        .WithTags(Tags.Users)
+        .Produces<UserResponse>(StatusCodes.Status201Created)
+        .ProducesValidationProblem(StatusCodes.Status400BadRequest)
+        .ProducesProblem(StatusCodes.Status401Unauthorized)
+        .ProducesProblem(StatusCodes.Status403Forbidden);
+    }
+}

@@ -1,6 +1,5 @@
 ﻿using MiniCommerce.Identity.Application.Abstractions;
-using MiniCommerce.Identity.Domain.Entities;
-using MiniCommerce.Identity.Infrastructure.Security;
+using MiniCommerce.Identity.Domain.Aggregates.Users.Entities;
 
 namespace MiniCommerce.Identity.Infrastructure.Jwt;
 
@@ -17,15 +16,9 @@ public class JwtTokenService(IOptions<JwtOptions> jwtOptions) : IJwtTokenService
         {
             new(ClaimTypes.NameIdentifier, user.Id.ToString()),
             new(ClaimTypes.Email, user.Email),
-            new(ClaimTypes.Role, user.Role.Value)
         };
 
-        var permissions = Permissions.All
-            .Where(p => p.Roles.Contains(user.Role))
-            .Select(p => p.Name);
-
-        foreach (var permission in permissions)
-            claims.Add(new("permission", permission));
+        claims.AddRange(user.Permissions.Select(p => new Claim("https://gabbium.dev/claims/permission", p.Permission.Code)));
 
         var token = new JwtSecurityToken(
             issuer: _jwtOptions.Issuer,

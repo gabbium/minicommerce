@@ -1,6 +1,6 @@
 using MiniCommerce.Identity.Application;
 using MiniCommerce.Identity.Infrastructure;
-using MiniCommerce.Identity.Infrastructure.Persistence;
+using MiniCommerce.Identity.Infrastructure.Persistence.EFCore;
 using MiniCommerce.Identity.Web;
 using MiniCommerce.Identity.Web.Endpoints.V1;
 using MiniCommerce.Identity.Web.Extensions;
@@ -9,39 +9,36 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Host.UseSerilogWithDefaults();
 
-builder.Services.AddSwaggerGenWithAuth();
-
 builder.Services
     .AddApplication()
     .AddPresentation()
     .AddInfrastructure(builder.Configuration);
 
-builder.Services.AddEndpoints(Assembly.GetExecutingAssembly());
+builder.Services
+    .AddJwtBearer(builder.Configuration)
+    .AddSwaggerGenWithAuth()
+    .AddEndpoints(Assembly.GetExecutingAssembly());
 
 var app = builder.Build();
 
-app.MapEndpoints<IEndpointV1>(new(1, 0));
+app.UseExceptionHandler();
 
 if (app.Environment.IsDevelopment())
 {
     app.UseSwaggerWithUi();
 }
 
+app.UseRequestContextLogging();
+
+app.UseSerilogRequestLoggingWithDefaults();
+
 app.MapHealthChecks("api/health", new HealthCheckOptions
 {
     ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
 });
 
-app.UseRequestContextLogging();
+app.MapEndpoints<IEndpointV1>(new(1, 0));
 
-app.UseSerilogRequestLoggingWithDefaults();
-
-app.UseExceptionHandler();
-
-app.UseAuthentication();
-
-app.UseAuthorization();
-
-await app.InitialiseDatabaseAsync();
+await app.InitializeDatabaseAsync();
 
 await app.RunAsync();

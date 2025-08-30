@@ -1,0 +1,73 @@
+﻿using MiniCommerce.Catalog.Domain.Aggregates.Products.Entities;
+using MiniCommerce.Catalog.Domain.Aggregates.Products.Repositories;
+using MiniCommerce.Catalog.Infrastructure.IntegrationTests.TestHelpers.Fixtures;
+
+namespace MiniCommerce.Catalog.Infrastructure.IntegrationTests.Persistence.Repositories;
+
+[Collection(nameof(TestCollection))]
+public class ProductRepositoryTests(TestFixture fixture) : TestBase(fixture)
+{
+    private readonly IProductRepository _repository =
+        fixture.GetRequiredService<IProductRepository>();
+
+    private readonly IUnitOfWork _unitOfWork =
+        fixture.GetRequiredService<IUnitOfWork>();
+
+    [Fact]
+    public async Task ProductIsCreatedAndLoadedCorrectly()
+    {
+        // Arrange
+        var product = new Product("SKU-001", "Bluetooth Headphones", 129.50m);
+
+        // Act
+        await _repository.AddAsync(product);
+        await _unitOfWork.SaveChangesAsync();
+
+        // Assert
+        var retrieved = await _repository.GetByIdAsync(product.Id);
+        Assert.NotNull(retrieved);
+        Assert.Equal(product.Id, retrieved.Id);
+        Assert.Equal(product.Sku, retrieved.Sku);
+        Assert.Equal(product.Name, retrieved.Name);
+        Assert.Equal(product.Price, retrieved.Price);
+    }
+
+    [Fact]
+    public async Task ProductIsUpdatedCorrectly()
+    {
+        // Arrange
+        var product = new Product("SKU-001", "Bluetooth Headphones", 129.50m);
+        await _repository.AddAsync(product);
+        await _unitOfWork.SaveChangesAsync();
+
+        // Act
+        product.ChangeName("Wireless Mouse");
+        product.ChangePrice(79.90m);
+
+        await _repository.UpdateAsync(product);
+        await _unitOfWork.SaveChangesAsync();
+
+        // Assert
+        var retrieved = await _repository.GetByIdAsync(product.Id);
+        Assert.NotNull(retrieved);
+        Assert.Equal(product.Name, retrieved.Name);
+        Assert.Equal(product.Price, retrieved.Price);
+    }
+
+    [Fact]
+    public async Task ProductIsDeletedCorrectly()
+    {
+        // Arrange
+        var product = new Product("SKU-001", "Bluetooth Headphones", 129.50m);
+        await _repository.AddAsync(product);
+        await _unitOfWork.SaveChangesAsync();
+
+        // Act
+        await _repository.DeleteAsync(product);
+        await _unitOfWork.SaveChangesAsync();
+
+        // Assert
+        var retrieved = await _repository.GetByIdAsync(product.Id);
+        Assert.Null(retrieved);
+    }
+}

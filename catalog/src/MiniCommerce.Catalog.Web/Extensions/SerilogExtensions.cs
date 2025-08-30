@@ -4,7 +4,7 @@ public static class SerilogExtensions
 {
     public static IHostBuilder UseSerilogWithDefaults(this IHostBuilder host)
     {
-        return host.UseSerilog((context, serviceProvider, loggerConfig) =>
+        return host.UseSerilog((_, _, loggerConfig) =>
         {
             loggerConfig
                 .MinimumLevel.Override("Microsoft.EntityFrameworkCore", LogEventLevel.Warning)
@@ -18,9 +18,9 @@ public static class SerilogExtensions
 
     public static IApplicationBuilder UseSerilogRequestLoggingWithDefaults(this IApplicationBuilder app)
     {
-        return app.UseSerilogRequestLogging(options =>
+        return app.UseSerilogRequestLogging(o =>
         {
-            options.IncludeQueryInRequestPath = true;
+            o.IncludeQueryInRequestPath = true;
         });
     }
 }

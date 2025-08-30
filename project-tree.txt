@@ -1,0 +1,443 @@
+minicommerce/
+├── .dockerignore
+├── .editorconfig
+├── .env
+├── .env.example
+├── .github/
+│   └── workflows/
+│       ├── cd.yml
+│       └── ci.yml
+├── .gitignore
+├── .releaserc
+├── CHANGELOG.md
+├── CONTRIBUTING.md
+├── LICENSE
+├── MiniCommerce.sln
+├── README.md
+├── TESTING_CONVENTIONS.md
+├── catalog/
+│   ├── MiniCommerce.Catalog.sln
+│   ├── README.md
+│   ├── src/
+│   │   ├── MiniCommerce.Catalog.Application/
+│   │   │   ├── Abstractions/
+│   │   │   │   ├── IProductQueries.cs
+│   │   │   │   └── IUserContext.cs
+│   │   │   ├── Contracts/
+│   │   │   │   └── ProductResponse.cs
+│   │   │   ├── DependencyInjection.cs
+│   │   │   ├── GlobalUsings.cs
+│   │   │   ├── MiniCommerce.Catalog.Application.csproj
+│   │   │   ├── UseCases/
+│   │   │   │   └── Products/
+│   │   │   │       ├── CreateProduct/
+│   │   │   │       │   ├── CreateProductCommand.cs
+│   │   │   │       │   ├── CreateProductCommandHandler.cs
+│   │   │   │       │   └── CreateProductCommandValidator.cs
+│   │   │   │       ├── DeleteProduct/
+│   │   │   │       │   ├── DeleteProductCommand.cs
+│   │   │   │       │   ├── DeleteProductCommandHandler.cs
+│   │   │   │       │   └── DeleteProductCommandValidator.cs
+│   │   │   │       ├── GetProductById/
+│   │   │   │       │   ├── GetProductByIdQuery.cs
+│   │   │   │       │   ├── GetProductByIdQueryHandler.cs
+│   │   │   │       │   └── GetProductByIdQueryValidator.cs
+│   │   │   │       ├── ListProducts/
+│   │   │   │       │   ├── ListProductsQuery.cs
+│   │   │   │       │   ├── ListProductsQueryHandler.cs
+│   │   │   │       │   └── ListProductsQueryValidator.cs
+│   │   │   │       └── UpdateProduct/
+│   │   │   │           ├── UpdateProductCommand.cs
+│   │   │   │           ├── UpdateProductCommandHandler.cs
+│   │   │   │           └── UpdateProductCommandValidator.cs
+│   │   ├── MiniCommerce.Catalog.Domain/
+│   │   │   ├── Aggregates/
+│   │   │   │   └── Products/
+│   │   │   │       ├── Entities/
+│   │   │   │       │   └── Product.cs
+│   │   │   │       ├── Errors/
+│   │   │   │       │   └── ProductErrors.cs
+│   │   │   │       └── Repositories/
+│   │   │   │           └── IProductRepository.cs
+│   │   │   ├── GlobalUsings.cs
+│   │   │   ├── MiniCommerce.Catalog.Domain.csproj
+│   │   ├── MiniCommerce.Catalog.Infrastructure/
+│   │   │   ├── DependencyInjection.cs
+│   │   │   ├── GlobalUsings.cs
+│   │   │   ├── Jwt/
+│   │   │   │   └── JwtOptions.cs
+│   │   │   ├── MiniCommerce.Catalog.Infrastructure.csproj
+│   │   │   ├── Persistence/
+│   │   │   │   ├── EFCore/
+│   │   │   │   │   ├── AppDbContext.cs
+│   │   │   │   │   ├── AppDbContextInitialiser.cs
+│   │   │   │   │   ├── Configurations/
+│   │   │   │   │   │   └── ProductConfiguration.cs
+│   │   │   │   │   ├── InitialiserExtensions.cs
+│   │   │   │   │   ├── Migrations/
+│   │   │   │   │   │   ├── 20250823223341_InitialCreate.Designer.cs
+│   │   │   │   │   │   ├── 20250823223341_InitialCreate.cs
+│   │   │   │   │   │   ├── 20250825005012_CreateProducts.Designer.cs
+│   │   │   │   │   │   ├── 20250825005012_CreateProducts.cs
+│   │   │   │   │   │   └── AppDbContextModelSnapshot.cs
+│   │   │   │   │   └── UnitOfWork.cs
+│   │   │   │   ├── Queries/
+│   │   │   │   │   └── ProductQueries.cs
+│   │   │   │   └── Repositories/
+│   │   │   │       └── ProductRepository.cs
+│   │   └── MiniCommerce.Catalog.Web/
+│   │       ├── DependencyInjection.cs
+│   │       ├── Dockerfile
+│   │       ├── Endpoints/
+│   │       │   ├── Policies.cs
+│   │       │   ├── Tags.cs
+│   │       │   └── V1/
+│   │       │       ├── IEndpointV1.cs
+│   │       │       └── Products/
+│   │       │           ├── CreateProductEndpoint.cs
+│   │       │           ├── DeleteProductEndpoint.cs
+│   │       │           ├── GetProductByIdEndpoint.cs
+│   │       │           ├── ListProductsEndpoint.cs
+│   │       │           └── UpdateProductEndpoint.cs
+│   │       ├── Extensions/
+│   │       │   ├── ClaimsPrincipalExtensions.cs
+│   │       │   ├── JwtExtensions.cs
+│   │       │   ├── MiddlewareExtensions.cs
+│   │       │   ├── SerilogExtensions.cs
+│   │       │   └── SwaggerExtensions.cs
+│   │       ├── GlobalUsings.cs
+│   │       ├── IWebMarker.cs
+│   │       ├── Middlewares/
+│   │       │   ├── GlobalExceptionHandler.cs
+│   │       │   └── RequestContextLoggingMiddleware.cs
+│   │       ├── MiniCommerce.Catalog.Web.csproj
+│   │       ├── MiniCommerce.Catalog.Web.csproj.user
+│   │       ├── Program.cs
+│   │       ├── Properties/
+│   │       │   └── launchSettings.json
+│   │       ├── Services/
+│   │       │   └── UserContext.cs
+│   │       ├── appsettings.Development.json
+│   │       ├── appsettings.json
+│   └── tests/
+│       ├── MiniCommerce.Catalog.Application.UnitTests/
+│       │   ├── GlobalUsings.cs
+│       │   ├── MiniCommerce.Catalog.Application.UnitTests.csproj
+│       │   ├── UseCases/
+│       │   │   └── Products/
+│       │   │       ├── CreateProductCommandHandlerTests.cs
+│       │   │       ├── DeleteProductCommandHandlerTests.cs
+│       │   │       ├── GetProductByIdQueryHandlerTests.cs
+│       │   │       ├── ListProductsQueryHandlerTests.cs
+│       │   │       └── UpdateProductCommandHandlerTests.cs
+│       ├── MiniCommerce.Catalog.Domain.UnitTests/
+│       │   ├── Aggregates/
+│       │   │   └── Products/
+│       │   │       └── Entities/
+│       │   │           └── ProductTests.cs
+│       │   ├── MiniCommerce.Catalog.Domain.UnitTests.csproj
+│       ├── MiniCommerce.Catalog.Infrastructure.IntegrationTests/
+│       │   ├── GlobalUsings.cs
+│       │   ├── MiniCommerce.Catalog.Infrastructure.IntegrationTests.csproj
+│       │   ├── Persistence/
+│       │   │   ├── EFCore/
+│       │   │   │   └── AppDbContextInitialiserTests.cs
+│       │   │   ├── Queries/
+│       │   │   │   └── ProductQueriesTests.cs
+│       │   │   └── Repositories/
+│       │   │       └── ProductRepositoryTests.cs
+│       │   ├── TestHelpers/
+│       │   │   ├── Data/
+│       │   │   │   ├── ITestDatabase.cs
+│       │   │   │   ├── PostgresTestDatabase.cs
+│       │   │   │   └── TestDatabaseFactory.cs
+│       │   │   ├── ServiceProviderFactory.cs
+│       │   │   ├── TestBase.cs
+│       │   │   ├── TestCollection.cs
+│       │   │   └── TestFixture.cs
+│       └── MiniCommerce.Catalog.Web.AcceptanceTests/
+│           ├── Acceptance/
+│           │   └── Products/
+│           │       ├── CreateProductTests.cs
+│           │       ├── DeleteProductTests.cs
+│           │       ├── GetProductByIdTests.cs
+│           │       ├── ListProductsTests.cs
+│           │       └── UpdateProductTests.cs
+│           ├── GlobalUsings.cs
+│           ├── MiniCommerce.Catalog.Web.AcceptanceTests.csproj
+│           ├── Smoke/
+│           │   ├── HealthTests.cs
+│           │   └── SwaggerTests.cs
+│           ├── Steps/
+│           │   ├── HealthSteps.cs
+│           │   ├── ProductSteps.cs
+│           │   └── SwaggerSteps.cs
+│           ├── TestHelpers/
+│           │   ├── CustomWebApplicationFactory.cs
+│           │   ├── Data/
+│           │   │   ├── ITestDatabase.cs
+│           │   │   ├── PostgresTestDatabase.cs
+│           │   │   └── TestDatabaseFactory.cs
+│           │   ├── TestBase.cs
+│           │   ├── TestCollection.cs
+│           │   ├── TestFixture.cs
+│           │   └── TestStepsBase.cs
+├── docker-compose.yml
+├── identity/
+│   ├── MiniCommerce.Identity.sln
+│   ├── README.md
+│   ├── docs/
+│   ├── src/
+│   │   ├── MiniCommerce.Identity.Application/
+│   │   │   ├── Abstractions/
+│   │   │   │   ├── IJwtTokenService.cs
+│   │   │   │   ├── IPermissionQueries.cs
+│   │   │   │   ├── IUserContext.cs
+│   │   │   │   └── IUserQueries.cs
+│   │   │   ├── Contracts/
+│   │   │   │   ├── PermissionResponse.cs
+│   │   │   │   ├── TokenResponse.cs
+│   │   │   │   └── UserResponse.cs
+│   │   │   ├── DependencyInjection.cs
+│   │   │   ├── GlobalUsings.cs
+│   │   │   ├── MiniCommerce.Identity.Application.csproj
+│   │   │   ├── UseCases/
+│   │   │   │   ├── Permissions/
+│   │   │   │   │   ├── CreatePermission/
+│   │   │   │   │   │   ├── CreatePermissionCommand.cs
+│   │   │   │   │   │   ├── CreatePermissionCommandHandler.cs
+│   │   │   │   │   │   └── CreatePermissionCommandValidator.cs
+│   │   │   │   │   ├── DeletePermission/
+│   │   │   │   │   │   ├── DeletePermissionCommand.cs
+│   │   │   │   │   │   ├── DeletePermissionCommandHandler.cs
+│   │   │   │   │   │   └── DeletePermissionCommandValidator.cs
+│   │   │   │   │   ├── DeprecatePermission/
+│   │   │   │   │   │   ├── DeprecatePermissionCommand.cs
+│   │   │   │   │   │   ├── DeprecatePermissionCommandHandler.cs
+│   │   │   │   │   │   └── DeprecatePermissionCommandValidator.cs
+│   │   │   │   │   ├── GetPermissionById/
+│   │   │   │   │   │   ├── GetPermissionByIdQuery.cs
+│   │   │   │   │   │   ├── GetPermissionByIdQueryHandler.cs
+│   │   │   │   │   │   └── GetPermissionByIdQueryValidator.cs
+│   │   │   │   │   └── ListPermissions/
+│   │   │   │   │       ├── ListPermissionsQuery.cs
+│   │   │   │   │       ├── ListPermissionsQueryHandler.cs
+│   │   │   │   │       └── ListPermissionsQueryValidator.cs
+│   │   │   │   └── Users/
+│   │   │   │       ├── CreateUser/
+│   │   │   │       │   ├── CreateUserCommand.cs
+│   │   │   │       │   ├── CreateUserCommandHandler.cs
+│   │   │   │       │   └── CreateUserCommandValidator.cs
+│   │   │   │       ├── DeleteUser/
+│   │   │   │       │   ├── DeleteUserCommand.cs
+│   │   │   │       │   ├── DeleteUserCommandHandler.cs
+│   │   │   │       │   └── DeleteUserCommandValidator.cs
+│   │   │   │       ├── GetCurrentUser/
+│   │   │   │       │   ├── GetCurrentUserQuery.cs
+│   │   │   │       │   ├── GetCurrentUserQueryHandler.cs
+│   │   │   │       │   └── GetCurrentUserQueryValidator.cs
+│   │   │   │       ├── GetUserById/
+│   │   │   │       │   ├── GetUserByIdQuery.cs
+│   │   │   │       │   ├── GetUserByIdQueryHandler.cs
+│   │   │   │       │   └── GetUserByIdQueryValidator.cs
+│   │   │   │       ├── ListUsers/
+│   │   │   │       │   ├── ListUsersQuery.cs
+│   │   │   │       │   ├── ListUsersQueryHandler.cs
+│   │   │   │       │   └── ListUsersQueryValidator.cs
+│   │   │   │       ├── LoginUser/
+│   │   │   │       │   ├── LoginUserCommand.cs
+│   │   │   │       │   ├── LoginUserCommandHandler.cs
+│   │   │   │       │   └── LoginUserCommandValidator.cs
+│   │   │   │       └── UpdateUserPermissions/
+│   │   │   │           ├── UpdateUserPermissionsCommand.cs
+│   │   │   │           ├── UpdateUserPermissionsCommandHandler.cs
+│   │   │   │           └── UpdateUserPermissionsCommandValidator.cs
+│   │   ├── MiniCommerce.Identity.Domain/
+│   │   │   ├── Abstractions/
+│   │   │   ├── Aggregates/
+│   │   │   │   ├── Permissions/
+│   │   │   │   │   ├── Entities/
+│   │   │   │   │   │   └── Permission.cs
+│   │   │   │   │   ├── Errors/
+│   │   │   │   │   │   └── PermissionErrors.cs
+│   │   │   │   │   └── Repositories/
+│   │   │   │   │       └── IPermissionRepository.cs
+│   │   │   │   └── Users/
+│   │   │   │       ├── Entities/
+│   │   │   │       │   ├── User.cs
+│   │   │   │       │   └── UserPermission.cs
+│   │   │   │       ├── Errors/
+│   │   │   │       │   └── UserErrors.cs
+│   │   │   │       ├── Repositories/
+│   │   │   │       │   └── IUserRepository.cs
+│   │   │   │       └── Specifications/
+│   │   │   │           └── UserByEmailSpec.cs
+│   │   │   ├── GlobalUsings.cs
+│   │   │   ├── MiniCommerce.Identity.Domain.csproj
+│   │   │   ├── PermissionAggregate/
+│   │   │   ├── UserAggregate/
+│   │   ├── MiniCommerce.Identity.Infrastructure/
+│   │   │   ├── DependencyInjection.cs
+│   │   │   ├── GlobalUsings.cs
+│   │   │   ├── Jwt/
+│   │   │   │   ├── JwtOptions.cs
+│   │   │   │   └── JwtTokenService.cs
+│   │   │   ├── MiniCommerce.Identity.Infrastructure.csproj
+│   │   │   ├── Persistence/
+│   │   │   │   ├── EFCore/
+│   │   │   │   │   ├── AppDbContext.cs
+│   │   │   │   │   ├── AppDbContextInitialiser.cs
+│   │   │   │   │   ├── Configurations/
+│   │   │   │   │   │   ├── PermissionConfiguration.cs
+│   │   │   │   │   │   ├── UserConfiguration.cs
+│   │   │   │   │   │   └── UserPermissionConfiguration.cs
+│   │   │   │   │   ├── InitialiserExtensions.cs
+│   │   │   │   │   ├── Migrations/
+│   │   │   │   │   │   ├── 20250823164051_InitialCreate.Designer.cs
+│   │   │   │   │   │   ├── 20250823164051_InitialCreate.cs
+│   │   │   │   │   │   ├── 20250823164356_CreateUsers.Designer.cs
+│   │   │   │   │   │   ├── 20250823164356_CreateUsers.cs
+│   │   │   │   │   │   ├── 20250825020439_AddRoleToUsers.Designer.cs
+│   │   │   │   │   │   ├── 20250825020439_AddRoleToUsers.cs
+│   │   │   │   │   │   ├── 20250826034417_RemoveUserRoleAndCreatePermissions.Designer.cs
+│   │   │   │   │   │   ├── 20250826034417_RemoveUserRoleAndCreatePermissions.cs
+│   │   │   │   │   │   ├── 20250826042016_CreateUserPermissions.Designer.cs
+│   │   │   │   │   │   ├── 20250826042016_CreateUserPermissions.cs
+│   │   │   │   │   │   └── AppDbContextModelSnapshot.cs
+│   │   │   │   │   └── UnitOfWork.cs
+│   │   │   │   ├── Queries/
+│   │   │   │   │   ├── PermissionQueries.cs
+│   │   │   │   │   └── UserQueries.cs
+│   │   │   │   └── Repositories/
+│   │   │   │       ├── PermissionRepository.cs
+│   │   │   │       └── UserRepository.cs
+│   │   └── MiniCommerce.Identity.Web/
+│   │       ├── DependencyInjection.cs
+│   │       ├── Dockerfile
+│   │       ├── Endpoints/
+│   │       │   ├── Policies.cs
+│   │       │   ├── Tags.cs
+│   │       │   └── V1/
+│   │       │       ├── IEndpointV1.cs
+│   │       │       ├── Permissions/
+│   │       │       │   ├── CreatePermissionEndpoint.cs
+│   │       │       │   ├── DeletePermissionEndpoint.cs
+│   │       │       │   ├── DeprecatePermissionEndpoint.cs
+│   │       │       │   ├── GetPermissionByIdEndpoint.cs
+│   │       │       │   └── ListPermissionsEndpoint.cs
+│   │       │       └── Users/
+│   │       │           ├── CreateUserEndpoint.cs
+│   │       │           ├── DeleteUserEndpoint.cs
+│   │       │           ├── GetCurrentUserEndpoint.cs
+│   │       │           ├── GetUserByIdEndpoint.cs
+│   │       │           ├── ListUsersEndpoint.cs
+│   │       │           ├── LoginUserEndpoint.cs
+│   │       │           └── UpdateUserPermissionsEndpoint.cs
+│   │       ├── Extensions/
+│   │       │   ├── ClaimsPrincipalExtensions.cs
+│   │       │   ├── JwtExtensions.cs
+│   │       │   ├── MiddlewareExtensions.cs
+│   │       │   ├── SerilogExtensions.cs
+│   │       │   └── SwaggerExtensions.cs
+│   │       ├── GlobalUsings.cs
+│   │       ├── IWebMarker.cs
+│   │       ├── Middlewares/
+│   │       │   ├── GlobalExceptionHandler.cs
+│   │       │   └── RequestContextLoggingMiddleware.cs
+│   │       ├── MiniCommerce.Identity.Web.csproj
+│   │       ├── MiniCommerce.Identity.Web.csproj.user
+│   │       ├── Program.cs
+│   │       ├── Properties/
+│   │       │   └── launchSettings.json
+│   │       ├── Services/
+│   │       │   └── UserContext.cs
+│   │       ├── appsettings.Development.json
+│   │       ├── appsettings.json
+│   └── tests/
+│       ├── MiniCommerce.Identity.Application.UnitTests/
+│       │   ├── GlobalUsings.cs
+│       │   ├── MiniCommerce.Identity.Application.UnitTests.csproj
+│       │   ├── UseCases/
+│       │   │   ├── Permissions/
+│       │   │   │   ├── CreatePermissionCommandHandlerTests.cs
+│       │   │   │   ├── DeletePermissionCommandHandlerTests.cs
+│       │   │   │   ├── DeprecatePermissionCommandHandlerTests.cs
+│       │   │   │   ├── GetPermissionByIdQueryHandlerTests.cs
+│       │   │   │   └── ListPermissionsQueryHandlerTests.cs
+│       │   │   └── Users/
+│       │   │       ├── CreateUserCommandHandlerTests.cs
+│       │   │       ├── DeleteUserCommandHandlerTests.cs
+│       │   │       ├── GetCurrentUserQueryHandlerTests.cs
+│       │   │       ├── GetUserByIdQueryHandlerTests.cs
+│       │   │       ├── ListUsersQueryHandlerTests.cs
+│       │   │       └── LoginUserCommandHandlerTests.cs
+│       ├── MiniCommerce.Identity.Domain.UnitTests/
+│       │   ├── Aggregates/
+│       │   │   ├── Permissions/
+│       │   │   │   └── Entities/
+│       │   │   │       └── PermissionTests.cs
+│       │   │   └── Users/
+│       │   │       └── Entities/
+│       │   │           └── UserTests.cs
+│       │   ├── MiniCommerce.Identity.Domain.UnitTests.csproj
+│       ├── MiniCommerce.Identity.Infrastructure.IntegrationTests/
+│       │   ├── GlobalUsings.cs
+│       │   ├── MiniCommerce.Identity.Infrastructure.IntegrationTests.csproj
+│       │   ├── Persistence/
+│       │   │   ├── EFCore/
+│       │   │   │   └── AppDbContextInitialiserTests.cs
+│       │   │   ├── Queries/
+│       │   │   │   ├── PermissionsQueriesTests.cs
+│       │   │   │   └── UserQueriesTests.cs
+│       │   │   └── Repositories/
+│       │   │       ├── PermissionRepositoryTests.cs
+│       │   │       └── UserRepositoryTests.cs
+│       │   ├── TestHelpers/
+│       │   │   ├── Data/
+│       │   │   │   ├── ITestDatabase.cs
+│       │   │   │   ├── PostgresTestDatabase.cs
+│       │   │   │   └── TestDatabaseFactory.cs
+│       │   │   ├── ServiceProviderFactory.cs
+│       │   │   ├── TestBase.cs
+│       │   │   ├── TestCollection.cs
+│       │   │   └── TestFixture.cs
+│       └── MiniCommerce.Identity.Web.AcceptanceTests/
+│           ├── Acceptance/
+│           │   ├── Permissions/
+│           │   │   ├── CreatePermissionTests.cs
+│           │   │   ├── DeletePermissionTests.cs
+│           │   │   ├── DeprecatePermissionTests.cs
+│           │   │   ├── GetPermissionByIdTests.cs
+│           │   │   └── ListPermissionsTests.cs
+│           │   └── Users/
+│           │       ├── CreateUserTests.cs
+│           │       ├── DeleteUserTests.cs
+│           │       ├── GetCurrentUserTests.cs
+│           │       ├── GetUserByIdTests.cs
+│           │       ├── ListUsersTests.cs
+│           │       ├── LoginUserTests.cs
+│           │       └── UpdateUserPermissionsTests.cs
+│           ├── GlobalUsings.cs
+│           ├── MiniCommerce.Identity.Web.AcceptanceTests.csproj
+│           ├── Smoke/
+│           │   ├── HealthTests.cs
+│           │   └── SwaggerTests.cs
+│           ├── Steps/
+│           │   ├── HealthSteps.cs
+│           │   ├── PermissionSteps.cs
+│           │   ├── SwaggerSteps.cs
+│           │   └── UserSteps.cs
+│           ├── TestHelpers/
+│           │   ├── CustomWebApplicationFactory.cs
+│           │   ├── Data/
+│           │   │   ├── ITestDatabase.cs
+│           │   │   ├── PostgresTestDatabase.cs
+│           │   │   └── TestDatabaseFactory.cs
+│           │   ├── TestBase.cs
+│           │   ├── TestCollection.cs
+│           │   ├── TestFixture.cs
+│           │   └── TestStepsBase.cs
+├── package-lock.json
+├── package.json
+├── project-tree.txt
+└── tree.py

@@ -11,22 +11,22 @@ public static class DependencyInjection
         services.AddEndpointsApiExplorer();
 
         services
-            .AddApiVersioning(options =>
+            .AddApiVersioning(o =>
             {
-                options.AssumeDefaultVersionWhenUnspecified = true;
-                options.DefaultApiVersion = new(1, 0);
-                options.ReportApiVersions = true;
+                o.AssumeDefaultVersionWhenUnspecified = true;
+                o.DefaultApiVersion = new(1, 0);
+                o.ReportApiVersions = true;
             })
-            .AddApiExplorer(options =>
+            .AddApiExplorer(o =>
             {
-                options.GroupNameFormat = "'v'VVV";
-                options.SubstituteApiVersionInUrl = true;
+                o.GroupNameFormat = "'v'VVV";
+                o.SubstituteApiVersionInUrl = true;
             });
 
 
-        services.ConfigureHttpJsonOptions(options =>
+        services.ConfigureHttpJsonOptions(o =>
         {
-            options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
+            o.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
         });
 
         services.AddExceptionHandler<GlobalExceptionHandler>();
