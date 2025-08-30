@@ -5,17 +5,17 @@ namespace MiniCommerce.Identity.Infrastructure.IntegrationTests.TestHelpers;
 public class TestFixture : IAsyncLifetime
 {
     private ITestDatabase _database = null!;
-    private ServiceProviderFactory _serviceProvider = null!;
+    private ServiceProviderFactory _factory = null!;
 
     public async Task InitializeAsync()
     {
         _database = await TestDatabaseFactory.CreateAsync();
-        _serviceProvider = new ServiceProviderFactory(_database.GetConnection());
+        _factory = new ServiceProviderFactory(_database.GetConnection());
     }
 
     public T GetRequiredService<T>() where T : class
     {
-        return _serviceProvider.Services.GetRequiredService<T>();
+        return _factory.Services.GetRequiredService<T>();
     }
 
     public async Task ResetStateAsync()

@@ -1,4 +1,4 @@
-﻿using MiniCommerce.Catalog.Application.UseCases.Products;
+﻿using MiniCommerce.Catalog.Application.Contracts;
 using MiniCommerce.Catalog.Application.UseCases.Products.UpdateProduct;
 
 namespace MiniCommerce.Catalog.Web.Endpoints.V1.Products;
@@ -21,7 +21,7 @@ public class UpdateProductEndpoint : IEndpointV1
             var result = await handler.HandleAsync(command, cancellationToken);
             return result.Match(Results.Ok, CustomResults.Problem);
         })
-        .RequireAuthorization(Permissions.CanUpdateProduct)
+        .RequireAuthorization(Policies.CanUpdateProduct)
         .WithTags(Tags.Products);
     }
 }

@@ -3,10 +3,7 @@ using MiniCommerce.Catalog.Infrastructure;
 using MiniCommerce.Catalog.Infrastructure.Persistence.EFCore;
 using MiniCommerce.Catalog.Web;
 using MiniCommerce.Catalog.Web.Endpoints.V1;
-using MiniCommerce.Catalog.Web.Extensions.Auth;
-using MiniCommerce.Catalog.Web.Extensions.Docs;
-using MiniCommerce.Catalog.Web.Extensions.Logging;
-using MiniCommerce.Catalog.Web.Extensions.Middlewares;
+using MiniCommerce.Catalog.Web.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,7 +15,7 @@ builder.Services
     .AddInfrastructure(builder.Configuration);
 
 builder.Services
-    .AddAuthWithJwt(builder.Configuration)
+    .AddJwtBearer(builder.Configuration)
     .AddSwaggerGenWithAuth()
     .AddEndpoints(Assembly.GetExecutingAssembly());
 

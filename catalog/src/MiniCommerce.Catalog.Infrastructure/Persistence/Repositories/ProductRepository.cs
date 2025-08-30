@@ -1,5 +1,5 @@
-﻿using MiniCommerce.Catalog.Domain.ProductAggregate.Entities;
-using MiniCommerce.Catalog.Domain.ProductAggregate.Repositories;
+﻿using MiniCommerce.Catalog.Domain.Aggregates.Products.Entities;
+using MiniCommerce.Catalog.Domain.Aggregates.Products.Repositories;
 using MiniCommerce.Catalog.Infrastructure.Persistence.EFCore;
 
 namespace MiniCommerce.Catalog.Infrastructure.Persistence.Repositories;
@@ -18,35 +18,6 @@ public class ProductRepository(AppDbContext context) : IProductRepository
         return context.Products
             .AsNoTracking()
             .FirstOrDefaultAsync(specification.Criteria, cancellationToken);
-    }
-
-    public async Task AddAsync(Product entity, CancellationToken cancellationToken = default)
-    {
-        await context.Products.AddAsync(entity, cancellationToken);
-    }
-
-    public Task UpdateAsync(Product entity, CancellationToken cancellationToken = default)
-    {
-        context.Products.Update(entity);
-        return Task.CompletedTask;
-    }
-
-    public Task DeleteAsync(Product entity, CancellationToken cancellationToken = default)
-    {
-        context.Products.Remove(entity);
-        return Task.CompletedTask;
-    }
-
-    public Task SaveChangesAsync(CancellationToken cancellationToken = default)
-    {
-        return context.SaveChangesAsync(cancellationToken);
-    }
-
-    public Task<bool> AnyAsync(ISpecification<Product> specification, CancellationToken cancellationToken = default)
-    {
-        return context.Products
-            .AsNoTracking()
-            .AnyAsync(specification.Criteria, cancellationToken);
     }
 
     public async Task<IReadOnlyList<Product>> ListAsync(ISpecification<Product> specification, CancellationToken cancellationToken = default)
@@ -69,5 +40,29 @@ public class ProductRepository(AppDbContext context) : IProductRepository
         return context.Products
             .AsNoTracking()
             .CountAsync(specification.Criteria, cancellationToken);
+    }
+
+    public Task<bool> AnyAsync(ISpecification<Product> specification, CancellationToken cancellationToken = default)
+    {
+        return context.Products
+            .AsNoTracking()
+            .AnyAsync(specification.Criteria, cancellationToken);
+    }
+
+    public async Task AddAsync(Product entity, CancellationToken cancellationToken = default)
+    {
+        await context.Products.AddAsync(entity, cancellationToken);
+    }
+
+    public Task UpdateAsync(Product entity, CancellationToken cancellationToken = default)
+    {
+        context.Products.Update(entity);
+        return Task.CompletedTask;
+    }
+
+    public Task DeleteAsync(Product entity, CancellationToken cancellationToken = default)
+    {
+        context.Products.Remove(entity);
+        return Task.CompletedTask;
     }
 }

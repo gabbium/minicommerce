@@ -1,7 +1,5 @@
 ﻿using MiniCommerce.Identity.Application.Contracts;
-using MiniCommerce.Identity.Application.Contracts.Permissions;
-using MiniCommerce.Identity.Application.Features.Permissions.CreatePermission;
-using MiniCommerce.Identity.Web.Endpoints.Common;
+using MiniCommerce.Identity.Application.UseCases.Permissions.CreatePermission;
 
 namespace MiniCommerce.Identity.Web.Endpoints.V1.Permissions;
 
@@ -24,7 +22,7 @@ public class CreatePermissionEndpoint : IEndpointV1
                 p => Results.Created(GetPermissionByIdEndpoint.BuildRoute(p.Id), p),
                 CustomResults.Problem);
         })
-        .RequireAuthorization(IdentityPermissionNames.CanCreatePermission)
+        .RequireAuthorization(Policies.CanCreatePermission)
         .WithTags(Tags.Permissions)
         .Produces<PermissionResponse>(StatusCodes.Status201Created)
         .ProducesValidationProblem(StatusCodes.Status400BadRequest)

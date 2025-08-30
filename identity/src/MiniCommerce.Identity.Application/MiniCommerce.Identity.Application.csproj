@@ -7,12 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Features\Users\UpdateUserLockout\**" />
-    <Compile Remove="Features\Users\UpdateUserPassword\**" />
-    <EmbeddedResource Remove="Features\Users\UpdateUserLockout\**" />
-    <EmbeddedResource Remove="Features\Users\UpdateUserPassword\**" />
-    <None Remove="Features\Users\UpdateUserLockout\**" />
-    <None Remove="Features\Users\UpdateUserPassword\**" />
+    <Compile Remove="UseCases\Users\UpdateUserLockout\**" />
+    <Compile Remove="UseCases\Users\UpdateUserPassword\**" />
+    <EmbeddedResource Remove="UseCases\Users\UpdateUserLockout\**" />
+    <EmbeddedResource Remove="UseCases\Users\UpdateUserPassword\**" />
+    <None Remove="UseCases\Users\UpdateUserLockout\**" />
+    <None Remove="UseCases\Users\UpdateUserPassword\**" />
   </ItemGroup>
 
   <ItemGroup>

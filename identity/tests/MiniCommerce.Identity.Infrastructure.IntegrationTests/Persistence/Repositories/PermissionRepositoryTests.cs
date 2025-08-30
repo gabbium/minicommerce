@@ -1,4 +1,5 @@
-﻿using MiniCommerce.Identity.Domain.Aggregates.Permissions;
+﻿using MiniCommerce.Identity.Domain.Aggregates.Permissions.Entities;
+using MiniCommerce.Identity.Domain.Aggregates.Permissions.Repositories;
 using MiniCommerce.Identity.Infrastructure.IntegrationTests.TestHelpers;
 
 namespace MiniCommerce.Identity.Infrastructure.IntegrationTests.Persistence.Repositories;
@@ -9,6 +10,9 @@ public class PermissionRepositoryTests(TestFixture fixture) : TestBase(fixture)
     private readonly IPermissionRepository _repository =
         fixture.GetRequiredService<IPermissionRepository>();
 
+    private readonly IUnitOfWork _unitOfWork =
+        fixture.GetRequiredService<IUnitOfWork>();
+
     [Fact]
     public async Task PermissionIsCreatedAndLoadedCorrectly()
     {
@@ -17,7 +21,7 @@ public class PermissionRepositoryTests(TestFixture fixture) : TestBase(fixture)
 
         // Act
         await _repository.AddAsync(permission);
-        await _repository.SaveChangesAsync();
+        await _unitOfWork.SaveChangesAsync();
 
         // Assert
         var retrieved = await _repository.GetByIdAsync(permission.Id);
@@ -33,13 +37,13 @@ public class PermissionRepositoryTests(TestFixture fixture) : TestBase(fixture)
         // Arrange
         var permission = new Permission("catalog:products.list");
         await _repository.AddAsync(permission);
-        await _repository.SaveChangesAsync();
+        await _unitOfWork.SaveChangesAsync();
 
         // Act
         permission.Deprecate();
 
         await _repository.UpdateAsync(permission);
-        await _repository.SaveChangesAsync();
+        await _unitOfWork.SaveChangesAsync();
 
         // Assert
         var retrieved = await _repository.GetByIdAsync(permission.Id);
@@ -53,11 +57,11 @@ public class PermissionRepositoryTests(TestFixture fixture) : TestBase(fixture)
         // Arrange
         var permission = new Permission("catalog:products.list");
         await _repository.AddAsync(permission);
-        await _repository.SaveChangesAsync();
+        await _unitOfWork.SaveChangesAsync();
 
         // Act
         await _repository.DeleteAsync(permission);
-        await _repository.SaveChangesAsync();
+        await _unitOfWork.SaveChangesAsync();
 
         // Assert
         var retrieved = await _repository.GetByIdAsync(permission.Id);

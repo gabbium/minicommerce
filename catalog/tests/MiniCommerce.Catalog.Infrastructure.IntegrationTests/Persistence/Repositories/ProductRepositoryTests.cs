@@ -1,5 +1,5 @@
-﻿using MiniCommerce.Catalog.Domain.ProductAggregate.Entities;
-using MiniCommerce.Catalog.Domain.ProductAggregate.Repositories;
+﻿using MiniCommerce.Catalog.Domain.Aggregates.Products.Entities;
+using MiniCommerce.Catalog.Domain.Aggregates.Products.Repositories;
 using MiniCommerce.Catalog.Infrastructure.IntegrationTests.TestHelpers;
 
 namespace MiniCommerce.Catalog.Infrastructure.IntegrationTests.Persistence.Repositories;

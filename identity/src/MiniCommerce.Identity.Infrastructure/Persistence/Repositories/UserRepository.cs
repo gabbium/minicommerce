@@ -1,4 +1,5 @@
-﻿using MiniCommerce.Identity.Domain.Aggregates.Users;
+﻿using MiniCommerce.Identity.Domain.Aggregates.Users.Entities;
+using MiniCommerce.Identity.Domain.Aggregates.Users.Repositories;
 using MiniCommerce.Identity.Infrastructure.Persistence.EFCore;
 
 namespace MiniCommerce.Identity.Infrastructure.Persistence.Repositories;
@@ -9,35 +10,59 @@ public class UserRepository(AppDbContext context) : IUserRepository
     {
         return context.Users
             .AsNoTracking()
-            .FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
+            .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
     }
 
-    public Task<User?> GetByEmailAsync(string email, CancellationToken cancellationToken = default)
+    public Task<User?> FirstOrDefaultAsync(ISpecification<User> specification, CancellationToken cancellationToken = default)
     {
         return context.Users
             .AsNoTracking()
-            .FirstOrDefaultAsync(x => x.Email == email, cancellationToken);
+            .FirstOrDefaultAsync(specification.Criteria, cancellationToken);
     }
 
-    public async Task AddAsync(User user, CancellationToken cancellationToken = default)
+    public async Task<IReadOnlyList<User>> ListAsync(ISpecification<User> specification, CancellationToken cancellationToken = default)
     {
-        await context.Users.AddAsync(user, cancellationToken);
+        return await context.Users
+            .AsNoTracking()
+            .Where(specification.Criteria)
+            .ToListAsync(cancellationToken);
     }
 
-    public Task UpdateAsync(User user, CancellationToken cancellationToken = default)
+    public async Task<IReadOnlyList<User>> ListAllAsync(CancellationToken cancellationToken = default)
     {
-        context.Users.Update(user);
+        return await context.Users
+            .AsNoTracking()
+            .ToListAsync(cancellationToken);
+    }
+
+    public Task<int> CountAsync(ISpecification<User> specification, CancellationToken cancellationToken = default)
+    {
+        return context.Users
+            .AsNoTracking()
+            .CountAsync(specification.Criteria, cancellationToken);
+    }
+
+    public Task<bool> AnyAsync(ISpecification<User> specification, CancellationToken cancellationToken = default)
+    {
+        return context.Users
+            .AsNoTracking()
+            .AnyAsync(specification.Criteria, cancellationToken);
+    }
+
+    public async Task AddAsync(User entity, CancellationToken cancellationToken = default)
+    {
+        await context.Users.AddAsync(entity, cancellationToken);
+    }
+
+    public Task UpdateAsync(User entity, CancellationToken cancellationToken = default)
+    {
+        context.Users.Update(entity);
         return Task.CompletedTask;
     }
 
-    public Task DeleteAsync(User user, CancellationToken cancellationToken = default)
+    public Task DeleteAsync(User entity, CancellationToken cancellationToken = default)
     {
-        context.Users.Remove(user);
+        context.Users.Remove(entity);
         return Task.CompletedTask;
-    }
-
-    public Task SaveChangesAsync(CancellationToken cancellationToken = default)
-    {
-        return context.SaveChangesAsync(cancellationToken);
     }
 }

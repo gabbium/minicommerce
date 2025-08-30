@@ -1,7 +1,5 @@
 ﻿using MiniCommerce.Identity.Application.Contracts;
-using MiniCommerce.Identity.Application.Contracts.Users;
-using MiniCommerce.Identity.Application.Features.Users.CreateUser;
-using MiniCommerce.Identity.Web.Endpoints.Common;
+using MiniCommerce.Identity.Application.UseCases.Users.CreateUser;
 
 namespace MiniCommerce.Identity.Web.Endpoints.V1.Users;
 
@@ -24,7 +22,7 @@ public class CreateUserEndpoint : IEndpointV1
                 u => Results.Created(GetUserByIdEndpoint.BuildRoute(u.Id), u),
                 CustomResults.Problem);
         })
-        .RequireAuthorization(IdentityPermissionNames.CanCreateUser)
+        .RequireAuthorization(Policies.CanCreateUser)
         .WithTags(Tags.Users)
         .Produces<UserResponse>(StatusCodes.Status201Created)
         .ProducesValidationProblem(StatusCodes.Status400BadRequest)

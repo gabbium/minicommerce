@@ -1,6 +1,5 @@
-﻿using MiniCommerce.Identity.Application.Contracts.Users;
-using MiniCommerce.Identity.Application.Features.Users.GetCurrentUser;
-using MiniCommerce.Identity.Web.Endpoints.Common;
+﻿using MiniCommerce.Identity.Application.Contracts;
+using MiniCommerce.Identity.Application.UseCases.Users.GetCurrentUser;
 
 namespace MiniCommerce.Identity.Web.Endpoints.V1.Users;
 

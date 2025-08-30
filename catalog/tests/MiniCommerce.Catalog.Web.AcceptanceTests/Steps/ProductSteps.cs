@@ -1,4 +1,4 @@
-﻿using MiniCommerce.Catalog.Application.UseCases.Products;
+﻿using MiniCommerce.Catalog.Application.Contracts;
 using MiniCommerce.Catalog.Web.AcceptanceTests.TestHelpers;
 using MiniCommerce.Catalog.Web.Endpoints.V1.Products;
 

@@ -1,5 +1,6 @@
-﻿using MiniCommerce.Catalog.Domain.ProductAggregate.Entities;
-using MiniCommerce.Catalog.Domain.ProductAggregate.Repositories;
+﻿using MiniCommerce.Catalog.Application.Contracts;
+using MiniCommerce.Catalog.Domain.Aggregates.Products.Entities;
+using MiniCommerce.Catalog.Domain.Aggregates.Products.Repositories;
 
 namespace MiniCommerce.Catalog.Application.UseCases.Products.CreateProduct;
 

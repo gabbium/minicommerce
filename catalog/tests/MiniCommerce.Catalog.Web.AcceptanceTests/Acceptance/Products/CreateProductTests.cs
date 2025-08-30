@@ -1,4 +1,4 @@
-﻿using MiniCommerce.Catalog.Application.UseCases.Products;
+﻿using MiniCommerce.Catalog.Application.Contracts;
 using MiniCommerce.Catalog.Web.AcceptanceTests.Steps;
 using MiniCommerce.Catalog.Web.AcceptanceTests.TestHelpers;
 using MiniCommerce.Catalog.Web.Endpoints;
@@ -13,7 +13,7 @@ public class CreateProductTests(TestFixture fixture) : TestBase(fixture)
     [Fact]
     public async Task UserCreatesProductWithValidData()
     {
-        await _steps.GivenAnAuthenticatedUser(Permissions.CanCreateProduct);
+        await _steps.GivenAnAuthenticatedUser(Policies.CanCreateProduct);
         await _steps.WhenTheyAttemptToCreateProduct(new("SKU-001", "Bluetooth Headphones", 129.50m));
         await _steps.ThenResponseIs201Created();
         await _steps.ThenResponseMatches<ProductResponse>(product =>
@@ -28,7 +28,7 @@ public class CreateProductTests(TestFixture fixture) : TestBase(fixture)
     [Fact]
     public async Task UserAttemptsToCreateProductWithEmptySku()
     {
-        await _steps.GivenAnAuthenticatedUser(Permissions.CanCreateProduct);
+        await _steps.GivenAnAuthenticatedUser(Policies.CanCreateProduct);
         await _steps.WhenTheyAttemptToCreateProduct(new(string.Empty, "Bluetooth Headphones", 129.50m));
         await _steps.ThenResponseIs400BadRequest();
         await _steps.ThenResponseIsValidationProblemDetails(new()
@@ -40,7 +40,7 @@ public class CreateProductTests(TestFixture fixture) : TestBase(fixture)
     [Fact]
     public async Task UserAttemptsToCreateProductWithEmptyName()
     {
-        await _steps.GivenAnAuthenticatedUser(Permissions.CanCreateProduct);
+        await _steps.GivenAnAuthenticatedUser(Policies.CanCreateProduct);
         await _steps.WhenTheyAttemptToCreateProduct(new("SKU-001", string.Empty, 129.50m));
         await _steps.ThenResponseIs400BadRequest();
         await _steps.ThenResponseIsValidationProblemDetails(new()
@@ -52,7 +52,7 @@ public class CreateProductTests(TestFixture fixture) : TestBase(fixture)
     [Fact]
     public async Task UserAttemptsToCreateProductWithEmptyPrice()
     {
-        await _steps.GivenAnAuthenticatedUser(Permissions.CanCreateProduct);
+        await _steps.GivenAnAuthenticatedUser(Policies.CanCreateProduct);
         await _steps.WhenTheyAttemptToCreateProduct(new("SKU-001", "Bluetooth Headphones", 0m));
         await _steps.ThenResponseIs400BadRequest();
         await _steps.ThenResponseIsValidationProblemDetails(new()

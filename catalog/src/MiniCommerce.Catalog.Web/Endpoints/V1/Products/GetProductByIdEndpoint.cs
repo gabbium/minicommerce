@@ -1,4 +1,4 @@
-﻿using MiniCommerce.Catalog.Application.UseCases.Products;
+﻿using MiniCommerce.Catalog.Application.Contracts;
 using MiniCommerce.Catalog.Application.UseCases.Products.GetProductById;
 
 namespace MiniCommerce.Catalog.Web.Endpoints.V1.Products;
@@ -18,7 +18,7 @@ public class GetProductByIdEndpoint : IEndpointV1
             var result = await handler.HandleAsync(query, cancellationToken);
             return result.Match(Results.Ok, CustomResults.Problem);
         })
-        .RequireAuthorization(Permissions.CanGetProductById)
+        .RequireAuthorization(Policies.CanGetProductById)
         .WithTags(Tags.Products);
     }
 }

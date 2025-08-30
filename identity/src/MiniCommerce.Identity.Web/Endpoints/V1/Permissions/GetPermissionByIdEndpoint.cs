@@ -1,7 +1,5 @@
 ﻿using MiniCommerce.Identity.Application.Contracts;
-using MiniCommerce.Identity.Application.Contracts.Permissions;
-using MiniCommerce.Identity.Application.Features.Permissions.GetPermissionById;
-using MiniCommerce.Identity.Web.Endpoints.Common;
+using MiniCommerce.Identity.Application.UseCases.Permissions.GetPermissionById;
 
 namespace MiniCommerce.Identity.Web.Endpoints.V1.Permissions;
 
@@ -20,7 +18,7 @@ public class GetPermissionByIdEndpoint : IEndpointV1
             var result = await handler.HandleAsync(query, cancellationToken);
             return result.Match(Results.Ok, CustomResults.Problem);
         })
-        .RequireAuthorization(IdentityPermissionNames.CanGetPermissionById)
+        .RequireAuthorization(Policies.CanGetPermissionById)
         .WithTags(Tags.Permissions)
         .Produces<PermissionResponse>(StatusCodes.Status200OK)
         .ProducesValidationProblem(StatusCodes.Status400BadRequest)

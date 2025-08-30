@@ -1,4 +1,4 @@
-﻿using MiniCommerce.Catalog.Application.UseCases.Products;
+﻿using MiniCommerce.Catalog.Application.Contracts;
 using MiniCommerce.Catalog.Web.AcceptanceTests.Steps;
 using MiniCommerce.Catalog.Web.AcceptanceTests.TestHelpers;
 using MiniCommerce.Catalog.Web.Endpoints;
@@ -13,7 +13,7 @@ public class GetProductByIdTests(TestFixture fixture) : TestBase(fixture)
     [Fact]
     public async Task UserGetsProductById()
     {
-        await _steps.GivenAnAuthenticatedUser(Permissions.CanCreateProduct, Permissions.CanGetProductById);
+        await _steps.GivenAnAuthenticatedUser(Policies.CanCreateProduct, Policies.CanGetProductById);
         var id = await _steps.GivenAnExistingProduct(new("SKU-001", "Bluetooth Headphones", 129.50m));
         await _steps.WhenTheyAttemptToGetProductById(id);
         await _steps.ThenResponseIs200Ok();
@@ -29,7 +29,7 @@ public class GetProductByIdTests(TestFixture fixture) : TestBase(fixture)
     [Fact]
     public async Task UserAttemptsToGetProductWithEmptyId()
     {
-        await _steps.GivenAnAuthenticatedUser(Permissions.CanGetProductById);
+        await _steps.GivenAnAuthenticatedUser(Policies.CanGetProductById);
         await _steps.WhenTheyAttemptToGetProductById(Guid.Empty);
         await _steps.ThenResponseIs400BadRequest();
         await _steps.ThenResponseIsValidationProblemDetails(new()
@@ -57,7 +57,7 @@ public class GetProductByIdTests(TestFixture fixture) : TestBase(fixture)
     [Fact]
     public async Task UserAttemptsToGetNonExistentProduct()
     {
-        await _steps.GivenAnAuthenticatedUser(Permissions.CanGetProductById);
+        await _steps.GivenAnAuthenticatedUser(Policies.CanGetProductById);
         await _steps.WhenTheyAttemptToGetProductById(Guid.NewGuid());
         await _steps.ThenResponseIs404NotFound();
         await _steps.ThenResponseIsProblemDetails("Products.NotFound", "The specified product was not found.");

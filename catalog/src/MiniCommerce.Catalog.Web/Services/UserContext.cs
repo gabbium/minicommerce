@@ -1,5 +1,5 @@
 ﻿using MiniCommerce.Catalog.Application.Abstractions;
-using MiniCommerce.Catalog.Web.Extensions.Auth;
+using MiniCommerce.Catalog.Web.Extensions;
 
 namespace MiniCommerce.Catalog.Web.Services;
 

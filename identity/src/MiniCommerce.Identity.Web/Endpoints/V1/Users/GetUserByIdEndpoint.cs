@@ -1,7 +1,5 @@
 ﻿using MiniCommerce.Identity.Application.Contracts;
-using MiniCommerce.Identity.Application.Contracts.Users;
-using MiniCommerce.Identity.Application.Features.Users.GetUserById;
-using MiniCommerce.Identity.Web.Endpoints.Common;
+using MiniCommerce.Identity.Application.UseCases.Users.GetUserById;
 
 namespace MiniCommerce.Identity.Web.Endpoints.V1.Users;
 
@@ -20,7 +18,7 @@ public class GetUserByIdEndpoint : IEndpointV1
             var result = await handler.HandleAsync(query, cancellationToken);
             return result.Match(Results.Ok, CustomResults.Problem);
         })
-        .RequireAuthorization(IdentityPermissionNames.CanGetUserById)
+        .RequireAuthorization(Policies.CanGetUserById)
         .WithTags(Tags.Users)
         .Produces<UserResponse>(StatusCodes.Status200OK)
         .ProducesValidationProblem(StatusCodes.Status400BadRequest)

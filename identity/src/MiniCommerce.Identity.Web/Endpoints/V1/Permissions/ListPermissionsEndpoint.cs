@@ -1,8 +1,5 @@
-﻿using MiniCommerce.Identity.Application.Common.Models;
-using MiniCommerce.Identity.Application.Contracts;
-using MiniCommerce.Identity.Application.Contracts.Permissions;
-using MiniCommerce.Identity.Application.Features.Permissions.ListPermissions;
-using MiniCommerce.Identity.Web.Endpoints.Common;
+﻿using MiniCommerce.Identity.Application.Contracts;
+using MiniCommerce.Identity.Application.UseCases.Permissions.ListPermissions;
 
 namespace MiniCommerce.Identity.Web.Endpoints.V1.Permissions;
 
@@ -16,16 +13,16 @@ public class ListPermissionsEndpoint : IEndpointV1
     {
         app.MapGet("permissions", async (
             [AsParameters] ListPermissionsRequest request,
-            IQueryHandler<ListPermissionsQuery, PagedList<PermissionResponse>> handler,
+            IQueryHandler<ListPermissionsQuery, PaginatedList<PermissionResponse>> handler,
             CancellationToken cancellationToken) =>
         {
             var query = new ListPermissionsQuery(request.Page, request.PageSize);
             var result = await handler.HandleAsync(query, cancellationToken);
             return result.Match(Results.Ok, CustomResults.Problem);
         })
-        .RequireAuthorization(IdentityPermissionNames.CanListPermissions)
+        .RequireAuthorization(Policies.CanListPermissions)
         .WithTags(Tags.Permissions)
-        .Produces<PagedList<PermissionResponse>>(StatusCodes.Status200OK)
+        .Produces<PaginatedList<PermissionResponse>>(StatusCodes.Status200OK)
         .ProducesValidationProblem(StatusCodes.Status400BadRequest)
         .ProducesProblem(StatusCodes.Status401Unauthorized)
         .ProducesProblem(StatusCodes.Status403Forbidden);

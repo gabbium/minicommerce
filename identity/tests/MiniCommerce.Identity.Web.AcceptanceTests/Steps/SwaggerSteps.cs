@@ -2,7 +2,7 @@
 
 namespace MiniCommerce.Identity.Web.AcceptanceTests.Steps;
 
-public class SwaggerSteps(TestFixture fixture) : CommonStepsBase(fixture)
+public class SwaggerSteps(TestFixture fixture) : TestStepsBase(fixture)
 {
     public async Task WhenTheyAttemptToCheckSwaggerJson()
     {

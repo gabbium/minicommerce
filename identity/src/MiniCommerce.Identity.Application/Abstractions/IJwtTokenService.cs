@@ -1,4 +1,4 @@
-﻿using MiniCommerce.Identity.Domain.Aggregates.Users;
+﻿using MiniCommerce.Identity.Domain.Aggregates.Users.Entities;
 
 namespace MiniCommerce.Identity.Application.Abstractions;
 

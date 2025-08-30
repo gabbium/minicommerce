@@ -1,7 +1,5 @@
 ﻿using MiniCommerce.Identity.Application.Contracts;
-using MiniCommerce.Identity.Application.Contracts.Permissions;
-using MiniCommerce.Identity.Application.Features.Permissions.DeprecatePermission;
-using MiniCommerce.Identity.Web.Endpoints.Common;
+using MiniCommerce.Identity.Application.UseCases.Permissions.DeprecatePermission;
 
 namespace MiniCommerce.Identity.Web.Endpoints.V1.Permissions;
 
@@ -20,7 +18,7 @@ public class DeprecatePermissionEndpoint : IEndpointV1
             var result = await handler.HandleAsync(command, cancellationToken);
             return result.Match(Results.Ok, CustomResults.Problem);
         })
-        .RequireAuthorization(IdentityPermissionNames.CanDeprecatePermission)
+        .RequireAuthorization(Policies.CanDeprecatePermission)
         .WithTags(Tags.Permissions)
         .Produces<PermissionResponse>(StatusCodes.Status200OK)
         .ProducesValidationProblem(StatusCodes.Status400BadRequest)

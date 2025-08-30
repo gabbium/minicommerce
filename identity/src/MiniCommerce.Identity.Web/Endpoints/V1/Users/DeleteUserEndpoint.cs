@@ -1,6 +1,4 @@
-﻿using MiniCommerce.Identity.Application.Contracts;
-using MiniCommerce.Identity.Application.Features.Users.DeleteUser;
-using MiniCommerce.Identity.Web.Endpoints.Common;
+﻿using MiniCommerce.Identity.Application.UseCases.Users.DeleteUser;
 
 namespace MiniCommerce.Identity.Web.Endpoints.V1.Users;
 
@@ -19,7 +17,7 @@ public class DeleteUserEndpoint : IEndpointV1
             var result = await handler.HandleAsync(command, cancellationToken);
             return result.Match(Results.NoContent, CustomResults.Problem);
         })
-        .RequireAuthorization(IdentityPermissionNames.CanDeleteUser)
+        .RequireAuthorization(Policies.CanDeleteUser)
         .WithTags(Tags.Users)
         .Produces(StatusCodes.Status204NoContent)
         .ProducesValidationProblem(StatusCodes.Status400BadRequest)

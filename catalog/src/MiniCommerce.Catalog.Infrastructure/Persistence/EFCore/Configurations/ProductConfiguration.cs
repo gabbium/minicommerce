@@ -1,4 +1,4 @@
-﻿using MiniCommerce.Catalog.Domain.ProductAggregate.Entities;
+﻿using MiniCommerce.Catalog.Domain.Aggregates.Products.Entities;
 
 namespace MiniCommerce.Catalog.Infrastructure.Persistence.EFCore.Configurations;
 

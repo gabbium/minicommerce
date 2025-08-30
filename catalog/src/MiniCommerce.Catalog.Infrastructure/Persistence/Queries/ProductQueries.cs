@@ -1,4 +1,5 @@
-﻿using MiniCommerce.Catalog.Application.UseCases.Products;
+﻿using MiniCommerce.Catalog.Application.Abstractions;
+using MiniCommerce.Catalog.Application.Contracts;
 using MiniCommerce.Catalog.Application.UseCases.Products.ListProducts;
 using MiniCommerce.Catalog.Infrastructure.Persistence.EFCore;
 

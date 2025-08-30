@@ -1,4 +1,7 @@
-﻿namespace MiniCommerce.Catalog.Application.UseCases.Products.ListProducts;
+﻿using MiniCommerce.Catalog.Application.Abstractions;
+using MiniCommerce.Catalog.Application.Contracts;
+
+namespace MiniCommerce.Catalog.Application.UseCases.Products.ListProducts;
 
 public class ListProductsQueryHandler(IProductQueries listProductsService) : IQueryHandler<ListProductsQuery, PaginatedList<ProductResponse>>
 {

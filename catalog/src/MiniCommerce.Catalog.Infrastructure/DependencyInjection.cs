@@ -1,5 +1,5 @@
-﻿using MiniCommerce.Catalog.Application.UseCases.Products;
-using MiniCommerce.Catalog.Domain.ProductAggregate.Repositories;
+﻿using MiniCommerce.Catalog.Application.Abstractions;
+using MiniCommerce.Catalog.Domain.Aggregates.Products.Repositories;
 using MiniCommerce.Catalog.Infrastructure.Persistence.EFCore;
 using MiniCommerce.Catalog.Infrastructure.Persistence.Queries;
 using MiniCommerce.Catalog.Infrastructure.Persistence.Repositories;
@@ -24,7 +24,6 @@ public static class DependencyInjection
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         services.AddScoped<IProductRepository, ProductRepository>();
-
         services.AddScoped<IProductQueries, ProductQueries>();
 
         return services;

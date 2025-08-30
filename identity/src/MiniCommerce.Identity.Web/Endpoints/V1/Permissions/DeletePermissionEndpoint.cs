@@ -1,6 +1,4 @@
-﻿using MiniCommerce.Identity.Application.Contracts;
-using MiniCommerce.Identity.Application.Features.Permissions.DeletePermission;
-using MiniCommerce.Identity.Web.Endpoints.Common;
+﻿using MiniCommerce.Identity.Application.UseCases.Permissions.DeletePermission;
 
 namespace MiniCommerce.Identity.Web.Endpoints.V1.Permissions;
 
@@ -19,7 +17,7 @@ public class DeletePermissionEndpoint : IEndpointV1
             var result = await handler.HandleAsync(command, cancellationToken);
             return result.Match(Results.NoContent, CustomResults.Problem);
         })
-        .RequireAuthorization(IdentityPermissionNames.CanDeletePermission)
+        .RequireAuthorization(Policies.CanDeletePermission)
         .WithTags(Tags.Permissions)
         .Produces(StatusCodes.Status204NoContent)
         .ProducesValidationProblem(StatusCodes.Status400BadRequest)

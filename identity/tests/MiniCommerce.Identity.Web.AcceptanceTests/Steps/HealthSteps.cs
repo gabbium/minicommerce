@@ -2,7 +2,7 @@
 
 namespace MiniCommerce.Identity.Web.AcceptanceTests.Steps;
 
-public class HealthSteps(TestFixture fixture) : CommonStepsBase(fixture)
+public class HealthSteps(TestFixture fixture) : TestStepsBase(fixture)
 {
     public async Task WhenTheyAttemptToCheckHealth()
     {

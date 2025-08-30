@@ -1,7 +1,7 @@
-﻿using MiniCommerce.Catalog.Infrastructure.Persistence.EFCore;
+﻿using MiniCommerce.Catalog.Infrastructure.Jwt;
+using MiniCommerce.Catalog.Infrastructure.Persistence.EFCore;
 using MiniCommerce.Catalog.Web.AcceptanceTests.TestHelpers.Data;
 using MiniCommerce.Catalog.Web.Endpoints;
-using MiniCommerce.Catalog.Web.Extensions.Auth;
 
 namespace MiniCommerce.Catalog.Web.AcceptanceTests.TestHelpers;
 
@@ -37,7 +37,7 @@ public class TestFixture : IAsyncLifetime
             new(ClaimTypes.Email, "user@minicommerce")
         };
 
-        claims.AddRange(permissions.Select(p => new Claim(Permissions.ClaimType, p)));
+        claims.AddRange(permissions.Select(p => new Claim(Policies.ClaimType, p)));
 
         var token = new JwtSecurityToken(
             issuer: jwtOptions.Value.Issuer,

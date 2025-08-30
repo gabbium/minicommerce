@@ -1,5 +1,5 @@
 ﻿using MiniCommerce.Identity.Application.Abstractions;
-using MiniCommerce.Identity.Domain.Aggregates.Users;
+using MiniCommerce.Identity.Domain.Aggregates.Users.Entities;
 
 namespace MiniCommerce.Identity.Infrastructure.Jwt;
 

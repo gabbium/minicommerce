@@ -1,5 +1,5 @@
 ﻿using MiniCommerce.Catalog.Application.Abstractions;
-using MiniCommerce.Catalog.Web.Extensions.Middlewares;
+using MiniCommerce.Catalog.Web.Middlewares;
 using MiniCommerce.Catalog.Web.Services;
 
 namespace MiniCommerce.Catalog.Web;

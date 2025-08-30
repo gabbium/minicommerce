@@ -1,14 +1,14 @@
-﻿using MiniCommerce.Identity.Application.Contracts;
-using MiniCommerce.Identity.Infrastructure.Jwt;
+﻿using MiniCommerce.Identity.Infrastructure.Jwt;
 using MiniCommerce.Identity.Infrastructure.Persistence.EFCore;
 using MiniCommerce.Identity.Web.AcceptanceTests.TestHelpers.Data;
+using MiniCommerce.Identity.Web.Endpoints;
 
 namespace MiniCommerce.Identity.Web.AcceptanceTests.TestHelpers;
 
 public class TestFixture : IAsyncLifetime
 {
     private ITestDatabase _database = null!;
-    private CustomWebApplicationFactory _webApp = null!;
+    private CustomWebApplicationFactory _webAppFactory = null!;
     private IServiceScopeFactory _scopeFactory = null!;
 
     public HttpClient Client { get; private set; } = null!;
@@ -16,10 +16,10 @@ public class TestFixture : IAsyncLifetime
     public async Task InitializeAsync()
     {
         _database = await TestDatabaseFactory.CreateAsync();
-        _webApp = new CustomWebApplicationFactory(_database.GetConnection());
-        _scopeFactory = _webApp.Services.GetRequiredService<IServiceScopeFactory>();
+        _webAppFactory = new CustomWebApplicationFactory(_database.GetConnection());
+        _scopeFactory = _webAppFactory.Services.GetRequiredService<IServiceScopeFactory>();
 
-        Client = _webApp.CreateClient();
+        Client = _webAppFactory.CreateClient();
     }
 
     public string CreateAccessToken(params string[] permissions)
@@ -37,7 +37,7 @@ public class TestFixture : IAsyncLifetime
             new(ClaimTypes.Email, "user@minicommerce")
         };
 
-        claims.AddRange(permissions.Select(p => new Claim(IdentityPermissionNames.ClaimType, p)));
+        claims.AddRange(permissions.Select(p => new Claim(Policies.ClaimType, p)));
 
         var token = new JwtSecurityToken(
             issuer: jwtOptions.Value.Issuer,
@@ -62,6 +62,6 @@ public class TestFixture : IAsyncLifetime
     public async Task DisposeAsync()
     {
         await _database.DisposeAsync();
-        await _webApp.DisposeAsync();
+        await _webAppFactory.DisposeAsync();
     }
 }

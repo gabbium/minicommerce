@@ -1,10 +1,10 @@
-﻿using MiniCommerce.Identity.Application.Contracts.Users;
+﻿using MiniCommerce.Identity.Application.Contracts;
 using MiniCommerce.Identity.Web.AcceptanceTests.TestHelpers;
 using MiniCommerce.Identity.Web.Endpoints.V1.Users;
 
 namespace MiniCommerce.Identity.Web.AcceptanceTests.Steps;
 
-public class UserSteps(TestFixture fixture) : CommonStepsBase(fixture)
+public class UserSteps(TestFixture fixture) : TestStepsBase(fixture)
 {
     public async Task<Guid> GivenAnExistingUser(CreateUserEndpoint.CreateUserRequest request)
     {
@@ -31,6 +31,11 @@ public class UserSteps(TestFixture fixture) : CommonStepsBase(fixture)
     public async Task WhenTheyAttemptToCreateUser(CreateUserEndpoint.CreateUserRequest request)
     {
         HttpResponse = await Fixture.Client.PostAsJsonAsync(CreateUserEndpoint.Route, request);
+    }
+
+    public async Task WhenTheyAttemptToLogin(LoginUserEndpoint.LoginUserRequest request)
+    {
+        HttpResponse = await Fixture.Client.PostAsJsonAsync(LoginUserEndpoint.Route, request);
     }
 
     public async Task WhenTheyAttemptToUpdateUserPermissions(Guid id, UpdateUserPermissionsEndpoint.UpdateUserPermissionsRequest request)

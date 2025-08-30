@@ -1,4 +1,4 @@
-﻿using MiniCommerce.Catalog.Application.UseCases.Products;
+﻿using MiniCommerce.Catalog.Application.Contracts;
 using MiniCommerce.Catalog.Web.AcceptanceTests.Steps;
 using MiniCommerce.Catalog.Web.AcceptanceTests.TestHelpers;
 using MiniCommerce.Catalog.Web.Endpoints;
@@ -13,7 +13,7 @@ public class ListProductsTests(TestFixture fixture) : TestBase(fixture)
     [Fact]
     public async Task UserListsProducts()
     {
-        await _steps.GivenAnAuthenticatedUser(Permissions.CanCreateProduct, Permissions.CanListProducts);
+        await _steps.GivenAnAuthenticatedUser(Policies.CanCreateProduct, Policies.CanListProducts);
         await _steps.GivenAnExistingProduct(new("SKU-001", "Bluetooth Headphones", 129.50m));
         await _steps.GivenAnExistingProduct(new("SKU-002", "Wireless Mouse", 79.90m));
         await _steps.GivenAnExistingProduct(new("SKU-003", "Mechanical Keyboard", 299.00m));

@@ -1,5 +1,5 @@
-﻿using MiniCommerce.Identity.Domain.Aggregates.Permissions;
-using MiniCommerce.Identity.Domain.Aggregates.Users;
+﻿using MiniCommerce.Identity.Domain.Aggregates.Permissions.Entities;
+using MiniCommerce.Identity.Domain.Aggregates.Users.Entities;
 
 namespace MiniCommerce.Identity.Infrastructure.Persistence.EFCore;
 

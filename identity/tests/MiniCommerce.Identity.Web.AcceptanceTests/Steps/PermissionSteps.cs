@@ -1,10 +1,10 @@
-﻿using MiniCommerce.Identity.Application.Contracts.Permissions;
+﻿using MiniCommerce.Identity.Application.Contracts;
 using MiniCommerce.Identity.Web.AcceptanceTests.TestHelpers;
 using MiniCommerce.Identity.Web.Endpoints.V1.Permissions;
 
 namespace MiniCommerce.Identity.Web.AcceptanceTests.Steps;
 
-public class PermissionSteps(TestFixture fixture) : CommonStepsBase(fixture)
+public class PermissionSteps(TestFixture fixture) : TestStepsBase(fixture)
 {
     public async Task<Guid> GivenAnExistingPermission(CreatePermissionEndpoint.CreatePermissionRequest request)
     {

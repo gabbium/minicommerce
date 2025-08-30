@@ -1,4 +1,4 @@
-﻿using MiniCommerce.Catalog.Application.UseCases.Products;
+﻿using MiniCommerce.Catalog.Application.Contracts;
 using MiniCommerce.Catalog.Application.UseCases.Products.ListProducts;
 
 namespace MiniCommerce.Catalog.Web.Endpoints.V1.Products;
@@ -20,7 +20,7 @@ public class ListProductsEndpoint : IEndpointV1
             var result = await handler.HandleAsync(query, cancellationToken);
             return result.Match(Results.Ok, CustomResults.Problem);
         })
-        .RequireAuthorization(Permissions.CanListProducts)
+        .RequireAuthorization(Policies.CanListProducts)
         .WithTags(Tags.Products);
     }
 }

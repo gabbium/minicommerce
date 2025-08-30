@@ -1,7 +1,7 @@
 ﻿using MiniCommerce.Catalog.Application.UseCases.Products.DeleteProduct;
-using MiniCommerce.Catalog.Domain.ProductAggregate.Entities;
-using MiniCommerce.Catalog.Domain.ProductAggregate.Errors;
-using MiniCommerce.Catalog.Domain.ProductAggregate.Repositories;
+using MiniCommerce.Catalog.Domain.Aggregates.Products.Entities;
+using MiniCommerce.Catalog.Domain.Aggregates.Products.Errors;
+using MiniCommerce.Catalog.Domain.Aggregates.Products.Repositories;
 
 namespace MiniCommerce.Catalog.Application.UnitTests.UseCases.Products;
 
