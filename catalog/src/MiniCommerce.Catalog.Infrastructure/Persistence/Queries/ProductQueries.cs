@@ -14,7 +14,8 @@ public class ProductQueries(AppDbContext context) : IProductQueries
 
         var products = await queryable
             .AsNoTracking()
-            .OrderBy(p => p.Id)
+            .OrderBy(p => p.Sku)
+            .ThenBy(p => p.Id)
             .Skip((query.PageNumber - 1) * query.PageSize)
             .Take(query.PageSize)
             .Select(p => new ProductResponse(p.Id, p.Sku, p.Name, p.Price))
