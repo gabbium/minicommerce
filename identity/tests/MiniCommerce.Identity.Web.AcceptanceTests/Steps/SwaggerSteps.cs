@@ -1,8 +1,8 @@
-﻿using MiniCommerce.Identity.Web.AcceptanceTests.TestHelpers;
+﻿using MiniCommerce.Identity.Web.AcceptanceTests.TestHelpers.Fixtures;
 
 namespace MiniCommerce.Identity.Web.AcceptanceTests.Steps;
 
-public class SwaggerSteps(TestFixture fixture) : TestStepsBase(fixture)
+public class SwaggerSteps(TestFixture fixture) : StepsBase(fixture)
 {
     public async Task WhenTheyAttemptToCheckSwaggerJson()
     {

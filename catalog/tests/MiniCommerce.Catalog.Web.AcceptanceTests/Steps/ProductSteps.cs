@@ -1,10 +1,10 @@
 ﻿using MiniCommerce.Catalog.Application.Contracts;
-using MiniCommerce.Catalog.Web.AcceptanceTests.TestHelpers;
+using MiniCommerce.Catalog.Web.AcceptanceTests.TestHelpers.Fixtures;
 using MiniCommerce.Catalog.Web.Endpoints.V1.Products;
 
 namespace MiniCommerce.Catalog.Web.AcceptanceTests.Steps;
 
-public class ProductSteps(TestFixture fixture) : TestStepsBase(fixture)
+public class ProductSteps(TestFixture fixture) : StepsBase(fixture)
 {
     public async Task<Guid> GivenAnExistingProduct(CreateProductEndpoint.Request request)
     {

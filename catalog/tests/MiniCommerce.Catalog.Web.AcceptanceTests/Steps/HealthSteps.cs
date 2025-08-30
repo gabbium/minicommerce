@@ -1,8 +1,8 @@
-﻿using MiniCommerce.Catalog.Web.AcceptanceTests.TestHelpers;
+﻿using MiniCommerce.Catalog.Web.AcceptanceTests.TestHelpers.Fixtures;
 
 namespace MiniCommerce.Catalog.Web.AcceptanceTests.Steps;
 
-public class HealthSteps(TestFixture fixture) : TestStepsBase(fixture)
+public class HealthSteps(TestFixture fixture) : StepsBase(fixture)
 {
     public async Task WhenTheyAttemptToCheckHealth()
     {

@@ -1,6 +1,6 @@
 ﻿using MiniCommerce.Identity.Domain.Aggregates.Permissions.Errors;
 using MiniCommerce.Identity.Web.AcceptanceTests.Steps;
-using MiniCommerce.Identity.Web.AcceptanceTests.TestHelpers;
+using MiniCommerce.Identity.Web.AcceptanceTests.TestHelpers.Fixtures;
 using MiniCommerce.Identity.Web.Endpoints;
 
 namespace MiniCommerce.Identity.Web.AcceptanceTests.Acceptance.Permissions;

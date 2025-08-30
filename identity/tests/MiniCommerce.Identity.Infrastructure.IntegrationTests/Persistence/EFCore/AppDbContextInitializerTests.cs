@@ -1,4 +1,5 @@
 ﻿using MiniCommerce.Identity.Infrastructure.IntegrationTests.TestHelpers;
+using MiniCommerce.Identity.Infrastructure.IntegrationTests.TestHelpers.Fixtures;
 using MiniCommerce.Identity.Infrastructure.Persistence.EFCore;
 
 namespace MiniCommerce.Identity.Infrastructure.IntegrationTests.Persistence.EFCore;

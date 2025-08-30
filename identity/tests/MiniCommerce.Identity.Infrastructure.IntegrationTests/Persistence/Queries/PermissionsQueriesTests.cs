@@ -3,6 +3,7 @@ using MiniCommerce.Identity.Application.UseCases.Permissions.ListPermissions;
 using MiniCommerce.Identity.Domain.Aggregates.Permissions.Entities;
 using MiniCommerce.Identity.Domain.Aggregates.Permissions.Repositories;
 using MiniCommerce.Identity.Infrastructure.IntegrationTests.TestHelpers;
+using MiniCommerce.Identity.Infrastructure.IntegrationTests.TestHelpers.Fixtures;
 
 namespace MiniCommerce.Identity.Infrastructure.IntegrationTests.Persistence.Queries;
 

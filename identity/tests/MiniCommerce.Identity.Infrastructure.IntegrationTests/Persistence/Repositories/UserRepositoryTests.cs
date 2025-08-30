@@ -1,6 +1,7 @@
 ﻿using MiniCommerce.Identity.Domain.Aggregates.Users.Entities;
 using MiniCommerce.Identity.Domain.Aggregates.Users.Repositories;
 using MiniCommerce.Identity.Infrastructure.IntegrationTests.TestHelpers;
+using MiniCommerce.Identity.Infrastructure.IntegrationTests.TestHelpers.Fixtures;
 
 namespace MiniCommerce.Identity.Infrastructure.IntegrationTests.Persistence.Repositories;
 

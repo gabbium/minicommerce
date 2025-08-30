@@ -1,10 +1,10 @@
 ﻿using MiniCommerce.Identity.Application.Contracts;
-using MiniCommerce.Identity.Web.AcceptanceTests.TestHelpers;
+using MiniCommerce.Identity.Web.AcceptanceTests.TestHelpers.Fixtures;
 using MiniCommerce.Identity.Web.Endpoints.V1.Users;
 
 namespace MiniCommerce.Identity.Web.AcceptanceTests.Steps;
 
-public class UserSteps(TestFixture fixture) : TestStepsBase(fixture)
+public class UserSteps(TestFixture fixture) : StepsBase(fixture)
 {
     public async Task<Guid> GivenAnExistingUser(CreateUserEndpoint.CreateUserRequest request)
     {

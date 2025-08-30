@@ -1,5 +1,5 @@
 ﻿using MiniCommerce.Catalog.Web.AcceptanceTests.Steps;
-using MiniCommerce.Catalog.Web.AcceptanceTests.TestHelpers;
+using MiniCommerce.Catalog.Web.AcceptanceTests.TestHelpers.Fixtures;
 
 namespace MiniCommerce.Catalog.Web.AcceptanceTests.Smoke;
 

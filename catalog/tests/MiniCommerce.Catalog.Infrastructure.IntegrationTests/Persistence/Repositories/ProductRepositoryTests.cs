@@ -1,6 +1,6 @@
 ﻿using MiniCommerce.Catalog.Domain.Aggregates.Products.Entities;
 using MiniCommerce.Catalog.Domain.Aggregates.Products.Repositories;
-using MiniCommerce.Catalog.Infrastructure.IntegrationTests.TestHelpers;
+using MiniCommerce.Catalog.Infrastructure.IntegrationTests.TestHelpers.Fixtures;
 
 namespace MiniCommerce.Catalog.Infrastructure.IntegrationTests.Persistence.Repositories;
 

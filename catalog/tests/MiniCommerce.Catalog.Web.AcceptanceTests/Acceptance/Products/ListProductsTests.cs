@@ -1,6 +1,6 @@
 ﻿using MiniCommerce.Catalog.Application.Contracts;
 using MiniCommerce.Catalog.Web.AcceptanceTests.Steps;
-using MiniCommerce.Catalog.Web.AcceptanceTests.TestHelpers;
+using MiniCommerce.Catalog.Web.AcceptanceTests.TestHelpers.Fixtures;
 using MiniCommerce.Catalog.Web.Endpoints;
 
 namespace MiniCommerce.Catalog.Web.AcceptanceTests.Acceptance.Products;
